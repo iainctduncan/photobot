@@ -128,8 +128,9 @@ Now we're going to continue setting up the Pi from the Linux prompt ON the Pi.
     `
 
 - restart networking
-  $ sudo ifdown wlan0
-  $ sudo ifup wlan0
+  `$sudo ip link set wlan0 down`
+  `$sudo ip link set wlan0 up`
+
 - if you look on your host ip scanner again, the pi should now appear with a second IP address
 - test this out by unplugging the ethernet cable, rebooting the pi, and SSH'in with the 
   new (wireless) network IP. 
@@ -144,18 +145,6 @@ B) Setting up by directly accessing the drive
   - you should see two drives on there, Boot and the main drive
   - in the main drive, open /etc/wpa_supplicant/wpa_supplicant.conf and add the networking
     entry as detailed above
-
-Installing Gphoto2
-------------------
-We're going to use gphoto2 to make the Pi take pictures. Plug your camera into the Pi
-over USB.
-  
-Install Gphoto2
-  - install gphoto2 from debian packages:
-    $ sudo apt-get install gphoto2
-  - plug in your camera over USB to check if gphoto2 is working
-    $ gphoto2 --list-config 
-  - you should see it detect your camera
 
 
 Setting up the External USB drive
