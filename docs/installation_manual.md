@@ -118,14 +118,14 @@ Now we're going to continue setting up the Pi from the Linux prompt ON the Pi.
     
   `$ sudo nano /etc/wpa_supplicant/wpa_supplicant.conf`
   
-- add in an entry for your wifi and save the file:
+- add in an entry at the bottom of the file for your wifi, with thefollowing format and save the file:
 
-    `
+    ```
     network={
       ssid="TELUS0001"
       psk="hunter2"
     }
-    `
+    ```
 
 - restart networking
   ```
