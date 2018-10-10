@@ -111,7 +111,7 @@ Now we're going to continue setting up the Pi from the Linux prompt ON the Pi.
 - scan for networks to find out the name of your wifi network
   
   `$ sudo iwlist wlan0 scan`
-- look for your network, ie the same one you use for normal wireless at home
+- look for your network, and copy the ESSID ie the same one you use for normal wireless at home
   (at my house it's called "TELUS0001", we're going to pretend my password is "Hunter2")
 - we need to edit the wireless config file, using the editor of your choice. I use vim,
   you prob want to use nano if you don't know any linux editors. 

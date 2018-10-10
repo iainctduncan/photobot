@@ -11,9 +11,4 @@ Alter the image to enable SSH:
   - "look for your network...." section, should maybe mention "copy the ESSID for the network you want to use"
   - "When explaning adding files, explain adding a bottom of the field"
 
-After setting up wifi,
-sudo ifdown wlano0 didn't work for me.
 
-Had to use:
-sudo ip link set wlan0 down
-sudo ip link set wlan0 up
