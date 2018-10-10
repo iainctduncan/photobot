@@ -12,3 +12,15 @@ Alter the image to enable SSH:
   - "When explaning adding files, explain adding a bottom of the field"
 
 
+In installer, at drive setup, Nev entered "sda1" instead of just 1, and installer died because it didn't
+get an int:
+
+Enter drive number: sda1
+Traceback (most recent call last):
+  File "photobot_installer.py", line 239, in <module>
+    installer.main()
+  File "photobot_installer.py", line 202, in main
+    self.setup_drive()
+  File "photobot_installer.py", line 105, in setup_drive
+    dev_num = int( raw_input("Enter drive number: ") )
+ValueError: invalid literal for int() with base 10: 'sda1'

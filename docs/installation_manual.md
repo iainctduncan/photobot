@@ -138,7 +138,7 @@ Now we're going to continue setting up the Pi from the Linux prompt ON the Pi.
   new (wireless) network IP. 
 
 
-B) Setting up by directly accessing the drive
+###B) Setting up by directly accessing the drive
   - on OSX, you can install extfs drivers from https://www.paragon-software.com/home/extfs-mac
     or:
   - start up a linux install. We used VirtualBox and Ubuntu, which are free. We needed to install
@@ -164,7 +164,7 @@ Setting up the drive
 - make a directory on the Pi that we'll use as the mount point, IE this will be 
   the path to the USB drive after it's mounted for copying images.
   Note, the photobot code uses this path, so don't name it anything different!
-  $ sudo mkdir /mnt/usbstorage
+  `$ sudo mkdir /mnt/usbstorage`
 
 - on the pi, after plugging in the drive, get the drive id:
   $ sudo blkid
@@ -219,20 +219,19 @@ and Gphoto2 installed. We can test to see whether we really are setup before add
 Success, the Pi is ready for automation!
 
 
-Setting up the photobot software on the Pi
+Install photobot software on the Pi
 ------------------------------------------
-- on your host download the latest photobot file from github, and go
-  to a directory with the file in it
+- From the Pi, download the photobot installer script:
+```
+$ cd~
+$ wget --no-check-certificate --content-disposition https://raw.githubusercontent.com/paddiohara/photobot/master/photobot_installer.py
 
-- upload the photobot software to Pi
-  $ sftp pi@{IP ADDRESS}
-  $ put photobot_2017-02-05.py
-  (where photobot_2017-02-05.py is the latest photobot python script)
+```
+- Run the installation script
+`$ sudo python phoyoboy_installer.py`
+## Installation Script Overview
 
-- make sure photobot script paths exist
-  - log files get written somewhere
-  - captures go somewhere local
-  - captures get moved somewhere to
+## Testing Photobodt
 - test a run of photobot:
   $ python photobot_2017-02-05.py
 
@@ -245,12 +244,6 @@ Setting up the photobot software on the Pi
   $ sudo ln -s photobot_2017-02-05.py photobot.py
 
 
-SETUP CRONTAB:
-- edit system crontab to call script once a minute
-  $ sudo vim /etc/crontab
-  - add the line:
-  * * * * * root python /home/pi/photobot.py 
- 
 ALL DONE!
 
 
