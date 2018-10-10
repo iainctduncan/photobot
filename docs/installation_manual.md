@@ -128,9 +128,9 @@ Now we're going to continue setting up the Pi from the Linux prompt ON the Pi.
     `
 
 - restart networking
-  `
+  ```
   $sudo ip link set wlan0 down
-  $sudo ip link set wlan0 up`
+  $sudo ip link set wlan0 up```
 
 - if you look on your host ip scanner again, the pi should now appear with a second IP address
 - test this out by unplugging the ethernet cable, rebooting the pi, and SSH'in with the 
