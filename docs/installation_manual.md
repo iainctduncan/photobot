@@ -1,7 +1,7 @@
 #  Setting up the Raspberry Pi 3 for photo capture
 
 ## Requirements:
-This document details how to get the Pi 3 working for photo capture. In this doc,
+This document details how to get the Pi 3 working for photo capture.
 
 You will need:
  * A computer running OSX, Windows, or Linux (the host)
@@ -9,6 +9,7 @@ You will need:
  * An SD card and reader, we will load the SD card from the host and put it in the Pi
  * An ethernet cable and connection for the Pi
  * Internet connection for your host and Pi, we assume you have wireless.
+ * A Lorex IP camera
 
 We have only tested these instructions on OSX. They should work (almost) identically on Linux.
 It's definitely possible on Windows but the commands and tools are likely different. 
@@ -23,8 +24,8 @@ either on the host or the Pi. You don't need to type the '$', that's your prompt
 ## Overview of Steps:
 1) Setup up Raspberry Pi with Raspbian Jessie 
 2) Get wifi working on Pi
-3) Copy the installer script on to the pi
-4) Run the installer script
+3) Download and run the installer script
+4) Configure and test
 
 
 We're going to install the Pi's operating system on an SD card, tweak it a bit,
@@ -58,7 +59,9 @@ If you know how to burn the image, skip the next step and resume from "Enable SS
 - note that in the above command, you must replace the name of the image file with your image
   and **/dev/rdisk2** with **/dev/rdisk{X}** where X is your disk number. 
   Note that it is **/dev/rdiskX**, not **/dev/diskX** in this command
-
+### Linux image burning instructions
+- Right click on the downloaded raspian image file, and select "open with image writer"
+- Select the SD card as the destination, and confirm.
 ## Enable SSH: Alter the image to enable 
 After we have created a Raspbian image, we will alter it to enable networking.
 Raspbian, for security reasons, disables SSH by default, so we won't be able to 
@@ -88,7 +91,6 @@ log into our Pi unless we enable it.
   
   `$ ssh pi@192.168.1.68`
 - You are now on the PI!
-
 
 ## Setup the Pi (from the Pi)
 Now we're going to continue setting up the Pi from the Linux prompt ON the Pi.
@@ -149,76 +151,6 @@ Now we're going to continue setting up the Pi from the Linux prompt ON the Pi.
     entry as detailed above
 
 
-Setting up the External USB drive
----------------------------------
-We don't want the Pi drive to fill up, so we need to connect the USB drive
-and make sure it's working fine on a reboot
-
-
-Setting up the drive
-- if you can, format your drive to ext3 so that the Pi can mount it without issue
-  - you can use others, but it's easier to make it native readable by linux
-- A very detailed guide with instructions for more complex situations (non-ext3) is here:
-  http://www.htpcguides.com/properly-mount-usb-storage-raspberry-pi/
-
-- make a directory on the Pi that we'll use as the mount point, IE this will be 
-  the path to the USB drive after it's mounted for copying images.
-  Note, the photobot code uses this path, so don't name it anything different!
-  `$ sudo mkdir /mnt/usbstorage`
-
-- on the pi, after plugging in the drive, get the drive id:
-  $ sudo blkid
-  - we found it as /dev/sda1
-
-- mount it on /mnt/usbstorage
-  $ sudo mount /dev/sda1 /mnt/usbstorage
-
-- change permissions so we can write to it ok
-  $ sudo chmod 755 /mnt/usbstorage
-
-- now we'll edit the fstab file to automount the drive on boot.
-  - this is a tricky step, if you screw up an fstab file your device will hang on boot
-  and you'll have to take out the SD card, mount it on your host, and repair it there
-  
- - edit the fstab file (with your editor, vim/nano/emacs, whatever)  
-    $ sudo vim /etc/fstab
-  - add the following line IF your drive is formatted as ext3, 
-   where /dev/sda1 is your device name found above
-    
-    /dev/sda1 /mnt/usbstorage /ext3 defaults 0 0
-
-  - test your fstab! Don't skip this!
-  $ sudo mount -a
-  - if we get errors, your fstab is no good and you should consult the link at the beginning
-  of this section for instructions for other drive types. 
-  - keep working on this until the "sudo mount -a" command works. Do not reboot the Pi until it does.
-
-
-Testing our Setup 
------------------
-At this point we have a Pi setup, with wireless networking, a mounted USB drive,
-and Gphoto2 installed. We can test to see whether we really are setup before adding the code:
-
-- reboot, with camera and drive attached over USB
-- ssh in to Pi
-- make a directory for our pictures:
-  $ mkdir /mnt/usbstorage/captures
-- take a picture with Gphoto.
-  NB: This is a long command and you will find shorter ones online, however this method works 
-  reliably while the other commands we tried hung way too frequently
-  
-  $ gphoto2 --wait-event=1s --set-config eosremoterelease=2 --wait-event=1s \ 
-    --set-config eosremoterelease=4 --wait-event-and-download=2s \
-    --force-overwrite --get-all-files --delete-all-files \
-    --filename=/mnt/usbstorage/captures/test.jpg
-
-  - your camera should take a picture
-  - you should see our test.jpg file in /mnt/usbstorage/captures:
-  $ ls /mnt/usbstorage/captures
-
-Success, the Pi is ready for automation!
-
-
 Install photobot software on the Pi
 ------------------------------------------
 - From the Pi, download the photobot installer script:
@@ -227,25 +159,32 @@ $ cd~
 $ wget --no-check-certificate --content-disposition https://raw.githubusercontent.com/paddiohara/photobot/master/photobot_installer.py
 
 ```
-- Run the installation script
-`$ sudo python phoyoboy_installer.py`
+- Run the installation script:
+`$ sudo python photobot_installer.py`
 ## Installation Script Overview
+- You should be able to answer yes to all of these questions the first time, except for if they arequestions related to gphoto and you using a lorex ip camera, you don't need to test GPhoto.
+- If something goes wrong, you can re-run the script. Just be mindful that any step you have already completed, you should say no to the second time.
 
-## Testing Photobodt
-- test a run of photobot:
-  $ python photobot_2017-02-05.py
+##Setting up the Lorex Camera
+The Lorex camera is an IP camera. To make it work:
+- Plug the camera into your network, using either a standard ac/dc power adapter, or a power over ethernet adaptor to provide power.
+- Edit the lorex config file:
+`$ nano /home/pi/photobot/src/photobot_lorex.ini`
+- in the config file, ensure:
+--'capture_dir' is set to where you want the photos to be stored (should be /mnt/usbstorage/captures)
+-- 'lorex_host' is set to the ip on the network where your lorex is. You can find this IP with your port scanner or router. My Lorex had a host name of "ND031711008793" so yours will probably be something similar.
+-- 'ensure the 'lorex_user' and 'lorex_password' fields are set correctly. The default is user:admin password:admin
 
-- a run should produce the following artifacts:
-  - photobot.pid -> file with process id of the run
-  - photo_bot.log -> log file with all the log output
-  - image files in captures directory 
 
-- create a symlink to photobot_2017-02-05.py called photobot.py so cron doesn't need version info
-  $ sudo ln -s photobot_2017-02-05.py photobot.py
+## Testing Photobot
+Photobot should be set to run automatically on a cron job already.
+To test, you can run it in the foreground with:
+`$ /home/pi/photobot/env2/bin/python /home/pi/photobot/src/photobot_lorex.py --settings /home/pi/photobot/src/photobot_lorex.ini`
 
+If everything is working correctly, your capture dir should be filling up with images. You can check with:
+`$ ls /mnt/usbstorage/captures`
 
 ALL DONE!
-
 
 Appendix:
 CLONING THE PI:
