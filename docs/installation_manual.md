@@ -165,7 +165,7 @@ $ wget --no-check-certificate --content-disposition https://raw.githubuserconten
 - You should be able to answer yes to all of these questions the first time, except for if they arequestions related to gphoto and you using a lorex ip camera, you don't need to test GPhoto.
 - If something goes wrong, you can re-run the script. Just be mindful that any step you have already completed, you should say no to the second time.
 
-##Setting up the Lorex Camera
+## Setting up the Lorex Camera
 - Plug the camera into your network, using either a standard ac/dc power adapter, or a power over ethernet adaptor to provide power.
 - Edit the lorex config file:
 `$ nano /home/pi/photobot/src/photobot_lorex.ini`
