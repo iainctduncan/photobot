@@ -166,7 +166,6 @@ $ wget --no-check-certificate --content-disposition https://raw.githubuserconten
 - If something goes wrong, you can re-run the script. Just be mindful that any step you have already completed, you should say no to the second time.
 
 ##Setting up the Lorex Camera
-The Lorex camera is an IP camera. To make it work:
 - Plug the camera into your network, using either a standard ac/dc power adapter, or a power over ethernet adaptor to provide power.
 - Edit the lorex config file:
 `$ nano /home/pi/photobot/src/photobot_lorex.ini`
