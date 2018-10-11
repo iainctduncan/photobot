@@ -151,7 +151,7 @@ Now we're going to continue setting up the Pi from the Linux prompt ON the Pi.
     entry as detailed above
 
 
-Install photobot software on the Pi
+Install Photobot software on the Pi
 ------------------------------------------
 - From the Pi, download the photobot installer script:
 ```
