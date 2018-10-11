@@ -14,7 +14,7 @@ ValueError: invalid literal for int() with base 10: 'sda1'
 Installer script, doesn't ask if you are using Lorex or Cannon/gphoto. Seems to install lorex stuff, but asks about gphoto tests.
 installs gphoto version into crontab aswell, which I imagine will clog error log, since we aren't using it.
 
-photobot_lorex.ini starts with capture_dir = /var/lorex should probably be /mnt/usbstorage/captures
+photobot_lorex.ini starts with capture_dir = /var/lorex should probably be /var/captures
 
 Installation doesn't mention the AIS antennae at all
 
