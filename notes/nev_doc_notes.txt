@@ -1,12 +1,3 @@
-Line 6: trailing "in this doc," seems like we stopped mid sentence?
-Burn Image: for linux mint: (right click the .img file, and select "open with image writer"
-
-Load into Pi: (Should maybe mention where in Pi the slot is?)
-
-Alter the image to enable SSH:
- "on terminal in your host, get into the boot directory and execute: $ sudo touch ssh" might be hard for people to understand?
- Maybe mention the folder includes "kernel.img" is there an "open terminal here" option on mac
-
 In installer, at drive setup, Nev entered "sda1" instead of just 1, and installer died because it didn't
 get an int:
 
