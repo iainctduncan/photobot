@@ -7,11 +7,6 @@ Alter the image to enable SSH:
  "on terminal in your host, get into the boot directory and execute: $ sudo touch ssh" might be hard for people to understand?
  Maybe mention the folder includes "kernel.img" is there an "open terminal here" option on mac
 
- Wifi Setup: Seemed confusing on adding the Wifi
-  - "look for your network...." section, should maybe mention "copy the ESSID for the network you want to use"
-  - "When explaning adding files, explain adding a bottom of the field"
-
-
 In installer, at drive setup, Nev entered "sda1" instead of just 1, and installer died because it didn't
 get an int:
 
@@ -24,3 +19,13 @@ Traceback (most recent call last):
   File "photobot_installer.py", line 105, in setup_drive
     dev_num = int( raw_input("Enter drive number: ") )
 ValueError: invalid literal for int() with base 10: 'sda1'
+
+Installer script, doesn't ask if you are using Lorex or Cannon/gphoto. Seems to install lorex stuff, but asks about gphoto tests.
+installs gphoto version into crontab aswell, which I imagine will clog error log, since we aren't using it.
+
+photobot_lorex.ini starts with capture_dir = /var/lorex should probably be /mnt/usbstorage/captures
+
+Installation doesn't mention the AIS antennae at all
+
+
+
