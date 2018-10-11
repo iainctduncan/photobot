@@ -161,7 +161,7 @@ $ wget --no-check-certificate --content-disposition https://raw.githubuserconten
 ```
 - Run the installation script:
 `$ sudo python photobot_installer.py`
-## Installation Script Overview
+### Installation Script Overview
 - You should be able to answer yes to all of these questions the first time, except for if they arequestions related to gphoto and you using a lorex ip camera, you don't need to test GPhoto.
 - If something goes wrong, you can re-run the script. Just be mindful that any step you have already completed, you should say no to the second time.
 
