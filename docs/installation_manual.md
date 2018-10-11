@@ -187,7 +187,7 @@ ALL DONE!
 
 Appendix
 -------------------
-## CLONING THE PI:
+### CLONING THE PI:
 - article:
   https://thepihut.com/blogs/raspberry-pi-tutorials/17789160-backing-up-and-restoring-your-raspberry-pis-sd-card
   http://michaelcrump.net/the-magical-command-to-get-sdcard-formatted-for-fat32/
