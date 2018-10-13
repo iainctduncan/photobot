@@ -170,7 +170,7 @@ $ wget --no-check-certificate --content-disposition https://raw.githubuserconten
 - Edit the lorex config file:
 `$ nano /home/pi/photobot/src/photobot_lorex.ini`
 - in the config file, ensure:
---'capture_dir' is set to where you want the photos to be stored (should be /mnt/usbstorage/captures)
+--'capture_dir' is set to where you want the photos to be stored (should be /var/captures)
 -- 'lorex_host' is set to the ip on the network where your lorex is. You can find this IP with your port scanner or router. My Lorex had a host name of "ND031711008793" so yours will probably be something similar.
 -- 'ensure the 'lorex_user' and 'lorex_password' fields are set correctly. The default is user:admin password:admin
 
@@ -196,7 +196,7 @@ To test, you can run it in the foreground with:
 `$ /home/pi/photobot/env2/bin/python /home/pi/photobot/src/photobot_lorex.py --settings /home/pi/photobot/src/photobot_lorex.ini`
 
 If everything is working correctly, your capture dir should be filling up with images. You can check with:
-`$ ls /mnt/usbstorage/captures`
+`$ ls /var/captures`
 
 
 ALL DONE!
