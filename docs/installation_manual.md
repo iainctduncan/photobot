@@ -170,7 +170,7 @@ $ wget --no-check-certificate --content-disposition https://raw.githubuserconten
 - Edit the lorex config file:
 `$ nano /home/pi/photobot/src/photobot_lorex.ini`
 - in the config file, ensure:
---'capture_dir' is set to where you want the photos to be stored (should be /var/captures)
+-- 'capture_dir' is set to where you want the photos to be stored (should be /var/captures)
 -- 'lorex_host' is set to the ip on the network where your lorex is. You can find this IP with your port scanner or router. My Lorex had a host name of "ND031711008793" so yours will probably be something similar.
 -- 'ensure the 'lorex_user' and 'lorex_password' fields are set correctly. The default is user:admin password:admin
 
