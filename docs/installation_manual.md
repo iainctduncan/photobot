@@ -174,7 +174,7 @@ $ wget --no-check-certificate --content-disposition https://raw.githubuserconten
 2. 'lorex_host' is set to the ip on the network where your lorex is. You can find this IP with your port scanner or router. My Lorex had a host name of "ND031711008793" so yours will probably be something similar.
 3. 'lorex_user' and 'lorex_password' fields are set correctly. The default is user:admin password:admin
 
-## Testing the Network Camera Camera
+## Testing the Network Camera
 Photobot should be set to run automatically on a cron job already.
 To test, you can run it in the foreground with:
 `$ /home/pi/photobot/env2/bin/python /home/pi/photobot/src/photobot_lorex.py --settings /home/pi/photobot/src/photobot_lorex.ini`
