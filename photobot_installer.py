@@ -7,7 +7,6 @@ import os
 import logging
 import argparse
 
-
 class PhotobotInstaller(object):
 
     def __init__(self, args):
@@ -88,9 +87,11 @@ class PhotobotInstaller(object):
         self.do("apt-get install gpsd")
         self.do("apt-get install python-virtualenv")
         self.do("apt-get install supervisor")
-        if self.confirm("test gphoto2 to see camera? (plug in camera)"):
-            self.do("gphoto2 --list-config")
-            self.confirm("camera found, continue?", allow_no=False)    
+        self.do("apt-get install sqlite3")
+
+        #if self.confirm("test gphoto2 to see camera? (plug in camera)"):
+        #    self.do("gphoto2 --list-config")
+        #    self.confirm("camera found, continue?", allow_no=False)
 
 
     # TODO: fix this sucker
@@ -102,7 +103,11 @@ class PhotobotInstaller(object):
         print("checking drive ID with lsblk, look for sdaX where X is the drive number and the size matches")
         self.do("lsblk")
         while True:
-            dev_num = int( raw_input("Enter drive number: ") )
+            drive_input = raw_input("Enter drive number: ")
+            if not drive_input.isdigit():
+                print ("\n OOPS! Please enter just a number, with no other characters. \n restarting drive setup.\n")
+                return self.setup_drive()
+            dev_num = int( drive_input )
             if self.confirm("Drive number is '%i' " % dev_num):
                 break
         print("mounting /dev/sda%i" % dev_num)
@@ -147,10 +152,19 @@ class PhotobotInstaller(object):
 
 
     def setup_cron(self):
+        lorex_comment="\n"
+        gphoto_comment="\n"
+
+        if not self.enable_lorex:
+            lorex_comment="\n# uncomment to enable PTZ network camera \n#"
+        if not self.enable_gphoto:
+            gphoto_comment = "\n# uncomment to enable USB (GPHOTO) camera \n#"
         patch = (
             "\n@reboot root /home/pi/photobot/env2/bin/python /home/pi/photobot/src/init_photobot.py"
-            "\n* * * * * root /home/pi/photobot/env2/bin/python /home/pi/photobot/src/photobot.py --settings /home/pi/photobot/src/photobot_gphoto.ini"
-            "\n* * * * * root /home/pi/photobot/env2/bin/python /home/pi/photobot/src/photobot_lorex.py --settings /home/pi/photobot/src/photobot_lorex.ini")
+
+            "" +gphoto_comment+"* * * * * root /home/pi/photobot/env2/bin/python /home/pi/photobot/src/photobot.py --settings /home/pi/photobot/src/photobot_gphoto.ini"
+
+            "" +lorex_comment+"* * * * * root /home/pi/photobot/env2/bin/python /home/pi/photobot/src/photobot_lorex.py --settings /home/pi/photobot/src/photobot_lorex.ini")
         if self.confirm("patching %s with patch: '%s'\n?" % (self.cron_file, patch) ):
             if not self.args.dry_run:
                 with open(self.cron_file, "a") as cron_file:
@@ -209,9 +223,18 @@ class PhotobotInstaller(object):
 
         if self.confirm("Create directories for captures?"):
             self.setup_directories()
-        
-        if self.confirm("Take test photo? (Attach and power on camera before continuing) "):
-            self.take_test_photo()
+
+        self.enable_lorex = False
+        if self.confirm("Do you want to enable a PTZ Network camera"):
+            self.enable_lorex = True
+
+        self.enable_gphoto = False
+        if self.confirm("Do you want to enable and test a USB (Canon) camera"):
+            self.enable_gphoto = True
+
+        if(self.enable_gphoto):
+            if self.confirm("Take test photo? (Attach and power on camera before continuing) "):
+                self.take_test_photo()
         
         if self.confirm("Setup cronjobs for reboot and capture every minute?"):
             self.setup_cron()

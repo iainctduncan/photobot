@@ -162,10 +162,10 @@ $ wget --no-check-certificate --content-disposition https://raw.githubuserconten
 - Run the installation script:
 `$ sudo python photobot_installer.py`
 ### Installation Script Overview
-- You should be able to answer yes to all of these questions the first time, except for if they arequestions related to gphoto and you using a lorex ip camera, you don't need to test GPhoto.
+- You should be able to answer yes to all of these questions the first time, except for questions about what type of camera(s) you are using
 - If something goes wrong, you can re-run the script. Just be mindful that any step you have already completed, you should say no to the second time.
 
-## Setting up the Lorex Camera
+## Setting up a PTZ Network (Lorex etc) Camera
 - Plug the camera into your network, using either a standard ac/dc power adapter, or a power over ethernet adaptor to provide power.
 - Edit the lorex config file:
 `$ nano /home/pi/photobot/src/photobot_lorex.ini`
@@ -175,7 +175,22 @@ $ wget --no-check-certificate --content-disposition https://raw.githubuserconten
 -- 'ensure the 'lorex_user' and 'lorex_password' fields are set correctly. The default is user:admin password:admin
 
 
-## Testing Photobot
+## Configure AIS Receiver
+- The AIS receiver logs AIS information from ship transponders into an sqlite database. 
+- You must configure a latitude / longitude range to ensure you only get data for areas you are interested in. To do so edit the ais config file:
+- `$nano /home/pi/photobot/src/ais_receiver.ini`
+
+## Test AIS Receiver
+
+- you can run the reciever program in the foreground with:
+- `$ /home/pi/photobot/env3/bin/python /home/pi/photobot/src/ais_receiver.py --settings /home/pi/photobot/src/ais_receiver.ini`
+- You should expect a few warnings and INFO/DEBUG notices, but the program should keep running and show data being collected
+- You can also read the sqlite database with the following command:
+- `$ sqlite3 /mnt/usbstorage/ais/ais_receiver.db`
+- Once you are in the sqlite browser program you can use sqlite queries to read data. For example:
+- `sqlite> .tables` will give you a list of tables
+- `sqlite> select * from TABLE_NAME` will show the data in that table
+## Testing the Network Camera Camera
 Photobot should be set to run automatically on a cron job already.
 To test, you can run it in the foreground with:
 `$ /home/pi/photobot/env2/bin/python /home/pi/photobot/src/photobot_lorex.py --settings /home/pi/photobot/src/photobot_lorex.ini`
@@ -183,7 +198,9 @@ To test, you can run it in the foreground with:
 If everything is working correctly, your capture dir should be filling up with images. You can check with:
 `$ ls /mnt/usbstorage/captures`
 
+
 ALL DONE!
+
 
 Appendix
 -------------------
