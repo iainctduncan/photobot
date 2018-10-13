@@ -164,7 +164,7 @@ $ wget --no-check-certificate --content-disposition https://raw.githubuserconten
 ### Installation Script Overview
 - You should be able to answer yes to all of these questions the first time, except for questions about what type of camera(s) you are using
 - If something goes wrong, you can re-run the script. Just be mindful that any step you have already completed, you should say no to the second time.
-
+- If you are using a USB (Canon) camera, your camera will be tested during the install
 ## Setting up a PTZ Network (Lorex etc) Camera
 - Plug the camera into your network, using either a standard ac/dc power adapter, or a power over ethernet adaptor to provide power.
 - Edit the lorex config file:
@@ -173,6 +173,14 @@ $ wget --no-check-certificate --content-disposition https://raw.githubuserconten
 1. 'capture_dir' is set to where you want the photos to be stored (should be /var/captures)
 2. 'lorex_host' is set to the ip on the network where your lorex is. You can find this IP with your port scanner or router. My Lorex had a host name of "ND031711008793" so yours will probably be something similar.
 3. 'lorex_user' and 'lorex_password' fields are set correctly. The default is user:admin password:admin
+
+## Testing the Network Camera Camera
+Photobot should be set to run automatically on a cron job already.
+To test, you can run it in the foreground with:
+`$ /home/pi/photobot/env2/bin/python /home/pi/photobot/src/photobot_lorex.py --settings /home/pi/photobot/src/photobot_lorex.ini`
+
+If everything is working correctly, your capture dir should be filling up with images. You can check with:
+`$ ls /var/captures`
 
 
 ## Configure AIS Receiver
@@ -190,14 +198,6 @@ $ wget --no-check-certificate --content-disposition https://raw.githubuserconten
 - Once you are in the sqlite browser program you can use sqlite queries to read data. For example:
 - `sqlite> .tables` will give you a list of tables
 - `sqlite> select * from TABLE_NAME` will show the data in that table
-## Testing the Network Camera Camera
-Photobot should be set to run automatically on a cron job already.
-To test, you can run it in the foreground with:
-`$ /home/pi/photobot/env2/bin/python /home/pi/photobot/src/photobot_lorex.py --settings /home/pi/photobot/src/photobot_lorex.ini`
-
-If everything is working correctly, your capture dir should be filling up with images. You can check with:
-`$ ls /var/captures`
-
 
 ALL DONE!
 
