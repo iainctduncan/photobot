@@ -1,0 +1,5 @@
+SQLAlchemy
+Pyramid
+mysql-python
+webob
+webtest
