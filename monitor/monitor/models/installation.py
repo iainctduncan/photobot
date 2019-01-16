@@ -12,6 +12,7 @@ from .meta import Base
 class Installation(Base):
     __tablename__ = 'installation'
     id = Column(Integer, primary_key=True)
+    #py_serial = Column(Text)
     #uid = Column(String(255), nullable=False, unique=True)
     name = Column(Text)
     notes = Column(Text)

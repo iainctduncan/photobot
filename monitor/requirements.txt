@@ -3,3 +3,4 @@ Pyramid
 mysql-python
 webob
 webtest
+requrests

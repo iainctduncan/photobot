@@ -14,10 +14,10 @@ Getting Started
 
 - make a virtualenvironment and activate it:
   $ virtualenv env
-  $ env/bin/activate
+  $ source env/bin/activate
 
 - install dependenicies:
-  $ pip install -r requirements.txt 
+  $ pip install -r requirements.txt
 
 - install this app into the environment 
   $ pip install -e .
@@ -26,8 +26,8 @@ Getting Started
   development.ini to include the db connection url
 
 - initialize the database (won't work if you haven't done the above!):
-  - $VENV/bin/initialize_monitor_db development.ini
+  - $env/bin/initialize_monitor_db development.ini
 
 - start the app:
-  $VENV/bin/pserve development.ini
+  $env/bin/pserve development.ini
 
