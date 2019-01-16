@@ -19,3 +19,6 @@ def dashboard_view(request):
     return Response("OK.. installations: %s" % installations)
 
 
+
+
+
