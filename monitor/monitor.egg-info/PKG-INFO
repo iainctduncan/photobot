@@ -9,16 +9,35 @@ License: UNKNOWN
 Description: monitor README
         ==================
         
+        System Dependencies:
+        --------------------
+        - mysql
+        - python
+        - virtualenv
+        
+        
         Getting Started
         ---------------
-        
         - cd <directory containing this file>
         
-        - $VENV/bin/pip install -e .
+        - make a virtualenvironment and activate it:
+          $ virtualenv env
+          $ source env/bin/activate
         
-        - $VENV/bin/initialize_monitor_db development.ini
+        - install dependenicies:
+          $ pip install -r requirements.txt
         
-        - $VENV/bin/pserve development.ini
+        - install this app into the environment 
+          $ pip install -e .
+        
+        - create a mysql database and user, grant permissions, and update
+          development.ini to include the db connection url
+        
+        - initialize the database (won't work if you haven't done the above!):
+          - $env/bin/initialize_monitor_db development.ini
+        
+        - start the app:
+          $env/bin/pserve development.ini
         
         
         
