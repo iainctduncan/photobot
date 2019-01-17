@@ -1,0 +1,55 @@
+Metadata-Version: 2.1
+Name: monitor
+Version: 0.0
+Summary: monitor
+Home-page: UNKNOWN
+Author: 
+Author-email: 
+License: UNKNOWN
+Description: monitor README
+        ==================
+        
+        System Dependencies:
+        --------------------
+        - mysql
+        - python
+        - virtualenv
+        
+        
+        Getting Started
+        ---------------
+        - cd <directory containing this file>
+        
+        - make a virtualenvironment and activate it:
+          $ virtualenv env
+          $ source env/bin/activate
+        
+        - install dependenicies:
+          $ pip install -r requirements.txt
+        
+        - install this app into the environment 
+          $ pip install -e .
+        
+        - create a mysql database and user, grant permissions, and update
+          development.ini to include the db connection url
+        
+        - initialize the database (won't work if you haven't done the above!):
+          - $env/bin/initialize_monitor_db development.ini
+        
+        - start the app:
+          $env/bin/pserve development.ini
+        
+        
+        
+        0.0
+        ---
+        
+        -  Initial version
+        
+Keywords: web wsgi bfg pylons pyramid
+Platform: UNKNOWN
+Classifier: Programming Language :: Python
+Classifier: Framework :: Pyramid
+Classifier: Topic :: Internet :: WWW/HTTP
+Classifier: Topic :: Internet :: WWW/HTTP :: WSGI :: Application
+Provides-Extra: testing
