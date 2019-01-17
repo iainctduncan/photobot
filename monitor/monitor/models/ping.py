@@ -25,5 +25,5 @@ class Ping(Base):
     installation = relationship("Installation", backref="pings")
 
     def __repr__(self):
-        return "%s - %s" % (self.name, self.ip_address)
+        return "%s - %s" % (self.datetime, self.ip_address)
 

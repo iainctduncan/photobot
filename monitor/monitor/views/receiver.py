@@ -31,12 +31,11 @@ log = logging.getLogger(__name__)
 #@view_config(route_name='dashboard', renderer='../templates/dashboard.jinja2')
 @view_config(route_name='receiver', renderer='string')
 def receive_message(request):
+    dbs = request.dbsession
     data = request.json_body
     bot_ip = request.remote_addr
     log.warning(data['name'])
     log.warning(bot_ip)
-
-    dbsession = request.dbsession
 
     new = Installation(
         name = data['name'],
