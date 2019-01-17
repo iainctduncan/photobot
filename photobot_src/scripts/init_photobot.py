@@ -22,7 +22,7 @@ log = logging.getLogger(__name__)
 
 USB_DEV = "/dev/sda1"
 USB_DIR = "/mnt/usbstorage"
-SD_DIR = "/home/pi"
+SD_DIR = "/var/photobot"
 
 def setup_logging(log_filepath, log_level=logging.INFO):
     # set up logging, saves output to a log file
@@ -53,7 +53,7 @@ def notify_reboot():
 if __name__=="__main__":
     # try log with two paths so we can run this in non-pi envs
     try:
-        setup_logging('/home/pi/init_photobot.log', logging.INFO)
+        setup_logging(SD_DIR+'/logs/init_photobot.log', logging.INFO)
     except IOError as exc:
         setup_logging('init_photobot.log', logging.INFO)
     log.info("Reboot, init_photobot.py executing")

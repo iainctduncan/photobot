@@ -14,6 +14,9 @@ class PhotobotInstaller(object):
         self.wpa_file = args.wpa_file or "/etc/wpa_supplicant/wpa_supplicant.conf"
         self.cron_file = "/etc/crontab"
 
+        self.defaults = {
+            "install_path" : "/home/pi/photobot"
+        }
 
     def do(self, command, kw=None):
         "print and execute a shell command, exiting on failure"
@@ -30,6 +33,13 @@ class PhotobotInstaller(object):
                 else:
                     sys.exit() 
 
+    def mkdir(self,dir):
+
+        exists = os.path.isdir(dir)
+        if exists:
+            print (dir + " exists already") # Store configuration file values
+        else:
+            self.do("mkdir " + dir)
 
     def confirm(self, question, allow_no=True):
         "ask user for confirmation to do task, returns result as boolean"
@@ -124,20 +134,38 @@ class PhotobotInstaller(object):
         #    self.do("mount -a")
         #    self.confirm("press y to continue, x for exit", allow_no=False)
 
+    def setup_symlinks(self):
+        default_path = self.defaults['install_path']
+        install_path= raw_input("installation directory ["+default_path+"]: ")
+
+        if install_path == '':
+            install_path=default_path
+
+        print ("Installing to" + default_path)
+
+        print("To make things easy and portable we will set up symbolic links in your filesystem.")
+        self.mkdir(install_path)
+        self.mkdir(install_path + "/logs")
+        self.do("ln -s " + install_path + " /var/photobot")
+
+
+        #cwd = os.path.dirname(os.path.abspath(__file__))
+        #print("/var/photobot_src  will contain the source it will point to:" + cwd)
 
     def setup_code(self):
-        print("cloning photobot repository into /home/pi/photobot")
-        self.do("git clone https://github.com/paddiohara/photobot.git /home/pi/photobot")
+        print("cloning photobot repository into /var/photobot/repo")
+        self.do("git clone https://github.com/iainctduncan/photobot.git /var/photobot/repo")
+        self.do("ln -s /var/photobot/repo/photobot_src /var/photobot/src")
 
     def setup_directories(self):
-        if self.confirm("create directory on pi: /home/pi/captures ?"):
-            self.do("mkdir /home/pi/captures")
+        if self.confirm("create directory on pi: /var/photobot/captures ?"):
+            self.mkdir("/var/photobot/captures")
         if self.confirm("create directory on USB drive: /mnt/usbstorage/captures ?"):
-            self.do("mkdir /mnt/usbstorage/captures")
-        if self.confirm("create directory on pi: /home/pi/lorex ?"):
-            self.do("mkdir /home/pi/lorex")
+            self.mkdir("/mnt/usbstorage/captures")
+        if self.confirm("create directory on pi: /var/photobot/lorex ?"):
+            self.mkri("/var/photobot/lorex")
         if self.confirm("create directory on USB drive: /mnt/usbstorage/lorex ?"):
-            self.do("mkdir /mnt/usbstorage/lorex")
+            self.mkdir("/mnt/usbstorage/lorex")
 
 
     def take_test_photo(self):
@@ -146,9 +174,9 @@ class PhotobotInstaller(object):
         self.do("gphoto2 --wait-event=1s --set-config eosremoterelease=2 --wait-event=1s "
             "--set-config eosremoterelease=4 --wait-event-and-download=2s "
             "--force-overwrite --get-all-files --delete-all-files "
-            "--filename=/home/pi/captures/test_photo.jpg")
+            "--filename=/var/photobot/captures/test_photo.jpg")
         print("Moving test photo to /mnt/usbstorage/captures...")
-        self.do("mv /home/pi/captures/test_photo.jpg /mnt/usbstorage/captures/")
+        self.do("mv /var/photobot/captures/test_photo.jpg /mnt/usbstorage/captures/")
 
 
     def setup_cron(self):
@@ -160,11 +188,11 @@ class PhotobotInstaller(object):
         if not self.enable_gphoto:
             gphoto_comment = "\n# uncomment to enable USB (GPHOTO) camera \n#"
         patch = (
-            "\n@reboot root /home/pi/photobot/env2/bin/python /home/pi/photobot/src/init_photobot.py"
+            "\n@reboot root /var/photobot/env2/bin/python /var/photobot/src/scripts/init_photobot.py"
 
-            "" +gphoto_comment+"* * * * * root /home/pi/photobot/env2/bin/python /home/pi/photobot/src/photobot.py --settings /home/pi/photobot/src/photobot_gphoto.ini"
+            "" +gphoto_comment+"* * * * * root /var/photobot/env2/bin/python /var/photobot/src/photobot.py --settings /var/photobot/config/photobot.ini"
 
-            "" +lorex_comment+"* * * * * root /home/pi/photobot/env2/bin/python /home/pi/photobot/src/photobot_lorex.py --settings /home/pi/photobot/src/photobot_lorex.ini")
+            "" +lorex_comment+"* * * * * root /var/photobot/env2/bin/python /var/photobot/src/photobot_lorex.py --settings /var/photobot/config/photobot.ini")
         if self.confirm("patching %s with patch: '%s'\n?" % (self.cron_file, patch) ):
             if not self.args.dry_run:
                 with open(self.cron_file, "a") as cron_file:
@@ -174,28 +202,28 @@ class PhotobotInstaller(object):
 
     def setup_supervisor(self):
         print("Creating symlink at /etc/supervisord/conf.d/ais_receiver.conf")
-        self.do("ln -s /home/pi/photobot/conf/ais_receiver.conf /etc/supervisor/conf.d/ais_receiver.conf")
+        self.do("ln -s /var/photobot/supervisord_conf/ais_receiver.conf /etc/supervisor/conf.d/ais_receiver.conf")
 
     def setup_python_envs(self):
         print("Creating python 2 and 3 virtualenvs, and installing dependencies")
-        self.do("virtualenv -p python2 /home/pi/photobot/env2")
-        self.do("/home/pi/photobot/env2/bin/pip install -r /home/pi/photobot/requirements2.txt")
-        self.do("virtualenv -p python3 /home/pi/photobot/env3")
-        self.do("/home/pi/photobot/env3/bin/pip install -r /home/pi/photobot/requirements3.txt")
+        self.do("virtualenv -p python2 /var/photobot/env2")
+        self.do("/var/photobot/env2/bin/pip install -r /var/photobot/src/requirements2.txt")
+        self.do("virtualenv -p python3 /var/photobot/env3")
+        self.do("/var/photobot/env3/bin/pip install -r /var/photobot/src/requirements3.txt")
 
 
     def setup_ais(self):
         print("Setting up ais directory and initializing database")
-        self.do("mkdir /mnt/usbstorage/ais")
-        self.do("/home/pi/photobot/env3/bin/python /home/pi/photobot/src/ais_receiver.py "
-                "--init-db --settings /home/pi/photobot/src/ais_receiver.ini")
+        self.mkdir("/mnt/usbstorage/ais")
+        self.do("/var/photobot/env3/bin/python /var/photobot/src/ais_receiver.py "
+                "--init-db --settings /var/photobot/src/photobot.ini")
         print("disabling auto start of gpsd")
         self.do("systemctl stop gpsd.socket")
         self.do("systemctl disable gpsd.socket")
 
     def chown_files(self):
         print("Setting ownership for all photobot files and /mnt/usbstorage to pi:pi")
-        self.do("chown -R pi:pi /home/pi/photobot")
+        self.do("chown -R pi:pi /var/photobot")
         self.do("chown -R pi:pi /mnt/usbstorage")
 
     # main install process
@@ -205,7 +233,9 @@ class PhotobotInstaller(object):
         if not self.confirm("Did you execute this as sudo?"):
             self.exit()
 
-        # we switched to configuring networking pre installation
+        if self.confirm("Set up symlinks and master directory structure?"):
+            self.setup_symlinks()
+            # we switched to configuring networking pre installation
         #if self.confirm("setup wifi configuration?"):
         #    self.setup_wifi()
 
