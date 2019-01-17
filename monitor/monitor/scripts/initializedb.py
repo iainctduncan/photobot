@@ -8,6 +8,7 @@ from pyramid.paster import (
     )
 
 from pyramid.scripts.common import parse_vars
+from datetime import datetime, timedelta
 
 from ..models.meta import Base
 from ..models import (
@@ -41,14 +42,61 @@ def main(argv=sys.argv):
     with transaction.manager:
         dbsession = get_tm_session(session_factory, transaction.manager)
 
-        mayne = Installation(
+        i1 = Installation(
             name = "Mayne Island",
             ip_address = "1.0.0.1",
+            uid = "1-MI",
+            active=True,
+            pings = [
+                Ping(installation_uid="1-MI", datetime=datetime.now() - timedelta(minutes=1)),
+                Ping(installation_uid="1-MI", datetime=datetime.now() - timedelta(minutes=2)),
+                Ping(installation_uid="1-MI", datetime=datetime.now() - timedelta(minutes=3)),
+                Ping(installation_uid="1-MI", datetime=datetime.now() - timedelta(minutes=4)),
+                Ping(installation_uid="1-MI", datetime=datetime.now() - timedelta(minutes=5)),
+            ]
         )
+        i2 = Installation(
+            name = "Saltspring Island",
+            ip_address = "1.0.0.2",
+            uid = "2-SI",
+            active=True,
+            pings = [
+                Ping(installation_uid="2-SI", datetime=datetime.now() - timedelta(minutes=1)),
+                Ping(installation_uid="2-SI", datetime=datetime.now() - timedelta(minutes=2)),
+                Ping(installation_uid="2-SI", datetime=datetime.now() - timedelta(minutes=3)),
+                Ping(installation_uid="2-SI", datetime=datetime.now() - timedelta(minutes=4)),
+                Ping(installation_uid="2-SI", datetime=datetime.now() - timedelta(minutes=5)),
+            ]
+        )
+        i3 = Installation(
+            name = "Pender Island",
+            ip_address = "1.0.0.3",
+            uid = "3-PI",
+            active=True,
+            pings = [
+                Ping(installation_uid="2-SI", datetime=datetime.now() - timedelta(minutes=2)),
+                Ping(installation_uid="2-SI", datetime=datetime.now() - timedelta(minutes=3)),
+                Ping(installation_uid="2-SI", datetime=datetime.now() - timedelta(minutes=4)),
+                Ping(installation_uid="2-SI", datetime=datetime.now() - timedelta(minutes=5)),
+            ]
+        )
+        i4 = Installation(
+            name = "San Juan Island",
+            ip_address = None,
+            uid = "4-SJI",
+            active=False
+        )
+
         iain = Recipient(
             name_last = "Duncan",
             name_first = "Iain",
             email = "iainctduncan@gmail.com",
             active = True
         )
-        dbsession.add_all([mayne, iain])
+        nev = Recipient(
+            name_last = "Gibson",
+            name_first = "Nev",
+            email = "nev@indivision.ca",
+            active = True
+        )
+        dbsession.add_all([i1,i2,i3,i4, iain, nev])

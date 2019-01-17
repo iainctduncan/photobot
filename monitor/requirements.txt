@@ -1,6 +1,8 @@
 SQLAlchemy
 Pyramid
+Waitress==1.1
 mysql-python
 webob
 webtest
-requrests
+requests
+
