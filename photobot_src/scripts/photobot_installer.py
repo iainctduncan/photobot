@@ -6,8 +6,9 @@ import sys
 import os
 import logging
 import argparse
+from install_helpers import InstallHelper
 
-class PhotobotInstaller(object):
+class PhotobotInstaller(InstallHelper):
 
     def __init__(self, args):
         self.args = args
@@ -17,52 +18,6 @@ class PhotobotInstaller(object):
         self.defaults = {
             "install_path" : "/home/pi/photobot"
         }
-
-    def do(self, command, kw=None):
-        "print and execute a shell command, exiting on failure"
-        if kw:
-            command = command.format(**kw)
-        print(command)
-        if not args.dry_run:
-            try:
-                subprocess.check_call(command, stderr=subprocess.STDOUT, shell=True, universal_newlines=True) 
-            except:
-                print("\nERROR executing command: '%s'" % command)
-                if self.confirm("continue anyway?"):
-                    return
-                else:
-                    sys.exit() 
-
-    def mkdir(self,dir):
-
-        exists = os.path.isdir(dir)
-        if exists:
-            print (dir + " exists already") # Store configuration file values
-        else:
-            self.do("mkdir " + dir)
-
-    def confirm(self, question, allow_no=True):
-        "ask user for confirmation to do task, returns result as boolean"
-        while True:
-            if allow_no:
-                res = raw_input("%s y/n/x >> " % question)
-            else:
-                res = raw_input("%s y/x >> " % question)
-
-            if res.lower() == 'x':
-                print("\nEXITING")
-                self.exit()
-            if res.lower() in ('y','yes'):
-                return True
-            if res.lower() in ('n','no'):
-                return False
-            # anything else, we reask the question
-
-
-    def exit(self):
-        print("EXITING")
-        sys.exit()
-
 
     def setup_wifi(self):
         # get network settings    
