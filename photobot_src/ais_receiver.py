@@ -18,7 +18,6 @@ import pdb
 # minimum_longitude     min longitude in which to capture data
 # maximum_longitude     max longitude in which to capture data
 
-
 # TODO: move this later
 def setup_logging(log_level):
     "setup the python logging structure"
