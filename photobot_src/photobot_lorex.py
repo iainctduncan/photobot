@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 """
 Lorex Camera version of photobot
 
@@ -20,7 +18,7 @@ import logging
 from lorex import LorexCam
 import argparse
 from configparser import ConfigParser
-
+from photobot_helpers import send_ping
 
 # settings that must be present in the ini file
 required_settings = [
@@ -63,6 +61,7 @@ def setup_logging(log_filepath, log_level=logging.INFO):
 # beginning of main execution
 if __name__=="__main__":
 
+
     # check if system has been up for a minute, if not, exit
     # this is to make sure our housekeeper has finished its job first
     # NB: this does NOT work on OSX/BSD, you'll need to disable it for dev on OSX
@@ -84,6 +83,8 @@ if __name__=="__main__":
     config = ConfigParser()
     config.read(settings_file)
     settings = dict(config.items('app:main'))
+
+    send_ping(settings,settings)
 
     # exit if settings file missing items
     for setting_name in required_settings:
