@@ -23,7 +23,7 @@ from ..models import (
     get_tm_session,
     )
 from ..models import Installation, Recipient, Notification, Ping
-
+from datetime import datetime
 
 import logging
 log = logging.getLogger(__name__)
@@ -34,15 +34,18 @@ def receive_message(request):
     dbs = request.dbsession
     data = request.json_body
     bot_ip = request.remote_addr
-    log.warning(data['name'])
-    log.warning(bot_ip)
+    log.info("received request from %s: %s" % (bot_ip, data) )
 
-    new = Installation(
-        name = data['name'],
-        ip_address = bot_ip,
+    # look up the installation from the incoming uid
+    installation = dbs.query(Installation).filter_by(uid=data['installation_uid']).one()
+    if not installation:
+        return {'status': 'ERROR', 'error':'Bad Installation UID'}
+    # create a new ping
+    ping = Ping(
+        installation_uid = installation.uid,
+        datetime = datetime.now(),
+        status = data['status']
     )
+    installation.pings.append(ping)
+    return {'status': 'OK'}
 
-    dbsession.add_all([new])
-    return data
-    #test = request.GET['test']
-    #return Response('<body>Visit <a href="/howdy">'+test+'</a></body>')
