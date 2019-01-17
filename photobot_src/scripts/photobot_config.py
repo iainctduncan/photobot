@@ -19,6 +19,25 @@ class PhotobotConfigurator(InstallHelper):
         self.config_filename = "photobot.ini"
         self.config_dir = "/var/photobot/config/"
 
+        self.question_order = [
+            "photobot_name",
+            "capture_dir",
+            "photos_per_round",
+            "number_of_rounds",
+            "delay_between_rounds",
+            "delay_between_photos",
+            "lorex_host",
+            "lorex_port",
+            "lorex_user",
+            "lorex_password",
+            "wsdl_dir",
+            "db_url",
+            "minimum_latitude",
+            "minimum_longitude",
+            "maximum_latitude",
+            "maximum_longitude"
+        ]
+
         self.defaults = {
             "photobot_name": "",
             "photos_per_round": 3,
@@ -64,9 +83,11 @@ class PhotobotConfigurator(InstallHelper):
         config_out.write(result)
 
     def ask_for_configurations(self):
-        print ("Choose Configuration Values. Just hit enter to use the default ")
-        for key,value in self.defaults.items():
-            self.ask_for_configuration(key,value)
+        print ("Choose Configuration Values. Just hit enter to use the default (if provided) ")
+        for question in self.question_order:
+            default = self.defaults[question]
+            self.ask_for_configuration(question,default)
+
     def ask_for_configuration(self,key,default):
 
         default = str(default)
