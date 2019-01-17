@@ -4,8 +4,11 @@ from sqlalchemy import (
     Integer,
     Text,
     String,
-    Boolean
+    Boolean,
 )
+from sqlalchemy.orm import relationship
+from sqlalchemy import desc
+
 import uuid
 
 from .meta import Base
@@ -25,6 +28,8 @@ class Installation(Base):
     ip_address = Column(Text)
     active = Column(Boolean)
     notes = Column(Text)
+
+    pings = relationship("Ping", order_by=desc("Ping.datetime"), backref="installation")
 
     def __repr__(self):
         return "%s - %s" % (self.name, self.ip_address)
@@ -47,6 +52,6 @@ class Installation(Base):
         else:
             delta = datetime.now() - self.last_ping.datetime
             if delta.total_seconds() > PING_THRESHOLD:
-                return "ERROR"
+                return "OFFLINE"
             else:
-                return "OK"
+                return self.last_ping.status
