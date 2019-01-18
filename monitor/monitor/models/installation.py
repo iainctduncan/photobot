@@ -29,7 +29,7 @@ class Installation(Base):
     active = Column(Boolean)
     notes = Column(Text)
 
-    pings = relationship("Ping", order_by=desc("Ping.datetime"), backref="installation")
+    pings = relationship("Ping", order_by=desc("ping.datetime"), backref="installation")
 
     def __repr__(self):
         return "%s - %s" % (self.name, self.ip_address)
