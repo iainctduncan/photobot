@@ -37,4 +37,5 @@ def send_ping(settings,custom_params={}):
     phone_home_url = settings['phone_home_url']
     data_json = json.dumps(data)
 
+    print("sending ping to " + phone_home_url)
     r = requests.put(phone_home_url, data_json)

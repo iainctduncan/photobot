@@ -156,7 +156,7 @@ Install Photobot software on the Pi
 - From the Pi, download the photobot installer script:
 ```
 $ cd~
-$ wget --no-check-certificate --content-disposition https://raw.githubusercontent.com/paddiohara/photobot/master/photobot_installer.py
+$ wget --no-check-certificate --content-disposition https://raw.githubusercontent.com/iainctduncan/photobot/master/photobot_src/scripts/photobot_installer.py
 
 ```
 - Run the installation script:
