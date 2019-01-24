@@ -98,6 +98,7 @@ class PhotobotInstaller(InstallHelper):
         self.do("apt-get install python-virtualenv")
         self.do("apt-get install supervisor")
         self.do("apt-get install sqlite3")
+        self.do("apt-get install ntfs-3g")
 
         #if self.confirm("test gphoto2 to see camera? (plug in camera)"):
         #    self.do("gphoto2 --list-config")
@@ -163,7 +164,7 @@ class PhotobotInstaller(InstallHelper):
         if self.confirm("create directory on USB drive: /mnt/usbstorage/captures ?"):
             self.mkdir("/mnt/usbstorage/captures")
         if self.confirm("create directory on pi: /var/photobot/lorex ?"):
-            self.mkri("/var/photobot/lorex")
+            self.mkdir("/var/photobot/lorex")
         if self.confirm("create directory on USB drive: /mnt/usbstorage/lorex ?"):
             self.mkdir("/mnt/usbstorage/lorex")
 
@@ -216,7 +217,7 @@ class PhotobotInstaller(InstallHelper):
         print("Setting up ais directory and initializing database")
         self.mkdir("/mnt/usbstorage/ais")
         self.do("/var/photobot/env3/bin/python /var/photobot/src/ais_receiver.py "
-                "--init-db --settings /var/photobot/src/photobot.ini")
+                "--init-db --settings /var/photobot/config/photobot.ini")
         print("disabling auto start of gpsd")
         self.do("systemctl stop gpsd.socket")
         self.do("systemctl disable gpsd.socket")
@@ -278,7 +279,11 @@ class PhotobotInstaller(InstallHelper):
         if self.confirm("Set ownership of touched files to user pi?"):
             self.chown_files()
 
-        print("\nDONE SETUP\n")
+
+
+        print("\nSetup Complete. You will need to run the configruation script\n")
+        print("Run:")
+        print("sudo python /var/photobot/src/scripts/photobot_config.py")
 
 
 if __name__=="__main__":
