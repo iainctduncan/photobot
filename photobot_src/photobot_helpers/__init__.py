@@ -8,6 +8,8 @@ def merge_two_dicts(x, y):
     z = x.copy()   # start with x's keys and values
     z.update(y)    # modifies z with y's keys and values & returns None
     return z
+def get_phone_home_url():
+    return "http://192.168.0.43:6543/ping"
 
 def send_ping(settings,custom_params={}):
 
@@ -34,8 +36,12 @@ def send_ping(settings,custom_params={}):
 
     data = merge_two_dicts(data,custom_params)
 
-    phone_home_url = settings['phone_home_url']
+    phone_home_url = get_phone_home_url() #settings['phone_home_url']
     data_json = json.dumps(data)
 
     print("sending ping to " + phone_home_url)
-    r = requests.put(phone_home_url, data_json)
+
+    try:
+        r = requests.put(phone_home_url, data_json)
+    except:
+        print("Couldn't connect to host")
