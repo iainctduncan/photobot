@@ -99,6 +99,8 @@ class PhotobotInstaller(InstallHelper):
         self.do("apt-get install supervisor")
         self.do("apt-get install sqlite3")
         self.do("apt-get install ntfs-3g")
+        self.do("apt-get install tcpdump")
+        self.do("apt-get install nmap")
 
         #if self.confirm("test gphoto2 to see camera? (plug in camera)"):
         #    self.do("gphoto2 --list-config")
@@ -210,7 +212,7 @@ class PhotobotInstaller(InstallHelper):
         self.do("virtualenv -p python2 /var/photobot/env2")
         self.do("/var/photobot/env2/bin/pip install -r /var/photobot/src/requirements2.txt")
         self.do("virtualenv -p python3 /var/photobot/env3")
-        self.do("/var/photobot/env3/bin/pip install -r /var/photobot/src/requirements3.txt")
+        self.do("sudo /var/photobot/env3/bin/pip install -r /var/photobot/src/requirements3.txt")
 
 
     def setup_ais(self):

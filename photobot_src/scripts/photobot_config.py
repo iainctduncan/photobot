@@ -9,6 +9,20 @@ import argparse
 from string import Template
 import uuid
 
+def get_pi_cpu_serial():
+  # Extract serial from cpuinfo file
+  cpuserial = "0000000000000000"
+  try:
+    f = open('/proc/cpuinfo','r')
+    for line in f:
+      if line[0:6]=='Serial':
+        cpuserial = line[10:26]
+    f.close()
+  except:
+    cpuserial = "ERROR000000000"
+
+  return cpuserial
+
 class InstallHelper(object):
     def do(self, command, kw=None):
         "print and execute a shell command, exiting on failure"
@@ -64,6 +78,7 @@ class PhotobotConfigurator(InstallHelper):
         self.config_dir = "/var/photobot/config/"
 
         self.question_order = [
+            "installation_id",
             "photobot_name",
             "capture_dir",
             "photos_per_round",
@@ -83,6 +98,7 @@ class PhotobotConfigurator(InstallHelper):
         ]
 
         self.defaults = {
+            "installation_id": "",
             "photobot_name": "",
             "photos_per_round": 3,
             "number_of_rounds": 1,
@@ -101,9 +117,10 @@ class PhotobotConfigurator(InstallHelper):
             "maximum_longitude": -123.25
 
         }
-        new_uuid = uuid.uuid4()
+
+
         self.final_values = {
-            "photobot_uuid" : new_uuid
+            "pi_cpu_serial" : get_pi_cpu_serial()
         }
 
     def main(self):

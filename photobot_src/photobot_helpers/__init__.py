@@ -26,11 +26,12 @@ def send_ping(settings,custom_params={}):
     settings_file = options.settings
 
     bot_name = settings['photobot_name']
-    installation_uuid = settings['photobot_uuid']
+    installation_id = settings['installation_id']
     # print (per_round)
     data = {
         'name': bot_name,
-        'installation_uid': installation_uuid,
+        'installation_id': installation_id,
+        'pi_cpu_id': settings['pi_cpu_serial'],
         'status': 'OK'
     }
 
