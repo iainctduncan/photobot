@@ -21,6 +21,7 @@ class Ping(Base):
     installation_uid = Column(String(255))
     datetime = Column(DateTime, nullable=False)
     status = Column(Text)
+    ip_address=Column(Text)
     json = Column(Text)
 
     def __repr__(self):

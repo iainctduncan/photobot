@@ -211,9 +211,9 @@ class Model(object):
         self.log = logger if logger else log 
         self.log.info("Model.__init__()")
 
-        if 'sqlalchemy.url' not in settings:
+        if 'db_url' not in settings:
             raise Exception("ERROR: model requires a valid db_url in settings")
-        self.engine = create_engine(settings['sqlalchemy.url'])
+        self.engine = create_engine(settings['db_url'])
         self.Session = sessionmaker(bind=self.engine)
         # to get an sqlalchemy session, client code will call model.Session()
         
