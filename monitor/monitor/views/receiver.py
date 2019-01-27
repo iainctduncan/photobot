@@ -35,24 +35,35 @@ def receive_message(request):
     data = request.json_body
     bot_ip = request.remote_addr
     log.info("received request from %s: %s" % (bot_ip, data) )
+    pi_cpu_id = data['pi_cpu_id']
 
-    installation_id = "1-MI" # data['installation_id']
-    # look up the installation from the incoming uid
-    installation = dbs.query(Installation).filter_by(uid=installation_id).one()
+    installation_id = data['installation_id']
+
+    # if we have an installation_uid use it to get the apropriate installation
+    # if we don't have an installation id (pi not properly configured) look up based on pi cpu serial
+    if installation_id:
+        installation = dbs.query(Installation).filter_by(uid=installation_id).first()
+    else:
+        installation = dbs.query(Installation).filter_by(pi_cpu_id=data['pi_cpu_id']).first()
+
     if not installation:
-        return {'status': 'ERROR', 'error':'Bad Installation UID'}
+        installation = Installation(
+            uid=installation_id,
+            pi_cpu_id=data['pi_cpu_id'],
+            ip_address = bot_ip,
+            name = data['name']
+        )
+        dbs.add(installation)
 
     #update installation
     installation.ip_address=bot_ip
-    dbs.commit()
+    installation.pi_cpu_id=pi_cpu_id
 
     # create a new ping
     ping = Ping(
         installation_uid = installation.uid,
         datetime = datetime.now(),
-
         status = data['status']
     )
     installation.pings.append(ping)
     return {'status': 'OK'}
-

@@ -18,13 +18,16 @@ import pdb
 from datetime import datetime
 
 # TODO: get from settings
-PING_THRESHOLD = 120
+PING_THRESHOLD = 3600
 
 class Installation(Base):
     __tablename__ = 'installation'
     id = Column(Integer, primary_key=True)
     uid = Column(String(255), nullable=False, unique=True)
     name = Column(Text)
+    pi_cpu_id=Column(Text)
+    dataplicity_hash=Column(Text)
+    config_json=Column(Text)
     ip_address = Column(Text)
     active = Column(Boolean)
     notes = Column(Text)

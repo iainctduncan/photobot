@@ -45,39 +45,27 @@ def main(argv=sys.argv):
         i1 = Installation(
             name = "Mayne Island",
             ip_address = "1.0.0.1",
-            uid = "1-MI",
+            uid = "mayne",
             active=True,
             pings = [
-                Ping(installation_uid="1-MI", status="OK", datetime=datetime.now() - timedelta(minutes=1)),
-                Ping(installation_uid="1-MI", status="OK", datetime=datetime.now() - timedelta(minutes=2)),
-                Ping(installation_uid="1-MI", status="OK", datetime=datetime.now() - timedelta(minutes=3)),
-                Ping(installation_uid="1-MI", status="OK", datetime=datetime.now() - timedelta(minutes=4)),
-                Ping(installation_uid="1-MI", status="OK", datetime=datetime.now() - timedelta(minutes=5)),
+                Ping(installation_uid="mayne", status="OK", datetime=datetime.now() - timedelta(minutes=1)),
+                Ping(installation_uid="mayne", status="OK", datetime=datetime.now() - timedelta(minutes=2)),
+                Ping(installation_uid="mayne", status="OK", datetime=datetime.now() - timedelta(minutes=3)),
+                Ping(installation_uid="mayne", status="OK", datetime=datetime.now() - timedelta(minutes=4)),
+                Ping(installation_uid="mayne", status="OK", datetime=datetime.now() - timedelta(minutes=5)),
             ]
         )
-        i2 = Installation(
-            name = "Saltspring Island",
-            ip_address = "1.0.0.2",
-            uid = "2-SI",
-            active=True,
-            pings = [
-                Ping(installation_uid="2-SI", status="OK", datetime=datetime.now() - timedelta(minutes=1)),
-                Ping(installation_uid="2-SI", status="OK", datetime=datetime.now() - timedelta(minutes=2)),
-                Ping(installation_uid="2-SI", status="OK", datetime=datetime.now() - timedelta(minutes=3)),
-                Ping(installation_uid="2-SI", status="OK", datetime=datetime.now() - timedelta(minutes=4)),
-                Ping(installation_uid="2-SI", status="OK", datetime=datetime.now() - timedelta(minutes=5)),
-            ]
-        )
+
         i3 = Installation(
-            name = "Pender Island",
+            name = "Saturna Island",
             ip_address = "1.0.0.3",
-            uid = "3-PI",
+            uid = "saturna",
             active=True,
         )
         i4 = Installation(
             name = "San Juan Island",
             ip_address = None,
-            uid = "4-SJI",
+            uid = "sanjuan",
             active=False
         )
 
@@ -93,4 +81,4 @@ def main(argv=sys.argv):
             email = "nev@indivision.ca",
             active = True
         )
-        dbsession.add_all([i1,i2,i3,i4, iain, nev])
+        dbsession.add_all([i1,i3,i4, iain, nev])
