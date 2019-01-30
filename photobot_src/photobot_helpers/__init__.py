@@ -12,7 +12,7 @@ def merge_two_dicts(x, y):
     z.update(y)    # modifies z with y's keys and values & returns None
     return z
 def get_phone_home_url():
-    return "http://photobots.info:6543/ping"
+    return "http://photobots.info/ping"
 
 def setup_logging(log_filepath, log_level=logging.INFO):
     "setup the python logging structure"
