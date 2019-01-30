@@ -5,6 +5,7 @@ import logging
 from configparser import ConfigParser
 import argparse
 import sys
+from datetime import datetime
 
 def merge_two_dicts(x, y):
     z = x.copy()   # start with x's keys and values
@@ -50,7 +51,7 @@ def get_logger():
     except IOError as exc:
         # fall back to logging in local dir
         try:
-            log = setup_logging('/home/pi/photobot.log', logging.INFO)
+            log = setup_logging('/var/photobot/photobot.log', logging.INFO)
         except IOError as exc:
             log = setup_logging('photobot.log', logging.INFO)
     return log
@@ -98,3 +99,9 @@ def error_and_quit(error_msg):
     settings = get_settings_dict()
     send_ping(settings,error_msg, "ERROR")
     sys.exit()
+
+def get_photo_filename(installation_id,prefix='capture'):
+    "return a filename with date and time, ie: capture_2017-04-02_02-03-12"
+    time_str = str(datetime.now()).split('.')[0].replace(' ','_').replace(':','-')
+    filename = installation_id+ '_'+prefix + '_%s.jpg' % time_str
+    return filename

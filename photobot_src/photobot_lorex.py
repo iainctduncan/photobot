@@ -35,11 +35,7 @@ required_settings = [
     'ptz_password'
 ]
 
-def get_photo_filename():
-    "return a filename with date and time, ie: capture_2017-04-02_02-03-12"
-    time_str = str(datetime.now()).split('.')[0].replace(' ','_').replace(':','-')
-    filename = 'lx_capture_%s.jpg' % time_str
-    return filename
+
 
 
 ################################################################################
@@ -96,7 +92,7 @@ if __name__=="__main__":
     # execute X rounds of Y pictures according to settings
     for i in range(0, int(settings['ptz_number_of_rounds'])):
         for i in range(0, int(settings['ptz_photos_per_round'])):
-            filename = get_photo_filename() 
+            filename = get_photo_filename(settings['installation_id'],'ptz_capture')
             local_filepath = "%s" % filename
             ext_filepath = "%s/%s" % (settings['capture_dir'], filename)
             # save capture from camera

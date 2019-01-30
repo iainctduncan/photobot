@@ -19,12 +19,6 @@ required_settings = [
     'capture_dir',
 ]
 
-def get_photo_filename():
-    "return a filename with date and time, ie: capture_2017-04-02_02-03-12"
-    time_str = str(datetime.now()).split('.')[0].replace(' ','_').replace(':','-')
-    filename = 'capture_%s.jpg' % time_str 
-    return filename
-
 
 # beginning of main execution
 if __name__=="__main__":
@@ -78,7 +72,7 @@ if __name__=="__main__":
     for i in range(0, int(settings['number_of_rounds'])):
 
         for i in range(0, int(settings['photos_per_round'])):
-            filename = get_photo_filename() 
+            filename = get_photo_filename(settings['installation_id'])
             local_filepath = "%s" % filename
             ext_filepath = "%s/%s" % (settings['capture_dir'], filename)
 
@@ -101,9 +95,7 @@ if __name__=="__main__":
                 output = subprocess.check_output(move_command, stderr=subprocess.STDOUT, shell=True, universal_newlines=True)
                 log.info("image moved to %s" % ext_filepath)
             except subprocess.CalledProcessError as exc:
-                send_ping(settings, "ERROR cmoving image '%s'" % exc.output, "ERROR")
-                log.info("ERROR moving image: '%s'" % exc.output)
-                sys.exit()
+                error_and_quit("ERROR moving image '%s'" % exc.output)
 
             # delay between photos not necessary here, in the gphoto command
 
