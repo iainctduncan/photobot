@@ -62,7 +62,7 @@ def main():
     if options.init_db:
         log.info("Initializing database")
         model.init_db()
-        log.info("  db initialized, exiting")
+        log.info("db initialized, exiting")
         return
 
     log.info("ais_receiver main()")
