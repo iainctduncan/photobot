@@ -77,44 +77,74 @@ class PhotobotConfigurator(InstallHelper):
         self.config_filename = "photobot.ini"
         self.config_dir = "/var/photobot/config/"
 
+        self.subquestion_order = {
+            "enable_ptz_camera":[
+                "ptz_host",
+                "ptz_port",
+                "ptz_user",
+                "ptz_password",
+                "wsdl_dir",
+                "ptz_photos_per_round",
+                "ptz_number_of_rounds",
+                "ptz_delay_between_rounds",
+                "ptz_delay_between_photos"
+            ],
+            "enable_usb_camera":[
+                "photos_per_round",
+                "number_of_rounds",
+                "delay_between_rounds",
+                "delay_between_photos"
+            ],
+            "enable_ais_receiver":[
+                "db_url",
+                "minimum_latitude",
+                "minimum_longitude",
+                "maximum_latitude",
+                "maximum_longitude"
+            ]
+
+        }
         self.question_order = [
             "installation_id",
             "photobot_name",
             "capture_dir",
-            "photos_per_round",
-            "number_of_rounds",
-            "delay_between_rounds",
-            "delay_between_photos",
-            "lorex_host",
-            "lorex_port",
-            "lorex_user",
-            "lorex_password",
-            "wsdl_dir",
-            "db_url",
-            "minimum_latitude",
-            "minimum_longitude",
-            "maximum_latitude",
-            "maximum_longitude"
+            "enable_usb_camera",
+            "enable_ptz_camera",
+            "enable_ais_receiver"
+
         ]
 
         self.defaults = {
             "installation_id": "",
             "photobot_name": "",
-            "photos_per_round": 3,
-            "number_of_rounds": 1,
-            "delay_between_rounds": 5,
-            "delay_between_photos": 3,
             "capture_dir": "/var/captures",
-            "wsdl_dir": "/var/photobot/env2/wsdl",
-            "lorex_host": "",
-            "lorex_port": "80",
-            "lorex_user": "admin",
-            "lorex_password": "admin",
-            "db_url": "sqlite:////mnt/usbstorage/ais/ais_receiver.db",
-            "minimum_latitude": 48.8,
-            "minimum_longitude": -123.37,
-            "maximum_latitude": 48.9,
-            "maximum_longitude": -123.25
+
+            "enable_usb_camera": {
+                "photos_per_round": 3,
+                "number_of_rounds": 1,
+                "delay_between_rounds": 5,
+                "delay_between_photos": 3,
+            },
+
+            "enable_ptz_camera": {
+                "ptz_host": "",
+                "ptz_port": "80",
+                "ptz_user": "admin",
+                "ptz_password": "admin",
+                "wsdl_dir": "/var/photobot/env2/wsdl",
+                "ptz_photos_per_round": 3,
+                "ptz_number_of_rounds": 1,
+                "ptz_delay_between_rounds": 5,
+                "ptz_delay_between_photos": 3,
+            },
+
+            "enable_ais_receiver": {
+                "db_url": "sqlite:////mnt/usbstorage/ais/ais_receiver.db",
+                "minimum_latitude": 48.8,
+                "minimum_longitude": -123.37,
+                "maximum_latitude": 48.9,
+                "maximum_longitude": -123.25
+            }
 
         }
 
@@ -151,7 +181,32 @@ class PhotobotConfigurator(InstallHelper):
 
     def ask_for_configuration(self,key,default):
 
-        default = str(default)
+
+        if type(default) is dict:
+            response_val = raw_input(key + " y/n : ")
+
+            if response_val == 'y':
+                self.final_values[key] = 1
+                sub_order = self.subquestion_order[key]
+                for sub_question in sub_order:
+                    sub_default =self.defaults[key][sub_question]
+                    self.ask_for_configuration(sub_question,sub_default)
+                return
+
+            elif response_val== 'n':
+                self.final_values[key] = 0
+                sub_order = self.subquestion_order[key]
+                for sub_question in sub_order:
+                    sub_default = self.defaults[key][sub_question]
+                    self.final_values[sub_question]=sub_default
+                return
+            else:
+                print("Please choose Y or N");
+                return self.ask_for_configuration(key,default)
+
+        else:
+            default = str(default)
+
         response_val = raw_input(key + " [" + default + "]: ")
 
         if response_val == '':

@@ -63,7 +63,8 @@ def receive_message(request):
     ping = Ping(
         installation_uid = installation.uid,
         datetime = datetime.now(),
-        status = data['status']
+        status = data['status'],
+        msg=data['msg']
     )
     installation.pings.append(ping)
     return {'status': 'OK'}

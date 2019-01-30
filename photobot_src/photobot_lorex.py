@@ -1,10 +1,10 @@
 """
-Lorex Camera version of photobot
+ptz Camera version of photobot
 
 TODO/Sort out
 - python 2.7 only
 - we need the wsdl dir
-- we need the network location for the lorex, we might
+- we need the network location for the ptz, we might
   need to scan for that??
 """
 
@@ -18,20 +18,21 @@ import logging
 from lorex import LorexCam
 import argparse
 from configparser import ConfigParser
-from photobot_helpers import send_ping
+
+from photobot_helpers import *
 
 # settings that must be present in the ini file
 required_settings = [
-    'photos_per_round',
-    'number_of_rounds',
-    'delay_between_rounds',
-    'delay_between_photos',
+    'ptz_photos_per_round',
+    'ptz_number_of_rounds',
+    'ptz_delay_between_rounds',
+    'ptz_delay_between_photos',
     'capture_dir',
     'wsdl_dir',
-    'lorex_host',
-    'lorex_port',
-    'lorex_user',
-    'lorex_password'
+    'ptz_host',
+    'ptz_port',
+    'ptz_user',
+    'ptz_password'
 ]
 
 def get_photo_filename():
@@ -40,22 +41,6 @@ def get_photo_filename():
     filename = 'lx_capture_%s.jpg' % time_str
     return filename
 
-
-def setup_logging(log_filepath, log_level=logging.INFO):
-    "setup the python logging structure"
-    # set up logging, saves output to a log file
-    log = logging.getLogger("PHOTOBOT")
-    fh = logging.FileHandler(log_filepath)
-    fh.setLevel(logging.DEBUG)   
-    ch = logging.StreamHandler()
-    ch.setLevel(logging.DEBUG)
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    fh.setFormatter(formatter)
-    ch.setFormatter(formatter)
-    log.addHandler(fh)
-    log.addHandler(ch)
-    log.level = log_level
-    return log
 
 ################################################################################
 # beginning of main execution
@@ -71,54 +56,46 @@ if __name__=="__main__":
     if uptime_str.strip() == "up":
         sys.exit()
 
-    # register the process identifier utility for multiprocess logging
-    argparser = argparse.ArgumentParser()
-    argparser.add_argument(
-        '--settings',
-        help='Path to settings INI file for Lorex photobot',
-        required=True)
-    options = argparser.parse_args()
-    settings_file = options.settings
+    settings = get_settings_dict()
 
-    config = ConfigParser()
-    config.read(settings_file)
-    settings = dict(config.items('app:main'))
+    log = get_logger()
 
-    send_ping(settings,settings)
+    if settings['enable_ptz_camera'] == '0':
+        log.info("PTZ is disabled. Exiting")
+        sys.exit()
+
+    #send_ping(settings,"Starting PTZ Capture","OK")
 
     # exit if settings file missing items
     for setting_name in required_settings:
         try:
             assert settings[setting_name]
         except:
+            error_and_quit("Missing setting '%s' in ini file" % setting_name)
             raise Exception("Missing setting '%s' in ini file" % setting_name)
 
     # set file path and log level for logging
-    try:
-        log = setup_logging('/mnt/usbstorage/captures/photobot.log', logging.INFO)
-    except IOError as exc:
-        # fall back to logging in local dir
-        try:
-            log = setup_logging('/home/pi/photobot.log', logging.INFO)
-        except IOError as exc:
-            log = setup_logging('photobot.log', logging.INFO)
+
 
     log.info("-----------------------------------------------------------------------------")
     log.info("EXECUTING RUN at %s" % datetime.now() )
 
     # instantiate our lorex camera
     # these settings could come from env variables. How will we get the network address??
-    lorex_cam = LorexCam(
-        host = settings['lorex_host'],
-        port = settings['lorex_port'],
-        user = settings['lorex_user'],
-        password = settings['lorex_password'],
-        wsdl_dir = settings['wsdl_dir'],
-    )
+    try:
+        lorex_cam = LorexCam(
+            host = settings['ptz_host'],
+            port = settings['ptz_port'],
+            user = settings['ptz_user'],
+            password = settings['ptz_password'],
+            wsdl_dir = settings['wsdl_dir'],
+        )
+    except:
+       error_and_quit("Could not connect to PTZ camera")
 
     # execute X rounds of Y pictures according to settings
-    for i in range(0, int(settings['number_of_rounds'])):
-        for i in range(0, int(settings['photos_per_round'])):
+    for i in range(0, int(settings['ptz_number_of_rounds'])):
+        for i in range(0, int(settings['ptz_photos_per_round'])):
             filename = get_photo_filename() 
             local_filepath = "%s" % filename
             ext_filepath = "%s/%s" % (settings['capture_dir'], filename)
@@ -130,8 +107,13 @@ if __name__=="__main__":
                 output = subprocess.check_output(move_command, stderr=subprocess.STDOUT, shell=True, universal_newlines=True)
                 log.info("image moved to %s" % ext_filepath)
             except subprocess.CalledProcessError as exc:
-                log.info("ERROR moving image: '%s'" % exc.output)
-            time.sleep( int(settings['delay_between_photos']) )
+                error_and_quit("ERROR moving image: '%s'" % exc.output)
+
+            time.sleep( int(settings['ptz_delay_between_photos']))
+
+        # photo home
 
         # sleep until next round
-        time.sleep( int(settings['delay_between_rounds']) )
+        time.sleep( int(settings['ptz_delay_between_rounds']))
+
+    send_ping(settings, "Completed PTZ Run", "OK")

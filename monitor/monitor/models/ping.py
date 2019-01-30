@@ -20,6 +20,7 @@ class Ping(Base):
     installation_id = Column(Integer, ForeignKey('installation.id'), nullable=False)
     installation_uid = Column(String(255))
     datetime = Column(DateTime, nullable=False)
+    msg = Column(Text)
     status = Column(Text)
     ip_address=Column(Text)
     json = Column(Text)

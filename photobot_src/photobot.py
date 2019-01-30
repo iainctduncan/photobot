@@ -7,7 +7,8 @@ import sys
 import os
 import argparse
 from configparser import ConfigParser
-import logging
+
+from photobot_helpers import *
 
 
 # settings that must be present in the ini file
@@ -25,23 +26,6 @@ def get_photo_filename():
     return filename
 
 
-def setup_logging(log_filepath, log_level=logging.INFO):
-    "setup the python logging structure"
-    # set up logging, saves output to a log file
-    log = logging.getLogger("PHOTOBOT")
-    fh = logging.FileHandler(log_filepath)
-    fh.setLevel(logging.DEBUG)   
-    ch = logging.StreamHandler()
-    ch.setLevel(logging.DEBUG)
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    fh.setFormatter(formatter)
-    ch.setFormatter(formatter)
-    log.addHandler(fh)
-    log.addHandler(ch)
-    log.level = log_level
-    return log
-
-
 # beginning of main execution
 if __name__=="__main__":
 
@@ -53,35 +37,20 @@ if __name__=="__main__":
     if uptime_str.strip() == "up":
         sys.exit()
 
-    # check for a settings file and process
-    # we will exit if settings missing
-    argparser = argparse.ArgumentParser()
-    argparser.add_argument(
-        '--settings',
-        help='Path to settings INI file for Lorex photobot',
-        required=True)
-    options = argparser.parse_args()
-    settings_file = options.settings
-    config = ConfigParser()
-    config.read(settings_file)
-    settings = dict(config.items('app:main'))
+    log = get_logger()
+
+    log.info("-----------------------------------------------------------------------------")
+    log.info("EXECUTING RUN at %s" % datetime.now())
+
+    settings = get_settings_dict()
+
     # exit if settings file missing items
     for setting_name in required_settings:
         try:
             assert settings[setting_name]
         except:
+            send_ping(settings,"Missing setting '%s' in ini file" % setting_name,"ERROR")
             raise Exception("Missing setting '%s' in ini file" % setting_name)
-
-
-    # set file path and log level for logging
-    try:
-        log = setup_logging('/mnt/usbstorage/captures/photobot.log', logging.INFO)
-    except IOError as exc:
-        # fall back to logging in local dir
-        log = setup_logging('/home/pi/photobot.log', logging.INFO)
-
-    log.info("-----------------------------------------------------------------------------")
-    log.info("EXECUTING RUN at %s" % datetime.now() )
 
     # get the pid of the last run of photobot, and try to kill that process
     # this because sometimes the camera and script can hang
@@ -123,18 +92,22 @@ if __name__=="__main__":
             try: 
                 output = subprocess.check_output(photo_command, stderr=subprocess.STDOUT, shell=True, universal_newlines=True)
                 log.info("captured photo: %s" % filename)
-            except subprocess.CalledProcessError as exc: 
-                log.info("ERROR capturing photo: '%s'" % exc.output)
+            except subprocess.CalledProcessError as exc:
+                error_and_quit("ERROR capturing photo: '%s'" % exc.output)
 
             # move the file from pi to usb drive
             move_command = "mv %s %s" % (local_filepath, ext_filepath)
             try:
                 output = subprocess.check_output(move_command, stderr=subprocess.STDOUT, shell=True, universal_newlines=True)
                 log.info("image moved to %s" % ext_filepath)
-            except subprocess.CalledProcessError as exc: 
+            except subprocess.CalledProcessError as exc:
+                send_ping(settings, "ERROR cmoving image '%s'" % exc.output, "ERROR")
                 log.info("ERROR moving image: '%s'" % exc.output)
+                sys.exit()
 
             # delay between photos not necessary here, in the gphoto command
 
         # sleep until next round
         time.sleep( int(settings['delay_between_rounds']) )
+
+    send_ping(settings, "Completed USB Photo Run","OK")
