@@ -205,7 +205,7 @@ class PhotobotInstaller(InstallHelper):
 
     def setup_supervisor(self):
         print("Creating symlink at /etc/supervisord/conf.d/ais_receiver.conf")
-        self.do("ln -s /var/photobot/supervisord_conf/ais_receiver.conf /etc/supervisor/conf.d/ais_receiver.conf")
+        self.do("ln -s /var/photobot/src/supervisord_conf/ais_receiver.conf /etc/supervisor/conf.d/ais_receiver.conf")
 
     def setup_python_envs(self):
         print("Creating python 2 and 3 virtualenvs, and installing dependencies")
