@@ -56,6 +56,7 @@ if __name__=="__main__":
         setup_logging(SD_DIR+'/logs/init_photobot.log', logging.INFO)
     except IOError as exc:
         setup_logging('init_photobot.log', logging.INFO)
+
     log.info("Reboot, init_photobot.py executing")
 
     notify_reboot()

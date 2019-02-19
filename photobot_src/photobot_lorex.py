@@ -93,19 +93,19 @@ if __name__=="__main__":
     for i in range(0, int(settings['ptz_number_of_rounds'])):
         for i in range(0, int(settings['ptz_photos_per_round'])):
             filename = get_photo_filename(settings['installation_id'],'ptz_capture')
-            local_filepath = "%s" % filename
-            ext_filepath = "%s/%s" % (settings['capture_dir'], filename)
+            #local_filepath = "%s" % filename
+            #ext_filepath = "%s/%s" % (settings['capture_dir'], filename)
             # save capture from camera
-            lorex_cam.save_image(local_filepath)
+            lorex_cam.save_image(get_capture_target_dir()+" / "+filename)
             # move the file from pi to usb drive
-            move_command = "mv %s %s" % (local_filepath, ext_filepath)
-            try:
-                output = subprocess.check_output(move_command, stderr=subprocess.STDOUT, shell=True, universal_newlines=True)
-                log.info("image moved to %s" % ext_filepath)
-            except subprocess.CalledProcessError as exc:
-                error_and_quit("ERROR moving image: '%s'" % exc.output)
+            #move_command = "mv %s %s" % (local_filepath, ext_filepath)
+            #try:
+            #    output = subprocess.check_output(move_command, stderr=subprocess.STDOUT, shell=True, universal_newlines=True)
+            #    log.info("image moved to %s" % ext_filepath)
+            #except subprocess.CalledProcessError as exc:
+            #    error_and_quit("ERROR moving image: '%s'" % exc.output)
 
-            time.sleep( int(settings['ptz_delay_between_photos']))
+            time.sleep(int(settings['ptz_delay_between_photos']))
 
         # photo home
 

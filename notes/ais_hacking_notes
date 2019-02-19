@@ -24,7 +24,7 @@ GPSD:
 DONE
 - plugged it into linux mint, and found it using dmesg, as /dev/ttyACM0
 - issued the following and could see the messages:
-  $ stty -F /dev/ttyAMC0 ispeed 34800 && cat < /dev/ttyACM0
+  $ stty -F /dev/ttyACM0 ispeed 34800 && cat < /dev/ttyACM0
   $ stty -F /dev/tty.usbmodem1421 ispeed 34800 && cat < /dev/tty.usbmodem1421
 - could see input as ascii messages:
 - installed gpsd on linux with apt-get install gpsd gpsd-clients gpsd-dbg

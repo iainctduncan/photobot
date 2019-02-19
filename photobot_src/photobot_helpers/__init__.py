@@ -5,7 +5,9 @@ import logging
 from configparser import ConfigParser
 import argparse
 import sys
+import os
 from datetime import datetime
+
 
 def merge_two_dicts(x, y):
     z = x.copy()   # start with x's keys and values
@@ -104,4 +106,56 @@ def get_photo_filename(installation_id,prefix='capture'):
     "return a filename with date and time, ie: capture_2017-04-02_02-03-12"
     time_str = str(datetime.now()).split('.')[0].replace(' ','_').replace(':','-')
     filename = installation_id+ '_'+prefix + '_%s.jpg' % time_str
+
     return filename
+
+def drive_is_mounted(path):
+    mounted_result = os.system("grep -qs '"+path+" ' /proc/mounts")
+
+    if mounted_result:
+        is_mounted = False
+    else:
+        is_mounted = True
+
+    #print("path" + path + " is mounted? "+str(is_mounted))
+    return is_mounted
+
+
+
+#todo complete mounting
+def mount_drive(drive_path):
+    return False
+
+def notify_drive_full(drive_path):
+    settings = get_settings_dict()
+    send_ping(settings,"Drive: " + drive_path + " is full ","Error")
+
+def notify_drive_unmountable(drive_path):
+    settings = get_settings_dict()
+    send_ping(settings,"Drive: " + drive_path + " is unmbountable ","Error")
+
+def get_capture_target_dir():
+    drive_path = "/mnt/usbstorage"
+    if drive_is_mounted(drive_path):
+        #print("is mounted!!")
+        free_space = get_mb_free_by_path(drive_path)
+        #print("free space is: "+str(free_space) + "MB")
+        if free_space > 100:
+            return drive_path + "/captures"
+        else:
+            notify_drive_full(drive_path)
+
+    else:
+        mount_drive(drive_path)
+        if drive_is_mounted(drive_path):
+            return get_capture_target_dir()
+        else:
+            notify_drive_unmountable(drive_path)
+
+
+def get_mb_free_by_path(path):
+    full_result = os.popen("df -m "+path+" --output=avail ").read()
+    mb_free = full_result.splitlines()[1]
+    return mb_free
+
+

@@ -74,14 +74,14 @@ if __name__=="__main__":
         for i in range(0, int(settings['photos_per_round'])):
             filename = get_photo_filename(settings['installation_id'])
             local_filepath = "%s" % filename
-            ext_filepath = "%s/%s" % (settings['capture_dir'], filename)
+            ext_filepath = "%s/%s" % (get_capture_target_dir(), filename)
 
             # NB: no sleep necessary, time delay is in the command
             # NB: this long form with eosremotereleases is the ONLY version that has worked reliably
             # for the camera, the simpler version you can find online hung frequently for us
             photo_command = ("gphoto2 --wait-event=1s --set-config eosremoterelease=2 --wait-event=1s "
                 " --set-config eosremoterelease=4 --wait-event-and-download=2s --filename=%s "
-                "--force-overwrite --get-all-files --delete-all-files" % local_filepath)
+                "--force-overwrite --get-all-files --delete-all-files" % ext_filepath)
            
             try: 
                 output = subprocess.check_output(photo_command, stderr=subprocess.STDOUT, shell=True, universal_newlines=True)
@@ -90,12 +90,12 @@ if __name__=="__main__":
                 error_and_quit("ERROR capturing photo: '%s'" % exc.output)
 
             # move the file from pi to usb drive
-            move_command = "mv %s %s" % (local_filepath, ext_filepath)
-            try:
-                output = subprocess.check_output(move_command, stderr=subprocess.STDOUT, shell=True, universal_newlines=True)
-                log.info("image moved to %s" % ext_filepath)
-            except subprocess.CalledProcessError as exc:
-                error_and_quit("ERROR moving image '%s'" % exc.output)
+            #move_command = "mv %s %s" % (local_filepath, ext_filepath)
+            #try:
+            #    output = subprocess.check_output(move_command, stderr=subprocess.STDOUT, shell=True, universal_newlines=True)
+            #    log.info("image moved to %s" % ext_filepath)
+            #except subprocess.CalledProcessError as exc:
+            #    error_and_quit("ERROR moving image '%s'" % exc.output)
 
             # delay between photos not necessary here, in the gphoto command
 

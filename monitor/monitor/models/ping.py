@@ -22,7 +22,7 @@ class Ping(Base):
     datetime = Column(DateTime, nullable=False)
     msg = Column(Text)
     status = Column(Text)
-    ip_address=Column(Text)
+    ip_address = Column(Text)
     json = Column(Text)
 
     def __repr__(self):

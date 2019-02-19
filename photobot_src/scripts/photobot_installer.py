@@ -201,7 +201,7 @@ class PhotobotInstaller(InstallHelper):
                 with open(self.cron_file, "a") as cron_file:
                     cron_file.write(patch)
         if self.confirm("reload cron to test? "):
-            self.do("service cron restart")
+            self.do("sudo service cron reload")
 
     def setup_supervisor(self):
         print("Creating symlink at /etc/supervisord/conf.d/ais_receiver.conf")
