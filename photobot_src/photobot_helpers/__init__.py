@@ -53,7 +53,7 @@ def get_logger():
     except IOError as exc:
         # fall back to logging in local dir
         try:
-            log = setup_logging('/var/photobot/photobot.log', logging.INFO)
+            log = setup_logging('/var/photobot/logs/photobot.log', logging.INFO)
         except IOError as exc:
             log = setup_logging('photobot.log', logging.INFO)
     return log
@@ -128,11 +128,11 @@ def mount_drive(drive_path):
 
 def notify_drive_full(drive_path):
     settings = get_settings_dict()
-    send_ping(settings,"Drive: " + drive_path + " is full ","Error")
+    error_and_quit("Drive: " + drive_path + " is full ")
 
 def notify_drive_unmountable(drive_path):
     settings = get_settings_dict()
-    send_ping(settings,"Drive: " + drive_path + " is unmbountable ","Error")
+    error_and_quit("Drive: " + drive_path + " is unmountable ")
 
 def get_capture_target_dir():
     drive_path = "/mnt/usbstorage"
@@ -158,7 +158,7 @@ def get_mb_free_by_path(path):
     mb_free = full_result.splitlines()[1]
     return mb_free
 
-def log_latest_photo_path(path,type='usb'):
+def lslog_latest_photo_path(path,type='usb'):
     with open("/var/photobot/logs/latest_photo_"+type+".log", "w") as f:
         f.write( str(path) )
 
