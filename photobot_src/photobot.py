@@ -86,6 +86,7 @@ if __name__=="__main__":
             try: 
                 output = subprocess.check_output(photo_command, stderr=subprocess.STDOUT, shell=True, universal_newlines=True)
                 log.info("captured photo: %s" % ext_filepath)
+                log_latest_photo_path(ext_filepath)
             except subprocess.CalledProcessError as exc:
                 error_and_quit("ERROR capturing photo: '%s'" % exc.output)
 

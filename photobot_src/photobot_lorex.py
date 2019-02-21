@@ -97,6 +97,7 @@ if __name__=="__main__":
             #ext_filepath = "%s/%s" % (settings['capture_dir'], filename)
             # save capture from camera
             lorex_cam.save_image(get_capture_target_dir()+"/"+filename)
+            log_latest_photo_path(get_capture_target_dir()+"/"+filename,'ptz')
             # move the file from pi to usb drive
             #move_command = "mv %s %s" % (local_filepath, ext_filepath)
             #try:
