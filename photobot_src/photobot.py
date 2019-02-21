@@ -51,7 +51,7 @@ if __name__=="__main__":
     # it's harmless if the previous pass didn't hang
     try:
         # open the text file with the last pid
-        with open("photobot.pid", "r") as f:
+        with open("/var/photobot/logs/photobot.pid", "r") as f:
             last_pid = int( f.read() )
             kill_command = "kill -9 %s" % last_pid
             output = subprocess.check_output(kill_command, stderr=subprocess.STDOUT, shell=True, universal_newlines=True) 
@@ -62,7 +62,7 @@ if __name__=="__main__":
 
     # save pid of this pass so that subsequent photobot passes can kill a hung photobot process
     this_pid = os.getpid()
-    with open("photobot.pid", "w") as f:
+    with open("/var/photobot/logs/photobot.pid", "w") as f:
         f.write( str(this_pid) )
         log.info("saved current pid %i to file" % this_pid)
    
@@ -85,7 +85,7 @@ if __name__=="__main__":
            
             try: 
                 output = subprocess.check_output(photo_command, stderr=subprocess.STDOUT, shell=True, universal_newlines=True)
-                log.info("captured photo: %s" % filename)
+                log.info("captured photo: %s" % ext_filepath)
             except subprocess.CalledProcessError as exc:
                 error_and_quit("ERROR capturing photo: '%s'" % exc.output)
 

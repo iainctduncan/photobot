@@ -9,6 +9,7 @@ import logging
 log = logging.getLogger(__name__)
 
 @view_config(route_name='installations', renderer='../templates/installations.jinja2')
+@view_config(route_name='home', renderer='../templates/installations.jinja2')
 def installations_view(request):
 
     # the installations shows the latest ping from all active installations

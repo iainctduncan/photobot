@@ -1,0 +1,25 @@
+{% extends "layout.jinja2" %}
+
+{% block content %}
+<div class="content notifications">
+  <h2>Ping Log</h2>
+
+  <table class="installations">
+    <tr>
+      <th>Installation</th>
+      <th>Msg</th>
+      <th>Status</th>
+      <th>Time</th>
+    </tr>
+  {% for item in pings %}
+    <tr>
+      <td><span><a href="/log/{{item.installation_uid}}">{{item.installation_uid}}</a></span></td>
+      <td><span>{{item.msg}}</span></td>
+      <td><span>{{item.status}}</span></td>
+      <td><span>{{item.datetime}}</span></td>
+    </tr>
+  {% endfor %}
+  </table>
+
+</div>
+{% endblock content %}

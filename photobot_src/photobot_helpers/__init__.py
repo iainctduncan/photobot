@@ -158,4 +158,10 @@ def get_mb_free_by_path(path):
     mb_free = full_result.splitlines()[1]
     return mb_free
 
+def log_latest_photo_path(path):
+    with open("/var/photobot/logs/latest_photo.log", "w") as f:
+        f.write( str(path) )
 
+def get_lastest_photo_path():
+    with open("/var/photobot/logs/latest_photo.log", "r") as f:
+        return str(f.read())

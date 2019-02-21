@@ -8,7 +8,6 @@
     <tr>
       <th>UID</th>
       <th>Name</th>
-      <th>Active</th>
       <th>IP</th>
       <th>Last Health Check</th>
       <th>Status</th>
@@ -16,9 +15,8 @@
     </tr>
   {% for item in installations %}
     <tr>
-      <td><span>{{item.uid}}</span></td>
+        <td><span><a href="/log/{{item.uid}}">{{item.uid}}</a></span></td>
       <td><span>{{item.name}}</span></td>
-      <td>{{"Active" if item.active else "Inactive"}}</span></td>
       <td><span>{{item.ip_address}}</span></td>
       <td><span>{{item.last_ping.datetime}}</span></td>
       <td><strong>{{item.status}}</strong></td>
