@@ -13,11 +13,14 @@ from sqlalchemy import (
 from sqlalchemy.orm import relationship
 
 from datetime import datetime
+from datetime import datetime
 import json
 
 import logging
 log = logging.getLogger(__name__)
+from photobot_helpers import *
 import pdb
+import time
 
 # sqlachemy Declarative Base base class for ORM models
 Base = declarative_base()
@@ -207,6 +210,15 @@ class Model(object):
         24: StaticDataMessageB,
     }
 
+    #count number of messages out of tange
+    out_of_range_count=0
+
+    #count total signals
+    total_count = 0
+
+    processed_count=0
+
+
     def __init__(self, settings, logger=None):
         self.log = logger if logger else log 
         self.log.info("Model.__init__()")
@@ -250,6 +262,7 @@ class Model(object):
             if( data['lat'] < self.min_lat or data['lat'] > self.max_lat or
               data['lon'] < self.min_lon or data['lon'] > self.max_lon): 
                 self.log.debug(' msg out of position range, ignoring ')
+                self.out_of_range_count += 1
                 return
 
 
@@ -266,4 +279,25 @@ class Model(object):
         )
         dbs.add( msg )
         dbs.commit()
+        self.processed_count += 1
+
         self.log.debug("  - message stored")
+    def clear_stats(self):
+        self.total_count=0
+        self.out_of_range_count=0
+        self.processed_count=0
+    def maybe_send_ping(self):
+        currentDT = datetime.now()
+        minute = currentDT.minute
+        second = currentDT.second
+        #print(second)
+        if minute == second == 1:
+            settings = get_settings_dict()
+            stats_msg = "AIS Running: " + str(self.processed_count) + " messages logged. " + str(self.out_of_range_count) + " out of range (in last hour)"
+            send_ping(settings,stats_msg)
+            time.sleep(1)
+            self.clear_stats()
+
+
+
+

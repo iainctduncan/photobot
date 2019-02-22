@@ -9,6 +9,7 @@ import json
 from gps3 import agps3
 
 from ais_model import Model
+from photobot_helpers import *
 
 import pdb
 # required settings, which can come from ini file or command line args
@@ -66,6 +67,7 @@ def main():
         return
 
     log.info("ais_receiver main()")
+    send_ping(settings,"AIS process started")
 
     # wait for five seconds to let gpsd settle down
     time.sleep(5)
@@ -78,6 +80,7 @@ def main():
     gps_socket.watch()
     
     for json_msg in gps_socket:
+        model.maybe_send_ping()
         if json_msg:
             #log.debug("received msg: %s" % json_msg)
             try:
@@ -86,7 +89,9 @@ def main():
                 log.debug("  error handling message: %s" % e)
                 pass
     else:
+
         time.sleep(.001)
+
 
 
 
