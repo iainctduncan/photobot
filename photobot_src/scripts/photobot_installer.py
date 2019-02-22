@@ -191,7 +191,7 @@ class PhotobotInstaller(InstallHelper):
         if not self.enable_gphoto:
             gphoto_comment = "\n# uncomment to enable USB (GPHOTO) camera \n#"
         patch = (
-            "\n@reboot root /var/photobot/env2/bin/python /var/photobot/src/photobot_reboot.py"
+            "\n@reboot root /var/photobot/env2/bin/python /var/photobot/src/photobot_reboot.py --settings /var/photobot/config/photobot.ini "
 
             "" +gphoto_comment+"* * * * * root /var/photobot/env2/bin/python /var/photobot/src/photobot.py --settings /var/photobot/config/photobot.ini"
 
