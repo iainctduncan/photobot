@@ -177,7 +177,7 @@ def get_capture_target_dir():
 
 def get_mb_free_by_path(path):
     full_result = os.popen("df -m "+path+" --output=avail ").read()
-    mb_free = full_result.splitlines()[1]
+    mb_free = int(full_result.splitlines()[1])
     return mb_free
 
 def lslog_latest_photo_path(path,type='usb'):
