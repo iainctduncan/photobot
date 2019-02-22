@@ -161,12 +161,12 @@ class PhotobotInstaller(InstallHelper):
         self.do("ln -s /var/photobot/repo/photobot_src /var/photobot/src")
 
     def setup_directories(self):
-        if self.confirm("create directory on pi: /var/photobot/captures ?"):
-            self.mkdir("/var/photobot/captures")
+        #if self.confirm("create directory on pi: /var/photobot/captures ?"):
+         #   self.mkdir("/var/photobot/captures")
         if self.confirm("create directory on USB drive: /mnt/usbstorage/captures ?"):
             self.mkdir("/mnt/usbstorage/captures")
-        if self.confirm("create directory on pi: /var/photobot/lorex ?"):
-            self.mkdir("/var/photobot/lorex")
+        #if self.confirm("create directory on pi: /var/photobot/lorex ?"):
+        #    self.mkdir("/var/photobot/lorex")
         if self.confirm("create directory on USB drive: /mnt/usbstorage/lorex ?"):
             self.mkdir("/mnt/usbstorage/lorex")
 
@@ -177,9 +177,9 @@ class PhotobotInstaller(InstallHelper):
         self.do("gphoto2 --wait-event=1s --set-config eosremoterelease=2 --wait-event=1s "
             "--set-config eosremoterelease=4 --wait-event-and-download=2s "
             "--force-overwrite --get-all-files --delete-all-files "
-            "--filename=/var/photobot/captures/test_photo.jpg")
+            "--filename=/var/photobot/test_photo.jpg")
         print("Moving test photo to /mnt/usbstorage/captures...")
-        self.do("mv /var/photobot/captures/test_photo.jpg /mnt/usbstorage/captures/")
+        self.do("mv /var/photobot/test_photo.jpg /mnt/usbstorage/captures/")
 
 
     def setup_cron(self):
@@ -191,7 +191,7 @@ class PhotobotInstaller(InstallHelper):
         if not self.enable_gphoto:
             gphoto_comment = "\n# uncomment to enable USB (GPHOTO) camera \n#"
         patch = (
-            "\n@reboot root /var/photobot/env2/bin/python /var/photobot/src/scripts/init_photobot.py"
+            "\n@reboot root /var/photobot/env2/bin/python /var/photobot/src/photobot_reboot.py"
 
             "" +gphoto_comment+"* * * * * root /var/photobot/env2/bin/python /var/photobot/src/photobot.py --settings /var/photobot/config/photobot.ini"
 

@@ -111,6 +111,7 @@ def get_photo_filename(installation_id,prefix='capture'):
 
 def drive_is_mounted(path):
     mounted_result = os.system("grep -qs '"+path+" ' /proc/mounts")
+    print(mounted_result)
 
     if mounted_result:
         is_mounted = False
@@ -122,20 +123,44 @@ def drive_is_mounted(path):
 
 
 
-#todo complete mounting
-def mount_drive(drive_path):
-    return False
+
+def get_usb_storage_path():
+    return "/mnt/usbstorage"
+
+def get_usb_drive_dev_address():
+    return "/dev/sda1"
+
+def mount_drive(drive_path,dev_address='/dev/sda1'):
+
+    if drive_is_mounted(drive_path):
+        return True
+
+    mount_failed = os.system("mount %s %s" % (dev_address, drive_path))
+    if mount_failed:
+
+        #notify_drive_unmountable(drive_path)
+        return False
+    else:
+        return True
+
+def notify_reboot():
+    settings = get_settings_dict()
+    install_id = settings['installation_id']
+    send_ping(settings,install_id + " rebooted","OK")
+
+def clean_tmp_files():
+    os.system("rm -f /root/tmpfile*")
 
 def notify_drive_full(drive_path):
-    settings = get_settings_dict()
+
     error_and_quit("Drive: " + drive_path + " is full ")
 
 def notify_drive_unmountable(drive_path):
-    settings = get_settings_dict()
-    error_and_quit("Drive: " + drive_path + " is unmountable ")
+
+    error_and_quit("Drive: " + drive_path + " could not be mounted")
 
 def get_capture_target_dir():
-    drive_path = "/mnt/usbstorage"
+    drive_path = get_usb_storage_path()
     if drive_is_mounted(drive_path):
         #print("is mounted!!")
         free_space = get_mb_free_by_path(drive_path)
@@ -143,6 +168,7 @@ def get_capture_target_dir():
         if free_space > 100:
             return drive_path + "/captures"
         else:
+            clean_tmp_files()
             notify_drive_full(drive_path)
 
     else:
