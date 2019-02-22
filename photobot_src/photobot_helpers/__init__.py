@@ -49,13 +49,9 @@ def get_settings_dict():
 
 def get_logger():
     try:
-        log = setup_logging('/mnt/usbstorage/captures/photobot.log', logging.INFO)
+        log = setup_logging('/var/photobot/logs/photobot.log', logging.INFO)
     except IOError as exc:
-        # fall back to logging in local dir
-        try:
-            log = setup_logging('/var/photobot/logs/photobot.log', logging.INFO)
-        except IOError as exc:
-            log = setup_logging('photobot.log', logging.INFO)
+        print("can't setup log")
     return log
 
 def send_ping(settings,msg='Ping',status='OK',custom_params={}):
