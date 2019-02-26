@@ -1,4 +1,8 @@
 requests
+urllib3
+idna
+certifi
+chardet
 sqlalchemy
 gps3
 configparser
