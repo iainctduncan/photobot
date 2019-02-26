@@ -180,7 +180,7 @@ def get_mb_free_by_path(path):
     mb_free = int(full_result.splitlines()[1])
     return mb_free
 
-def lslog_latest_photo_path(path,type='usb'):
+def log_latest_photo_path(path,type='usb'):
     with open("/var/photobot/logs/latest_photo_"+type+".log", "w") as f:
         f.write( str(path) )
 
