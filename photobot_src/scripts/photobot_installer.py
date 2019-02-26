@@ -93,6 +93,11 @@ class PhotobotInstaller(InstallHelper):
         print("running apt-get update, installing nano, vim, git, gphoto2, gpsd, virtualenv, supervisor ...")
         self.do("apt-get update")
         self.do("apt-get install nano vim git")
+
+        print("######################")
+        print("Installing Latest Gphoto Software")
+        print("Select Install latest stable version (option 2)")
+        print("######################")
         self.do("wget https://raw.githubusercontent.com/gonzalo/gphoto2-updater/master/gphoto2-updater.sh && chmod +x gphoto2-updater.sh && sudo ./gphoto2-updater.sh")
         #self.do("apt-get install gphoto2")
         self.do("apt-get install gpsd")
