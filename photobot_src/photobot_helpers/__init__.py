@@ -50,9 +50,11 @@ def get_settings_dict():
 def get_logger():
     try:
         log = setup_logging('/var/photobot/logs/photobot.log', logging.INFO)
+        return log
     except IOError as exc:
         print("can't setup log")
-    return log
+        return False
+
 
 def send_ping(settings,msg='Ping',status='OK',custom_params={}):
 
@@ -186,4 +188,12 @@ def log_latest_photo_path(path,type='usb'):
 
 def get_lastest_photo_path(type='usb'):
     with open("/var/photobot/logs/latest_photo_"+type+".log", "r") as f:
+        return str(f.read())
+
+def log_latest_photo_sent_path(path,type='usb'):
+    with open("/var/photobot/logs/latest_photo_sent_"+type+".log", "w") as f:
+        f.write( str(path) )
+
+def get_lastest_photo_sent_path(type='usb'):
+    with open("/var/photobot/logs/latest_photo_sent_"+type+".log", "r") as f:
         return str(f.read())
