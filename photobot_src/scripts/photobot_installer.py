@@ -237,6 +237,11 @@ class PhotobotInstaller(InstallHelper):
         self.do("chown -R pi:pi /var/photobot")
         self.do("chown -R pi:pi /mnt/usbstorage")
 
+    def setup_lanscan_script(self):
+        print("setting up lanscan script helper. to use type 'lanscan scan'")
+        self.do("cp /var/photobot/src/scripts/lanscan /usr/local/bin")
+        self.do("chmod +x /usr/local/bin/lanscan")
+
     # main install process
     def main(self):
         print("Running photobot installer")
@@ -261,6 +266,9 @@ class PhotobotInstaller(InstallHelper):
 
         if self.confirm("Create python environments?"):
             self.setup_python_envs()
+
+        if self.confirm("Install Lanscan Script?"):
+            self.setup_lanscan_script()
 
         if self.confirm("Create directories for captures?"):
             self.setup_directories()
