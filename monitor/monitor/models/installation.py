@@ -16,6 +16,7 @@ from .meta import Base
 import pdb
 
 from datetime import datetime
+from .ping import Ping
 
 # TODO: get from settings
 PING_THRESHOLD = 3600
@@ -32,7 +33,8 @@ class Installation(Base):
     active = Column(Boolean)
     notes = Column(Text)
 
-    pings = relationship("Ping", order_by=desc("ping.datetime"), backref="installation")
+    pings = relationship("Ping", order_by=desc("ping.datetime"),lazy='dynamic', backref="installation")
+    #pings = relationship("Ping", order_by=desc("ping.datetime"), backref="installation")
 
     def __repr__(self):
         return "%s - %s" % (self.name, self.ip_address)
@@ -43,18 +45,10 @@ class Installation(Base):
         for k,v in kwargs.items():
             setattr(self, k, v)
 
-    @property
-    def last_ping(self):
-        return self.pings[0] if len(self.pings) else None
 
-    @property
-    def status(self):
-        "return OK if last health check was within X minutes, else ERROR"
-        if not self.last_ping:
-            return "N/A"
-        else:
-            delta = datetime.now() - self.last_ping.datetime
-            if delta.total_seconds() > PING_THRESHOLD:
-                return "OFFLINE"
-            else:
-                return self.last_ping.status
+    def get_last_ping_by_subsystem(self, session, subsystem=None):
+        query = session.query(Ping).filter(Ping.installation_id == self.id)
+        query = query.filter_by(subsystem=subsystem) if subsystem else query
+        query = query.order_by(desc(Ping.datetime)).limit(1)
+        return query.first()
+

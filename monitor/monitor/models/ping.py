@@ -22,6 +22,7 @@ class Ping(Base):
     datetime = Column(DateTime, nullable=False)
     msg = Column(Text)
     status = Column(Text)
+    subsystem = Column(Text)
     ip_address = Column(Text)
     json = Column(Text)
 

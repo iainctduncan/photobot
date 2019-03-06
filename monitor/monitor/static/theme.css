@@ -139,3 +139,8 @@ td, th {
     margin-top: 20px;
   }
 }
+.PhotoSampleWrap{
+  width:640px;
+  float:left;
+  margin:5px;
+}

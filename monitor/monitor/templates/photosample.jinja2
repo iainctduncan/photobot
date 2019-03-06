@@ -1,0 +1,17 @@
+{% extends "layout.jinja2" %}
+
+{% block content %}
+<div class="PhotoSamplesPage">
+  <h2>Image Samples</h2>
+
+
+  {% for item in samples %}
+    <div class="PhotoSampleWrap">
+        <img src="/samples/{{item.filename}}"/>
+        {{item.filename}}
+    </div>
+  {% endfor %}
+  </table>
+
+</div>
+{% endblock content %}

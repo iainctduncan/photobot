@@ -15,9 +15,31 @@ def installations_view(request):
     # the installations shows the latest ping from all active installations
     installations = request.dbsession.query(Installation).all()
 
+    subsystems = ['pi', 'usb', 'ptz', 'disk', 'thermal']
+    # list of two field tuples of (installation, ping_dict)
+    installs = []
+    for installation in installations:
+        ping_dict = dict()
 
+        last_ping = installation.get_last_ping_by_subsystem(request.dbsession)
+        if last_ping:
+            installation.last_ping_time = last_ping.datetime
+        else:
+            installation.last_ping_time = "N/A"
 
-    return dict(installations=installations)
+        for subsystem in subsystems:
+
+            subsystem_ping = installation.get_last_ping_by_subsystem(request.dbsession, subsystem)
+
+            if subsystem_ping :
+                subsystem_status = subsystem_ping.status
+            else:
+                subsystem_status = "N/A"
+
+            ping_dict[subsystem] = subsystem_status
+        installs.append( dict(installation=installation, ping_dict=ping_dict))
+
+    return dict(installs=installs)
 
 
 

@@ -64,6 +64,7 @@ def receive_message(request):
         installation_uid = installation.uid,
         datetime = datetime.now(),
         status = data['status'],
+        subsystem = data['subsystem'],
         msg=data['msg']
     )
     installation.pings.append(ping)

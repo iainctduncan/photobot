@@ -32,6 +32,7 @@ monitor/templates/installations.jinja2
 monitor/templates/layout.jinja2
 monitor/templates/mytemplate.jinja2
 monitor/templates/notifications.jinja2
+monitor/templates/pings.jinja2
 monitor/tests/__init__.py
 monitor/tests/sample_tests.py
 monitor/tests/test_ping.py
@@ -40,4 +41,5 @@ monitor/views/dashboard.py
 monitor/views/installations.py
 monitor/views/notfound.py
 monitor/views/notifications.py
+monitor/views/pings.py
 monitor/views/receiver.py

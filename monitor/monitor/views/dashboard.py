@@ -15,7 +15,7 @@ def dashboard_view(request):
     # the dashboard shows the latest ping from all active installations
     installations = request.dbsession.query(Installation).all()
 
-    log.info("  - installations: %s" % installations)
+    log.info(" - installations: %s" % installations)
     return Response("OK.. installations: %s" % installations)
 
 
