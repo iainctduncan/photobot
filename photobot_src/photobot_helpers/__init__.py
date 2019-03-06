@@ -14,7 +14,7 @@ def merge_two_dicts(x, y):
     z.update(y)    # modifies z with y's keys and values & returns None
     return z
 def get_phone_home_url():
-    return "http://127.0.0.1:6543/ping"
+    #return "http://127.0.0.1:6543/ping"
     return "http://photobots.info/ping"
 
 def setup_logging(log_filepath, log_level=logging.INFO):
@@ -197,3 +197,9 @@ def get_lastest_photo_sent_path(type='usb'):
             return str(f.read())
     except:
         return False
+
+def get_ptz_ip():
+    full_result = os.popen("lanscan scan").read()
+    for line in full_result:
+        print(line)
+        print "\n\n\n"
