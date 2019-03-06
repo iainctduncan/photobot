@@ -88,7 +88,7 @@ if __name__=="__main__":
                 log.info("captured photo: %s" % ext_filepath)
                 log_latest_photo_path(ext_filepath)
             except subprocess.CalledProcessError as exc:
-                error_and_quit("ERROR capturing photo: '%s'" % exc.output)
+                error_and_quit("ERROR capturing photo: '%s'" % exc.output,'usb')
 
             # move the file from pi to usb drive
             #move_command = "mv %s %s" % (local_filepath, ext_filepath)
@@ -103,4 +103,4 @@ if __name__=="__main__":
         # sleep until next round
         time.sleep( int(settings['delay_between_rounds']) )
 
-    send_ping(settings, "Completed USB Photo Run","OK")
+    send_ping('usb', "Completed USB Photo Run","OK")

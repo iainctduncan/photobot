@@ -13,7 +13,7 @@ if __name__=="__main__":
     # try log with two paths so we can run this in non-pi envs
     log = get_logger()
     log.info("Reboot, init_photobot.py executing")
-    
+
     # Had some Pis that couldn't find eth0 unless we run this command
     os.system("dhcpcd")
     notify_reboot()

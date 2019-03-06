@@ -14,6 +14,7 @@ def merge_two_dicts(x, y):
     z.update(y)    # modifies z with y's keys and values & returns None
     return z
 def get_phone_home_url():
+    return "http://127.0.0.1:6543/ping"
     return "http://photobots.info/ping"
 
 def setup_logging(log_filepath, log_level=logging.INFO):
@@ -56,19 +57,11 @@ def get_logger():
         return False
 
 
-def send_ping(settings,msg='Ping',status='OK',custom_params={}):
+def send_ping(subsystem='PI',msg='Ping',status='OK',custom_params={}):
 
     hostname = socket.gethostname()
 
-    # register the process identifier utility for multiprocess logging
-    argparser = argparse.ArgumentParser()
-    argparser.add_argument(
-        '--settings',
-        help='Path to settings INI file for Lorex photobot',
-        required=True)
-
-    options = argparser.parse_args()
-    settings_file = options.settings
+    settings = get_settings_dict()
 
     bot_name = settings['photobot_name']
     installation_id = settings['installation_id']
@@ -77,7 +70,8 @@ def send_ping(settings,msg='Ping',status='OK',custom_params={}):
         'name': bot_name,
         'installation_id': installation_id,
         'pi_cpu_id': settings['pi_cpu_serial'],
-        'msg' : msg,
+        'subsystem': subsystem,
+        'msg': msg,
         'status': status
     }
 
@@ -93,11 +87,11 @@ def send_ping(settings,msg='Ping',status='OK',custom_params={}):
     except:
         print("Couldn't connect to host")
 
-def error_and_quit(error_msg):
+def error_and_quit(error_msg,subsystem):
     log = get_logger()
     log.info(error_msg)
-    settings = get_settings_dict()
-    send_ping(settings,error_msg, "ERROR")
+    #settings = get_settings_dict()
+    send_ping(subsystem,error_msg, "ERROR")
     sys.exit()
 
 def get_photo_filename(installation_id,prefix='capture'):
@@ -144,18 +138,18 @@ def mount_drive(drive_path,dev_address='/dev/sda1'):
 def notify_reboot():
     settings = get_settings_dict()
     install_id = settings['installation_id']
-    send_ping(settings,install_id + " rebooted","OK")
+    send_ping('pi',install_id + " rebooted","OK")
 
 def clean_tmp_files():
     os.system("rm -f /root/tmpfile*")
 
 def notify_drive_full(drive_path):
 
-    error_and_quit("Drive: " + drive_path + " is full ")
+    error_and_quit("Drive: " + drive_path + " is full ","disk")
 
 def notify_drive_unmountable(drive_path):
 
-    error_and_quit("Drive: " + drive_path + " could not be mounted")
+    error_and_quit("Drive: " + drive_path + " could not be mounted","disk")
 
 def get_capture_target_dir():
     drive_path = get_usb_storage_path()
@@ -187,13 +181,19 @@ def log_latest_photo_path(path,type='usb'):
         f.write( str(path) )
 
 def get_lastest_photo_path(type='usb'):
-    with open("/var/photobot/logs/latest_photo_"+type+".log", "r") as f:
-        return str(f.read())
+    try:
+        with open("/var/photobot/logs/latest_photo_"+type+".log", "r") as f:
+            return str(f.read())
+    except:
+        return False
 
 def log_latest_photo_sent_path(path,type='usb'):
     with open("/var/photobot/logs/latest_photo_sent_"+type+".log", "w") as f:
         f.write( str(path) )
 
 def get_lastest_photo_sent_path(type='usb'):
-    with open("/var/photobot/logs/latest_photo_sent_"+type+".log", "r") as f:
-        return str(f.read())
+    try:
+        with open("/var/photobot/logs/latest_photo_sent_"+type+".log", "r") as f:
+            return str(f.read())
+    except:
+        return False
