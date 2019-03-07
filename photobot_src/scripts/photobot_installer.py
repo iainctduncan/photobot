@@ -100,14 +100,14 @@ class PhotobotInstaller(InstallHelper):
         print("######################")
         self.do("wget https://raw.githubusercontent.com/gonzalo/gphoto2-updater/master/gphoto2-updater.sh && chmod +x gphoto2-updater.sh && sudo ./gphoto2-updater.sh")
         #self.do("apt-get install gphoto2")
-        self.do("apt-get install imagemagick")
-        self.do("apt-get install gpsd")
-        self.do("apt-get install python-virtualenv")
-        self.do("apt-get install supervisor")
-        self.do("apt-get install sqlite3")
-        self.do("apt-get install ntfs-3g")
-        self.do("apt-get install tcpdump")
-        self.do("apt-get install nmap")
+        self.do("apt-get install -y imagemagick")
+        self.do("apt-get install -y gpsd")
+        self.do("apt-get install -y python-virtualenv")
+        self.do("apt-get install -y supervisor")
+        self.do("apt-get install -y sqlite3")
+        self.do("apt-get install -y ntfs-3g")
+        self.do("apt-get install -y tcpdump")
+        self.do("apt-get install -y nmap")
 
         #if self.confirm("test gphoto2 to see camera? (plug in camera)"):
         #    self.do("gphoto2 --list-config")
@@ -174,8 +174,8 @@ class PhotobotInstaller(InstallHelper):
             self.mkdir("/mnt/usbstorage/captures")
         #if self.confirm("create directory on pi: /var/photobot/lorex ?"):
         #    self.mkdir("/var/photobot/lorex")
-        if self.confirm("create directory on USB drive: /mnt/usbstorage/lorex ?"):
-            self.mkdir("/mnt/usbstorage/lorex")
+        #if self.confirm("create directory on USB drive: /mnt/usbstorage/lorex ?"):
+            #self.mkdir("/mnt/usbstorage/lorex")
 
 
     def take_test_photo(self):
@@ -202,7 +202,7 @@ class PhotobotInstaller(InstallHelper):
 
             "" +gphoto_comment+"* * * * * root /var/photobot/env2/bin/python /var/photobot/src/photobot.py --settings /var/photobot/config/photobot.ini"
 
-            "" +lorex_comment+"* * * * * root /var/photobot/env2/bin/python /var/photobot/src/photobot_lorex.py --settings /var/photobot/config/photobot.ini")
+            "" +lorex_comment+"* * * * * root /var/photobot/env2/bin/python /var/photobot/src/photobot_lorex.py --settings /var/photobot/config/photobot.ini\n\n")
         if self.confirm("patching %s with patch: '%s'\n?" % (self.cron_file, patch) ):
             if not self.args.dry_run:
                 with open(self.cron_file, "a") as cron_file:
@@ -223,7 +223,8 @@ class PhotobotInstaller(InstallHelper):
         self.do("virtualenv -p python3 /var/photobot/env3")
         self.do("sudo /var/photobot/env3/bin/pip install -r /var/photobot/src/requirements3.txt")
 
-
+    def run_configuration_script(self):
+        self.do("")
     def setup_ais(self):
         print("Setting up ais directory and initializing database")
         self.mkdir("/mnt/usbstorage/ais")
@@ -292,6 +293,9 @@ class PhotobotInstaller(InstallHelper):
         if self.confirm("Create symlink for ais_receiver supervisord conf file?"):
             self.setup_supervisor()
 
+        if self.confirm("Run configuration script"):
+            self.run_configuration_script();
+
         if self.confirm("Create ais directory, initialize ais db, and prepare gpsd?"):
             self.setup_ais()
 
@@ -301,7 +305,7 @@ class PhotobotInstaller(InstallHelper):
 
 
         print("\nSetup Complete. You will need to run the configruation script\n")
-        print("Run:")
+        print("To set/adjust configuration Run:")
         print("sudo python /var/photobot/src/scripts/photobot_config.py")
 
 
