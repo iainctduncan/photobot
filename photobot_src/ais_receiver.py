@@ -67,7 +67,7 @@ def main():
         return
 
     log.info("ais_receiver main()")
-    send_ping(settings,"AIS process started")
+    send_ping('ais',"AIS process started",'OK')
 
     # wait for five seconds to let gpsd settle down
     time.sleep(5)

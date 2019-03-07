@@ -294,7 +294,11 @@ class Model(object):
         if minute == second == 1:
             settings = get_settings_dict()
             stats_msg = "AIS Running: " + str(self.processed_count) + " messages logged. " + str(self.out_of_range_count) + " out of range (in last hour)"
-            send_ping(settings,stats_msg)
+            if self.processed_count >0
+                send_ping('ais',stats_msg,'OK')
+            else:
+                send_ping('ais', stats_msg, 'ERROR')
+
             time.sleep(1)
             self.clear_stats()
 
