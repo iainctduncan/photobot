@@ -202,4 +202,3 @@ def get_ptz_ip():
     full_result = os.popen("lanscan scan").read()
     for line in full_result:
         print(line)
-        print "\n\n\n"
