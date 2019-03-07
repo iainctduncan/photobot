@@ -1,7 +1,7 @@
 from pyramid.response import Response
 def includeme(config):
     config.add_static_view('static', 'static', cache_max_age=3600)
-    #config.add_static_view('samples', '/fastdata/', cache_max_age=3600)
+    config.add_static_view('samples', config.registry.settings['image_samples_dir'], cache_max_age=3600)
     config.add_route('home', '/')
     config.add_route('dashboard', '/dashboard')
     config.add_route('receiver', '/ping')
