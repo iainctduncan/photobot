@@ -20,9 +20,6 @@ def image_sample(request):
     path = request.registry.settings['image_samples_dir']
     images = os.listdir(path)
 
-
-    #output = "<h3>Samples:</h3>"
-
     samples = []
 
     for image in images:

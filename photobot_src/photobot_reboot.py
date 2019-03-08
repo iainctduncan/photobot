@@ -14,8 +14,10 @@ if __name__=="__main__":
     log = get_logger()
     log.info("Reboot, init_photobot.py executing")
 
+    #ip = get_ptz_ip()
+
     # Had some Pis that couldn't find eth0 unless we run this command
-    os.system("dhcpcd")
+    #os.system("dhcpcd")
     notify_reboot()
     clean_tmp_files()
 

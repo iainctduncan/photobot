@@ -243,7 +243,11 @@ class PhotobotInstaller(InstallHelper):
         print("setting up lanscan script helper. to use type 'lanscan scan'")
         self.do("cp /var/photobot/src/scripts/lanscan /usr/local/bin")
         self.do("chmod +x /usr/local/bin/lanscan")
-
+    def setup_photo_sample_uploads(self):
+        print("This will set up SSH-keys to allow connection to the samples account on the monitor sever. You will need to type the password once now to authorize future connections.")
+        self.do("apt-get install imagemagick")
+        self.do("sudo -H -u root bash -c 'ssh-keygen'")
+        self.do("sudo -H -u root bash -c 'ssh-copy-id samples@photobots.info'")
     # main install process
     def main(self):
         print("Running photobot installer")
@@ -295,6 +299,9 @@ class PhotobotInstaller(InstallHelper):
 
         if self.confirm("Run configuration script"):
             self.run_configuration_script();
+
+        if self.confirm("Set up photo sample uploads? (Requires password to samples upload account)"):
+            self.setup_photo_sample_uploads();
 
         if self.confirm("Create ais directory, initialize ais db, and prepare gpsd?"):
             self.setup_ais()

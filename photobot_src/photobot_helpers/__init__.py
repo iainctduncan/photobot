@@ -6,6 +6,7 @@ from configparser import ConfigParser
 import argparse
 import sys
 import os
+import string
 from datetime import datetime
 
 
@@ -46,6 +47,18 @@ def get_settings_dict():
     config = ConfigParser()
     config.read(settings_file)
     settings = dict(config.items('app:main'))
+
+    settings['samples_user_host'] = 'samples@photobots.info'
+    settings['samples_dest_path'] = '~'
+
+    settings['usb_upload_interval'] = 3600
+    settings['ptz_upload_interval'] = 3600
+
+    settings['usb_sample_width'] = 640
+    settings['ptz_sample_width'] = 640
+
+    settings['alive_ping_interval'] = 500
+
     return settings
 
 def get_logger():
@@ -183,7 +196,9 @@ def log_latest_photo_path(path,type='usb'):
 def get_lastest_photo_path(type='usb'):
     try:
         with open("/var/photobot/logs/latest_photo_"+type+".log", "r") as f:
-            return str(f.read())
+            path = str(f.read())
+            return path.rstrip()
+
     except:
         return False
 
@@ -194,9 +209,17 @@ def log_latest_photo_sent_path(path,type='usb'):
 def get_lastest_photo_sent_path(type='usb'):
     try:
         with open("/var/photobot/logs/latest_photo_sent_"+type+".log", "r") as f:
-            return str(f.read())
+            path = str(f.read())
+            return path.rstrip()
+
     except:
         return False
+
+def ensure_dir(dir):
+
+    exists = os.path.isdir(dir)
+    if not exists:
+       os.system("mkdir " + dir)
 
 def get_ptz_ip():
     full_result = os.popen("lanscan scan").read()
