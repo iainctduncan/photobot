@@ -58,7 +58,7 @@ def get_settings_dict():
     settings['ptz_sample_width'] = 640
 
     settings['alive_ping_interval'] = 500
-    settings['disk_check_interval'] = 20
+    settings['disk_check_interval'] = 3600
 
     return settings
 
