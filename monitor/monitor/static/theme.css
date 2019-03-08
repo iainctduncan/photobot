@@ -147,10 +147,10 @@ td, th {
 .OK{
   color:darkgreen;
 }
-.ERRORe{
+.ERROR{
   color:#660000;
 }
-.OFF{
+.Off{
   color:darkblue;
 }
 .StatusCell{
