@@ -58,6 +58,7 @@ if __name__=="__main__":
 
     if settings['enable_ptz_camera'] == '0':
         log.info("PTZ is disabled. Exiting")
+        send_ping("ptz","PTZ disabled","Off")
         sys.exit()
 
     #send_ping(settings,"Starting PTZ Capture","OK")

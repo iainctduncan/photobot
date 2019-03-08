@@ -147,8 +147,11 @@ td, th {
 .OK{
   color:darkgreen;
 }
-.ERROR{
+.ERRORe{
   color:#660000;
+}
+.OFF{
+  color:darkblue;
 }
 .StatusCell{
     text-align: center;

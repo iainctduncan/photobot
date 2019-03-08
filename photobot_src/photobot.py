@@ -31,12 +31,20 @@ if __name__=="__main__":
     if uptime_str.strip() == "up":
         sys.exit()
 
+
+
     log = get_logger()
+    settings = get_settings_dict()
+
+    if settings['enable_usb_camera'] == '0':
+        log.info("USB Camera is disabled. Exiting")
+        send_ping("usb", "USB disabled", "Off")
+        sys.exit()
 
     log.info("-----------------------------------------------------------------------------")
     log.info("EXECUTING RUN at %s" % datetime.now())
 
-    settings = get_settings_dict()
+
 
     # exit if settings file missing items
     for setting_name in required_settings:

@@ -66,7 +66,12 @@ def main():
         log.info("db initialized, exiting")
         return
 
-    log.info("ais_receiver main()")
+    log.info("ais_receiver main() starting")
+    log.info(settings['enable_ais_receiver'])
+    if settings['enable_ais_receiver'] == '0':
+        send_ping("ais", "AIS disabled", "Off")
+        sys.exit()
+
     send_ping('ais',"AIS process started",'OK')
 
     # wait for five seconds to let gpsd settle down
