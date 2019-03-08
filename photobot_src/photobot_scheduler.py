@@ -12,7 +12,7 @@ from photobot_helpers import *
 class Process_Scheduler(object):
 
     def __init__(self):
-        self.process_run_log = {'usb_upload': 0, 'alive_ping': 0, 'ptz_upload':0 }
+        self.process_run_log = {'usb_upload': 0, 'alive_ping': 0, 'ptz_upload':0, 'disk_check':0 }
 
     def is_running(self):
         return True
@@ -60,15 +60,13 @@ class Sample_Uploader(object):
         samples_dir = dir + "/samples"
         ensure_dir(samples_dir)
         sample_path = samples_dir + "/sample_" + filename
-        sample_path.strip()
-
 
         #print("convert -geometry " + width + "x" + width + " " + path + " " + sample_path)
         os.system("convert -geometry " + width + "x" + width + " " + path + " " + sample_path )
         #print("scp " + sample_path + " " + self.settings['samples_user_host'] + ":" + self.settings['samples_dest_path'])
         os.system("scp " + sample_path + " " + self.settings['samples_user_host'] + ":" + self.settings['samples_dest_path'])
 
-        send_ping(type,"Sample Photo Uploaded: " +path,"OK")
+        send_ping(type,"Sample Photo Uploaded: " +filename,"OK")
         log_latest_photo_path(path,type)
 
 
@@ -91,7 +89,14 @@ def main_loop():
             uploader.upload_by_type('ptz')
 
         if scheduler.is_time_for("alive_ping",settings['alive_ping_interval']):
-            send_ping("pi","Pi Online","OK")
+            send_ping("pi","Internal Scheduler Running","OK")
+
+        if scheduler.is_time_for("disk_check",settings['disk_check_interval']):
+            mb_free = get_mb_free_by_path(get_capture_target_dir())
+            gb_free = mb_free / 1000
+
+
+            send_ping("disk","Disk Free",gb_free)
 
         time.sleep(1)
 

@@ -144,3 +144,9 @@ td, th {
   float:left;
   margin:5px;
 }
+.OK{
+  color:darkgreen;
+}
+.ERROR{
+  color:#660000;
+}

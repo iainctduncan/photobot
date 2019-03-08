@@ -34,7 +34,7 @@ def installations_view(request):
             if subsystem_ping :
                 subsystem_status = subsystem_ping.status
             else:
-                subsystem_status = "N/A"
+                subsystem_status = "?"
 
             ping_dict[subsystem] = subsystem_status
         installs.append( dict(installation=installation, ping_dict=ping_dict))

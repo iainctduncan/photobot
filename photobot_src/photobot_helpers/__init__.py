@@ -15,8 +15,8 @@ def merge_two_dicts(x, y):
     z.update(y)    # modifies z with y's keys and values & returns None
     return z
 def get_phone_home_url():
-    #return "http://127.0.0.1:6543/ping"
-    return "http://photobots.info/ping"
+    return "http://127.0.0.1:6543/ping"
+    #return "http://photobots.info/ping"
 
 def setup_logging(log_filepath, log_level=logging.INFO):
     "setup the python logging structure"
@@ -58,6 +58,7 @@ def get_settings_dict():
     settings['ptz_sample_width'] = 640
 
     settings['alive_ping_interval'] = 500
+    settings['disk_check_interval'] = 20
 
     return settings
 
