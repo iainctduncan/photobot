@@ -9,4 +9,6 @@ def includeme(config):
     config.add_route('installations', '/installations')
     config.add_route('pings', '/pings')
     config.add_route('pings_by_install', '/log/{install}')
-    config.add_route('image_samples', '/image_samples')
+    config.add_route('pings_by_subsystem', '/log/{install}/{subsystem}')
+    config.add_route('image_samples', '/samples')
+    config.add_route('image_samples_by_install', '/samps/{install_id}')

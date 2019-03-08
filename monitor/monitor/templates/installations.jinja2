@@ -3,6 +3,7 @@
 {% block content %}
 <div class="content notifications">
   <h2>Photobot Installations</h2>
+    <p>Click any status column for detailed log on that subsystem</p>
 
   <table class="installations">
     <tr>
@@ -16,6 +17,7 @@
       <th>GB Free</th>
 
       <th>Last Health Check</th>
+      <th>Samples</th>
 
     </tr>
   {% for item in installs %}
@@ -23,12 +25,13 @@
         <td><span><a href="/log/{{item['installation'].uid}}">{{item['installation'].uid}}</a></span></td>
       <td><span >{{item['installation'].name}}</span></td>
       <td><span >{{item['installation'].ip_address}}</span></td>
-      <td><span class="{{item['ping_dict']['pi']}}">{{item['ping_dict']['pi']}}</span></td>
-      <td><span class="{{item['ping_dict']['usb']}}">{{item['ping_dict']['usb']}}</span></td>
-      <td><span class="{{item['ping_dict']['ptz']}}">{{item['ping_dict']['ptz']}}</span></td>
-        <td><span>{{item['ping_dict']['ais']}}</span></td>
-      <td><span>{{item['ping_dict']['disk']}}</span></td>
+        <td class="StatusCell"><a href="/log/{{item['installation'].uid}}/pi"><span class="{{item['ping_dict']['pi']}}">{{item['ping_dict']['pi']}}</span></a></td>
+      <td class="StatusCell"><a href="/log/{{item['installation'].uid}}/usb"><span class="{{item['ping_dict']['usb']}}">{{item['ping_dict']['usb']}}</span></a></td>
+      <td class="StatusCell"><a href="/log/{{item['installation'].uid}}/ptz"><span class="{{item['ping_dict']['ptz']}}">{{item['ping_dict']['ptz']}}</span></a></td>
+        <td class="StatusCell"><a href="/log/{{item['installation'].uid}}/ais"><span class="{{item['ping_dict']['ais']}}">{{item['ping_dict']['ais']}}</span></a></td>
+        <td class="NumberCell"><a href="/log/{{item['installation'].uid}}/disk"><span>{{item['ping_dict']['disk']}}</span></a></td>
         <td><strong>{{item['installation'].last_ping_time}}</strong></td>
+        <td><strong><a href="/samps/{{item['installation'].uid}}">view</a></strong></td>
     </tr>
   {% endfor %}
   </table>

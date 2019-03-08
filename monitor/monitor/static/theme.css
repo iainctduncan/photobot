@@ -150,3 +150,9 @@ td, th {
 .ERROR{
   color:#660000;
 }
+.StatusCell{
+    text-align: center;
+}
+.NumberCell{
+    text-align: right;
+}
