@@ -21,7 +21,7 @@ class ImageSample(object):
 def image_samples_by_install(request):
     install_id = request.matchdict.get('install_id')
     path = request.registry.settings['image_samples_dir']
-    images = os.listdir(path)
+    images = files_by_date(path)
 
     samples = []
 
