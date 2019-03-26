@@ -9,6 +9,10 @@ from ..models import Installation, Ping
 import logging
 log = logging.getLogger(__name__)
 
+def files_by_date(path):
+    mtime = lambda f: os.stat(os.path.join(path, f)).st_mtime
+    return list(sorted(os.listdir(path), key=mtime, reverse=True))
+
 class ImageSample(object):
     def __init__(self,filename):
         self.filename=filename
@@ -40,7 +44,7 @@ def image_samples_by_install(request):
 def image_sample(request):
 
     path = request.registry.settings['image_samples_dir']
-    images = os.listdir(path)
+    images = files_by_date(path)
 
     samples = []
 
