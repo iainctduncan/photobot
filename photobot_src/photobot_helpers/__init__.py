@@ -8,6 +8,24 @@ import sys
 import os
 import string
 from datetime import datetime
+import time
+
+import RPi.GPIO as GPIO
+
+def power_cycle(seconds=5,pin=21):
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(pin, GPIO.OUT)
+    GPIO.output(pin, GPIO.HIGH)
+
+    time.sleep(seconds)
+    GPIO.output(pin, GPIO.LOW)
+
+    time.sleep(second)
+
+    GPIO.output(pin, GPIO.HIGH)
+
+    time.sleep(1)
+    GPIO.cleanup()
 
 
 def merge_two_dicts(x, y):

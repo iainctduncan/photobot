@@ -8,3 +8,4 @@ gps3
 configparser
 scapy
 lanscan
+RPi.GPIO

@@ -96,6 +96,7 @@ if __name__=="__main__":
                 log.info("captured photo: %s" % ext_filepath)
                 log_latest_photo_path(ext_filepath)
             except subprocess.CalledProcessError as exc:
+                power_cycle();
                 error_and_quit("ERROR capturing photo: '%s'" % exc.output,'usb')
 
             # move the file from pi to usb drive
