@@ -20,7 +20,7 @@ def power_cycle(seconds=5,pin=21):
     time.sleep(seconds)
     GPIO.output(pin, GPIO.LOW)
 
-    time.sleep(second)
+    time.sleep(seconds)
 
     GPIO.output(pin, GPIO.HIGH)
 
