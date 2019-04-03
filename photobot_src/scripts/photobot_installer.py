@@ -92,7 +92,7 @@ class PhotobotInstaller(InstallHelper):
     def install_packages(self):
         print("running apt-get update, installing nano, vim, git, gphoto2, gpsd, virtualenv, supervisor ...")
         self.do("apt-get update")
-        self.do("apt-get install nano vim git")
+        self.do("apt-get install -y nano vim git")
 
         print("######################")
         print("Installing Latest Gphoto Software")
@@ -108,6 +108,7 @@ class PhotobotInstaller(InstallHelper):
         self.do("apt-get install -y ntfs-3g")
         self.do("apt-get install -y tcpdump")
         self.do("apt-get install -y nmap")
+        self.do("apt-get install -y python-dev")
 
         #if self.confirm("test gphoto2 to see camera? (plug in camera)"):
         #    self.do("gphoto2 --list-config")

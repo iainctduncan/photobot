@@ -2,3 +2,4 @@ onvif
 requests
 configparser
 RPi.GPIO
+pytz

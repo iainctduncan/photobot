@@ -61,7 +61,11 @@ if __name__=="__main__":
         send_ping("ptz","PTZ disabled","Off")
         sys.exit()
 
-    #send_ping(settings,"Starting PTZ Capture","OK")
+    if is_dark():
+        send_ping("ptz","No photo taken because it is dark", "SLEEP")
+        sys.exit()
+
+    #
 
     # exit if settings file missing items
     for setting_name in required_settings:

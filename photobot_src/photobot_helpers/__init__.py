@@ -9,8 +9,10 @@ import os
 import string
 from datetime import datetime
 import time
+import pytz
 
-import RPi.GPIO as GPIO
+#import RPi.GPIO as GPIO
+from .sunset import *
 
 def power_cycle(seconds=5,pin=21):
     GPIO.setmode(GPIO.BCM)
@@ -19,10 +21,6 @@ def power_cycle(seconds=5,pin=21):
 
     time.sleep(seconds)
     GPIO.output(pin, GPIO.LOW)
-
-    time.sleep(seconds)
-
-    GPIO.output(pin, GPIO.HIGH)
 
     time.sleep(1)
     GPIO.cleanup()
@@ -77,6 +75,8 @@ def get_settings_dict():
 
     settings['alive_ping_interval'] = 500
     settings['disk_check_interval'] = 3600
+
+    settings['timezone'] = 'US/Pacific'
 
     return settings
 
@@ -244,3 +244,23 @@ def get_ptz_ip():
     full_result = os.popen("lanscan scan").read()
     for line in full_result:
         print(line)
+
+def is_dark():
+    settings = get_settings_dict()
+    s = sun(float(settings['minimum_latitude']), float(settings['minimum_longitude']))
+
+    now = datetime.now(pytz.timezone(settings['timezone']))
+
+    print (s.sunset(now))
+
+    if(now.time().hour >12):
+        sunset = s.sunset(now)
+        if now.time() > sunset:
+            return True
+    else:
+        sunrise = s.sunrise(now)
+        if now.time() < sunrise:
+            return True
+
+
+    return False
