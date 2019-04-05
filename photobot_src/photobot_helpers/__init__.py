@@ -11,7 +11,7 @@ from datetime import datetime
 import time
 import pytz
 
-#import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 from .sunset import *
 
 def power_cycle(seconds=5,pin=21):
