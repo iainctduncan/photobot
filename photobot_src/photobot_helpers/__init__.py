@@ -8,11 +8,11 @@ import sys
 import os
 import string
 from datetime import datetime as date_time
-
+import time as timer
 import pytz
 
 from .sunset import *
-#from .power_cycle import power_cycle
+from .power_cycle import power_cycle
 
 
 def merge_two_dicts(x, y):
