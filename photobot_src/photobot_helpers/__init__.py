@@ -7,12 +7,12 @@ import argparse
 import sys
 import os
 import string
-from datetime import datetime
+from datetime import datetime as date_time
 
 import pytz
 
 from .sunset import *
-from .power_cycle import power_cycle
+#from .power_cycle import power_cycle
 
 
 def merge_two_dicts(x, y):
@@ -117,7 +117,7 @@ def error_and_quit(error_msg,subsystem):
 
 def get_photo_filename(installation_id,prefix='capture'):
     "return a filename with date and time, ie: capture_2017-04-02_02-03-12"
-    time_str = str(datetime.now()).split('.')[0].replace(' ','_').replace(':','-')
+    time_str = str(date_time.now()).split('.')[0].replace(' ','_').replace(':','-')
     filename = installation_id+ '_'+prefix + '_%s.jpg' % time_str
 
     return filename
@@ -238,7 +238,7 @@ def is_dark():
     settings = get_settings_dict()
     s = sun(float(settings['minimum_latitude']), float(settings['minimum_longitude']))
 
-    now = datetime.now(pytz.timezone(settings['timezone']))
+    now = date_time.now(pytz.timezone(settings['timezone']))
 
     print (s.sunset(now))
 
