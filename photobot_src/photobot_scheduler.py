@@ -1,6 +1,6 @@
 import subprocess
 from datetime import datetime
-import timer
+import time as timer
 import os
 import sys
 import logging
