@@ -1,6 +1,6 @@
 import subprocess
 from datetime import datetime
-import time
+import timer
 import os
 import sys
 import logging
@@ -24,7 +24,7 @@ class Process_Scheduler(object):
 
         next_run = process_last_run + interval_seconds
 
-        now = time.time()
+        now = timer.time()
 
         if next_run < now:
             self.process_run_log[process_name]=now
@@ -98,7 +98,7 @@ def main_loop():
 
             send_ping("disk","Disk Free",gb_free)
 
-        time.sleep(1)
+        timer.sleep(1)
 
 if __name__=="__main__":
 
