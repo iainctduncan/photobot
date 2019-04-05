@@ -8,22 +8,11 @@ import sys
 import os
 import string
 from datetime import datetime
-import time
+
 import pytz
 
-import RPi.GPIO as GPIO
 from .sunset import *
-
-def power_cycle(seconds=5,pin=21):
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(pin, GPIO.OUT)
-    GPIO.output(pin, GPIO.HIGH)
-
-    time.sleep(seconds)
-    GPIO.output(pin, GPIO.LOW)
-
-    time.sleep(1)
-    GPIO.cleanup()
+from .power_cycle import power_cycle
 
 
 def merge_two_dicts(x, y):
