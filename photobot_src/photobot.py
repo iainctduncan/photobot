@@ -2,7 +2,7 @@
 
 import subprocess
 from datetime import datetime
-import time
+import time as timer
 import sys
 import os
 import argparse
@@ -113,6 +113,6 @@ if __name__=="__main__":
             # delay between photos not necessary here, in the gphoto command
 
         # sleep until next round
-        time.sleep( int(settings['delay_between_rounds']) )
+        timer.sleep( int(settings['delay_between_rounds']) )
 
     send_ping('usb', "Completed USB Photo Run","OK")

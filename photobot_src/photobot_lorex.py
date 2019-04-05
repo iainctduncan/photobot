@@ -11,7 +11,7 @@ TODO/Sort out
 
 import subprocess
 from datetime import datetime
-import time
+import time as timer
 import os
 import sys
 import logging
@@ -111,11 +111,11 @@ if __name__=="__main__":
             #except subprocess.CalledProcessError as exc:
             #    error_and_quit("ERROR moving image: '%s'" % exc.output)
 
-            time.sleep(int(settings['ptz_delay_between_photos']))
+            timer.sleep(int(settings['ptz_delay_between_photos']))
 
         # photo home
 
         # sleep until next round
-        time.sleep( int(settings['ptz_delay_between_rounds']))
+        timer.sleep( int(settings['ptz_delay_between_rounds']))
 
     send_ping('ptz', "Completed PTZ Run", "OK")
