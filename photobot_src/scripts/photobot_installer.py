@@ -225,7 +225,7 @@ class PhotobotInstaller(InstallHelper):
         self.do("sudo /var/photobot/env3/bin/pip install -r /var/photobot/src/requirements3.txt")
 
     def run_configuration_script(self):
-        self.do("")
+        self.do("sudo python /var/photobot/src/scripts/photobot_config.py")
 
     def setup_thermal(self):
         self.do("apt-get install libglib2.0-dev glib-2.0 libxml2-dev ")
