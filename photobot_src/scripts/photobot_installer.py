@@ -229,7 +229,7 @@ class PhotobotInstaller(InstallHelper):
 
     def setup_thermal(self):
         self.do("apt-get install -y libglib2.0-dev glib-2.0 libxml2-dev ")
-        self.do("sudo apt-get upgrade intltool")
+        self.do("sudo apt-get upgrade -y intltool")
         self.do("cp -dpr /var/photobot/repo/3rd_party/aravis-0.4.0 /usr/local/src")
         self.do("cd /usr/local/src/aravis-0.4.0")
         self.do("./configure")
