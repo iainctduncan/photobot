@@ -226,6 +226,22 @@ class PhotobotInstaller(InstallHelper):
 
     def run_configuration_script(self):
         self.do("")
+
+    def setup_thermal(self):
+        self.do("apt-get install libglib2.0-dev glib-2.0 libxml2-dev ")
+        self.do("sudo apt-get upgrade intltool")
+        self.do("cp -dpr /var/photobot/repo/3rd_party/aravis-0.4.0 /usr/local/src")
+        self.do("cd /usr/local/src/aravis-0.4.0")
+        self.do("./configure")
+        self.do("make")
+        self.do("make install")
+        self.do("ldconfig")
+        self.do("sudo timedatectl set-timezone UTC")
+        self.do("cd /var/photobot/repo/3rd_party/flircap")
+        self.do("make")
+        self.do("cp FLIRA65-Capture /usr/local/bin")
+
+
     def setup_ais(self):
         print("Setting up ais directory and initializing database")
         self.mkdir("/mnt/usbstorage/ais")
@@ -306,6 +322,9 @@ class PhotobotInstaller(InstallHelper):
 
         if self.confirm("Create ais directory, initialize ais db, and prepare gpsd?"):
             self.setup_ais()
+
+        if self.confirm("Set up a Thermal Camera (FLIR A65)"):
+            self.setup_thermal()
 
         if self.confirm("Set ownership of touched files to user pi?"):
             self.chown_files()
