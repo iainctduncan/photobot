@@ -12,7 +12,7 @@ from photobot_helpers import *
 class Process_Scheduler(object):
 
     def __init__(self):
-        self.process_run_log = {'usb_upload': 0, 'alive_ping': 0, 'ptz_upload':0, 'disk_check':0 }
+        self.process_run_log = {'usb_upload': 0, 'alive_ping': 0, 'ptz_upload':0, 'disk_check':0, 'thermal_capture':0 }
 
     def is_running(self):
         return True
@@ -97,6 +97,9 @@ def main_loop():
 
 
             send_ping("disk","Disk Free",gb_free)
+
+        if scheduler.is_time_for("thermal_capture", settings['thermal_capture_interval']):
+            capture_thermal_image()
 
         timer.sleep(1)
 

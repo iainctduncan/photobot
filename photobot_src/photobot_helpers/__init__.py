@@ -13,7 +13,7 @@ import pytz
 
 from .sunset import *
 from .power_cycle import power_cycle
-
+import subprocess
 
 def merge_two_dicts(x, y):
     z = x.copy()   # start with x's keys and values
@@ -66,6 +66,12 @@ def get_settings_dict():
     settings['disk_check_interval'] = 3600
 
     settings['timezone'] = 'US/Pacific'
+
+    if 'thermal_delay_between_photos' not in settings:
+        settings['thermal_delay_between_photos'] = 60
+
+    if 'enable_thermal_camera' not in settings:
+        settings['enable_thermal_camera'] = 0
 
     return settings
 
@@ -253,3 +259,17 @@ def is_dark():
 
 
     return False
+
+def capture_thermal_image():
+
+    target = get_capture_target_dir()
+    os.chdir(target)
+    photo_command="FLIRA65-Capture"
+
+    log = get_logger()
+
+    try:
+        output = subprocess.check_output(photo_command, stderr=subprocess.STDOUT, shell=True, universal_newlines=True)
+        log.info("captured thermal photo")
+    except subprocess.CalledProcessError as exc:
+        error_and_quit("ERROR capturing photo: '%s'" % exc.output, 'thermal')
