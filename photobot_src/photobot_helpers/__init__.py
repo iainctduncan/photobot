@@ -262,11 +262,15 @@ def is_dark():
 
 def capture_thermal_image():
 
+    log = get_logger()
+    settings = get_settings_dict()
+    if settings['enable_thermal_camera'] == '0':
+        log.info("Thermal Camera is disabled. Exiting")
+        send_ping("usb", "USB disabled", "Off")
+
     target = get_capture_target_dir()
     os.chdir(target)
     photo_command="FLIRA65-Capture"
-
-    log = get_logger()
 
     try:
         output = subprocess.check_output(photo_command, stderr=subprocess.STDOUT, shell=True, universal_newlines=True)

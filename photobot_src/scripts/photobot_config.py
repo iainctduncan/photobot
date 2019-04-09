@@ -78,7 +78,7 @@ class PhotobotConfigurator(InstallHelper):
         self.config_dir = "/var/photobot/config/"
 
         self.subquestion_order = {
-            "enable_ptz_camera":[
+            "enable_ptz_camera": [
                 "ptz_host",
                 "ptz_port",
                 "ptz_user",
@@ -89,13 +89,13 @@ class PhotobotConfigurator(InstallHelper):
                 "ptz_delay_between_rounds",
                 "ptz_delay_between_photos"
             ],
-            "enable_usb_camera":[
+            "enable_usb_camera": [
                 "photos_per_round",
                 "number_of_rounds",
                 "delay_between_rounds",
                 "delay_between_photos"
             ],
-            "enable_ais_receiver":[
+            "enable_ais_receiver": [
                 "db_url",
                 "minimum_latitude",
                 "minimum_longitude",
@@ -141,7 +141,7 @@ class PhotobotConfigurator(InstallHelper):
                 "ptz_delay_between_rounds": 5,
                 "ptz_delay_between_photos": 3,
             },
-            "enable_ptz_camera": {
+            "enable_thermal_camera": {
                 "thermal_delay_between_photos":60
             },
             "enable_ais_receiver": {
