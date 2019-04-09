@@ -292,4 +292,5 @@ def capture_thermal_image():
         log_latest_photo_path(target,"thermal")
     else:
         send_ping("thermal", "ERROR capturing photo (process hung)","ERROR")
+        log.info("thermal capture failed (process hung)")
         #error_and_quit("ERROR capturing photo (process hung)", 'thermal')
