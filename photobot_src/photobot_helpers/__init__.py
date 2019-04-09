@@ -285,7 +285,6 @@ def capture_thermal_image():
 
     log.info("starting thermal photo capture")
     if popen_timeout(photo_command,10):
-        output = subprocess.check_output(photo_command, stderr=subprocess.STDOUT, shell=True, universal_newlines=True)
         log.info("completed thermal photo capture")
         send_ping("thermal","Captured Thermal Image")
         latest_image_path = target + "/latest.png"
