@@ -98,7 +98,7 @@ def main_loop():
 
             send_ping("disk","Disk Free",gb_free)
 
-        if scheduler.is_time_for("thermal_capture", settings['thermal_capture_interval']):
+        if scheduler.is_time_for("thermal_capture", settings['thermal_delay_between_photos']):
             capture_thermal_image()
 
         timer.sleep(1)
