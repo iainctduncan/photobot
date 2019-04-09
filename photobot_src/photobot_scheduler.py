@@ -19,7 +19,7 @@ class Process_Scheduler(object):
 
     def is_time_for(self,process_name,interval):
 
-        interval_seconds = interval
+        interval_seconds = int(interval)
         process_last_run = self.process_run_log[process_name]
 
         next_run = process_last_run + interval_seconds
