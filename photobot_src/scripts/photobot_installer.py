@@ -228,16 +228,17 @@ class PhotobotInstaller(InstallHelper):
         self.do("sudo python /var/photobot/src/scripts/photobot_config.py")
 
     def setup_thermal(self):
+        self.do("apt-get update")
         self.do("apt-get install -y libglib2.0-dev glib-2.0 libxml2-dev ")
         self.do("sudo apt-get upgrade -y intltool")
         self.do("cp -dpr /var/photobot/repo/3rd_party/aravis-0.4.0 /usr/local/src")
-        self.do("cd /usr/local/src/aravis-0.4.0")
+        os.chdir("/usr/local/src/aravis-0.4.0")
         self.do("./configure")
         self.do("make")
         self.do("make install")
         self.do("ldconfig")
         self.do("sudo timedatectl set-timezone UTC")
-        self.do("cd /var/photobot/repo/3rd_party/flircap")
+        os.chdir("/var/photobot/repo/3rd_party/flircap")
         self.do("make")
         self.do("cp FLIRA65-Capture /usr/local/bin")
 
