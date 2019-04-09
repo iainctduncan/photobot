@@ -59,6 +59,7 @@ def get_settings_dict():
 
     settings['usb_upload_interval'] = 3600
     settings['ptz_upload_interval'] = 3600
+    settings['thermal_upload_interval'] = 3600
 
     settings['usb_sample_width'] = 640
     settings['ptz_sample_width'] = 640
