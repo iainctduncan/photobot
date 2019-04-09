@@ -14,6 +14,7 @@ import pytz
 from .sunset import *
 from .power_cycle import power_cycle
 import subprocess
+from subprocess import Popen, PIPE
 
 def merge_two_dicts(x, y):
     z = x.copy()   # start with x's keys and values
@@ -260,6 +261,15 @@ def is_dark():
 
     return False
 
+def popen_timeout(command, timeout):
+    p = Popen(command, stdout=PIPE, stderr=PIPE)
+    for t in xrange(timeout):
+        timer.sleep(1)
+        if p.poll() is not None:
+            return p.communicate()
+    p.kill()
+    return False
+
 def capture_thermal_image():
 
     log = get_logger()
@@ -273,12 +283,12 @@ def capture_thermal_image():
     os.chdir(target)
     photo_command="FLIRA65-Capture"
 
-    try:
-        log.info("starting thermal photo capture")
+    log.info("starting thermal photo capture")
+    if popen_timeout(photo_command,10):
         output = subprocess.check_output(photo_command, stderr=subprocess.STDOUT, shell=True, universal_newlines=True)
         log.info("completed thermal photo capture")
         send_ping("thermal","Captured Thermal Image")
         latest_image_path = target + "/latest.png"
         log_latest_photo_path(target,"thermal")
-    except subprocess.CalledProcessError as exc:
-        error_and_quit("ERROR capturing photo: '%s'" % exc.output, 'thermal')
+    else:
+        error_and_quit("ERROR capturing photo (process hung)", 'thermal')
