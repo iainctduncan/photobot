@@ -264,16 +264,21 @@ def capture_thermal_image():
 
     log = get_logger()
     settings = get_settings_dict()
+
     if settings['enable_thermal_camera'] == '0':
         log.info("Thermal Camera is disabled. Exiting")
-        send_ping("usb", "USB disabled", "Off")
+        send_ping("thermal", "Thermal disabled", "Off")
 
     target = get_capture_target_dir()
     os.chdir(target)
     photo_command="FLIRA65-Capture"
 
     try:
+        log.info("starting thermal photo capture")
         output = subprocess.check_output(photo_command, stderr=subprocess.STDOUT, shell=True, universal_newlines=True)
-        log.info("captured thermal photo")
+        log.info("completed thermal photo capture")
+        send_ping("thermal","Captured Thermal Image")
+        latest_image_path = target + "/latest.png"
+        log_latest_photo_path(target,"thermal")
     except subprocess.CalledProcessError as exc:
         error_and_quit("ERROR capturing photo: '%s'" % exc.output, 'thermal')

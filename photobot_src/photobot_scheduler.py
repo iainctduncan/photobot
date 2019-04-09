@@ -12,7 +12,7 @@ from photobot_helpers import *
 class Process_Scheduler(object):
 
     def __init__(self):
-        self.process_run_log = {'usb_upload': 0, 'alive_ping': 0, 'ptz_upload':0, 'disk_check':0, 'thermal_capture':0 }
+        self.process_run_log = {'usb_upload': 0, 'alive_ping': 0, 'ptz_upload':0,'thermal_upload':0, 'disk_check':0, 'thermal_capture':0 }
 
     def is_running(self):
         return True
@@ -54,8 +54,6 @@ class Sample_Uploader(object):
             print("already sent")
             return
 
-
-
         dir, filename = os.path.split(path)
         samples_dir = dir + "/samples"
         ensure_dir(samples_dir)
@@ -82,11 +80,17 @@ def main_loop():
 
     while scheduler.is_running():
 
+        if scheduler.is_time_for("thermal_capture", settings['thermal_delay_between_photos']):
+            capture_thermal_image()
+
         if scheduler.is_time_for("usb_upload",settings['usb_upload_interval']):
             uploader.upload_by_type('usb')
 
         if scheduler.is_time_for("ptz_upload", settings['ptz_upload_interval']):
             uploader.upload_by_type('ptz')
+
+        if scheduler.is_time_for("thermal_upload", settings['thermal_upload_interval']):
+            uploader.upload_by_type('thermal')
 
         if scheduler.is_time_for("alive_ping",settings['alive_ping_interval']):
             send_ping("pi","Internal Scheduler Running","OK")
@@ -95,11 +99,9 @@ def main_loop():
             mb_free = get_mb_free_by_path(get_capture_target_dir())
             gb_free = mb_free / 1000
 
-
             send_ping("disk","Disk Free",gb_free)
 
-        if scheduler.is_time_for("thermal_capture", settings['thermal_delay_between_photos']):
-            capture_thermal_image()
+
 
         timer.sleep(1)
 
