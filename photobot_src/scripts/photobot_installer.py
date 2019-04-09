@@ -233,14 +233,14 @@ class PhotobotInstaller(InstallHelper):
         self.do("sudo apt-get upgrade -y intltool")
         self.do("cp -dpr /var/photobot/repo/3rd_party/aravis-0.4.0 /usr/local/src")
         os.chdir("/usr/local/src/aravis-0.4.0")
-        self.do("./configure")
-        self.do("make")
-        self.do("make install")
-        self.do("ldconfig")
+        self.do("sudo ./configure")
+        self.do("sudo make")
+        self.do("sudo make install")
+        self.do("sudo ldconfig")
         self.do("sudo timedatectl set-timezone UTC")
         os.chdir("/var/photobot/repo/3rd_party/flircap")
-        self.do("make")
-        self.do("cp FLIRA65-Capture /usr/local/bin")
+        self.do("sudo make")
+        self.do("sudo cp FLIRA65-Capture /usr/local/bin")
 
 
     def setup_ais(self):
