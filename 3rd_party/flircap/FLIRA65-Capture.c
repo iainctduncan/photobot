@@ -33,8 +33,8 @@ static char * arv_option_save_prefix = "";
 // ICTD: set pixelformal and save type here
 static char * arv_option_save_type = "png";
 //static char * arv_option_save_type = "raw";
-//static int arv_option_pixel_format = 8;
-static int arv_option_pixel_format = 14;
+static int arv_option_pixel_format = 8;
+//static int arv_option_pixel_format = 14;
 
 static int arv_option_sample_period = 0;
 
