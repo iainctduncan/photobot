@@ -129,7 +129,7 @@ def error_and_quit(error_msg,subsystem):
 def get_photo_filename(installation_id,prefix='capture',extension='jpg'):
     "return a filename with date and time, ie: capture_2017-04-02_02-03-12"
     time_str = str(date_time.now()).split('.')[0].replace(' ','_').replace(':','-')
-    filename = installation_id+ '_'+prefix + '_%s.' + extension % time_str
+    filename = installation_id+ '_'+prefix + '_' + time_str + '.' + extension
 
     return filename
 
