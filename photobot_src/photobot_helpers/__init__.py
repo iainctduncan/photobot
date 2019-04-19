@@ -291,7 +291,7 @@ def capture_thermal_image():
     if popen_timeout(photo_command,8):
         log.info("completed thermal photo capture")
         send_ping("thermal","Captured Thermal Image")
-        latest_image_path = os.os.path.abspath(os.readlink(target + "/latest.png"))
+        latest_image_path = os.path.abspath(os.readlink(target + "/latest.png"))
         final_path = target + "/" + get_photo_filename(settings['installation_id'],'thermal')
         os.rename(latest_image_path,final_path)
         log_latest_photo_path(final_path,"thermal")
