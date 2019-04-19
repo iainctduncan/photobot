@@ -60,7 +60,11 @@ class Sample_Uploader(object):
         sample_path = samples_dir + "/sample_" + filename
 
         #print("convert -geometry " + width + "x" + width + " " + path + " " + sample_path)
-        os.system("convert -geometry " + width + "x" + width + " " + path + " " + sample_path )
+        if width != '0':
+            os.system("convert -geometry " + width + "x" + width + " " + path + " " + sample_path )
+        else:
+            os.system("cp " + path + " " + sample_path)
+
         #print("scp " + sample_path + " " + self.settings['samples_user_host'] + ":" + self.settings['samples_dest_path'])
         os.system("scp " + sample_path + " " + self.settings['samples_user_host'] + ":" + self.settings['samples_dest_path'])
 
@@ -89,8 +93,8 @@ def main_loop():
         if scheduler.is_time_for("ptz_upload", settings['ptz_upload_interval']):
             uploader.upload_by_type('ptz')
 
-        #if scheduler.is_time_for("thermal_upload", settings['thermal_upload_interval']):
-         #   uploader.upload_by_type('thermal')
+        if scheduler.is_time_for("thermal_upload", settings['thermal_upload_interval']):
+            uploader.upload_by_type('thermal')
 
         if scheduler.is_time_for("alive_ping",settings['alive_ping_interval']):
             send_ping("pi","Internal Scheduler Running","OK")

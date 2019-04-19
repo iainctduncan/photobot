@@ -63,6 +63,7 @@ def get_settings_dict():
 
     settings['usb_sample_width'] = 640
     settings['ptz_sample_width'] = 640
+    settings['thermal_sample_width'] = 0
 
     settings['alive_ping_interval'] = 500
     settings['disk_check_interval'] = 3600
@@ -74,6 +75,8 @@ def get_settings_dict():
 
     if 'enable_thermal_camera' not in settings:
         settings['enable_thermal_camera'] = 0
+
+
 
     return settings
 
@@ -283,13 +286,15 @@ def capture_thermal_image():
     target = get_capture_target_dir()
     os.chdir(target)
     photo_command="FLIRA65-Capture"
-
     log.info("starting thermal photo capture")
+
     if popen_timeout(photo_command,10):
         log.info("completed thermal photo capture")
         send_ping("thermal","Captured Thermal Image")
-        latest_image_path = target + "/latest.png"
-        log_latest_photo_path(target,"thermal")
+        latest_image_path = os.readlink(target + "/latest.png")
+        final_title = target + "/" + get_photo_filename(settings['installation_id'],'thermal')
+        os.rename(latest_image_path,final_title)
+        log_latest_photo_path(latest_image_path,"thermal")
     else:
         send_ping("thermal", "ERROR capturing photo (process hung)","ERROR")
         log.info("thermal capture failed (process hung)")
