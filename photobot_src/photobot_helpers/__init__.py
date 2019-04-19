@@ -126,10 +126,10 @@ def error_and_quit(error_msg,subsystem):
     send_ping(subsystem,error_msg, "ERROR")
     sys.exit()
 
-def get_photo_filename(installation_id,prefix='capture'):
+def get_photo_filename(installation_id,prefix='capture',extension='jpg'):
     "return a filename with date and time, ie: capture_2017-04-02_02-03-12"
     time_str = str(date_time.now()).split('.')[0].replace(' ','_').replace(':','-')
-    filename = installation_id+ '_'+prefix + '_%s.jpg' % time_str
+    filename = installation_id+ '_'+prefix + '_%s.' + extension % time_str
 
     return filename
 
@@ -292,7 +292,7 @@ def capture_thermal_image():
         log.info("completed thermal photo capture")
         send_ping("thermal","Captured Thermal Image")
         latest_image_path = os.path.abspath(os.readlink(target + "/latest.png"))
-        final_path = target + "/" + get_photo_filename(settings['installation_id'],'thermal')
+        final_path = target + "/" + get_photo_filename(settings['installation_id'],'thermal','png')
         os.rename(latest_image_path,final_path)
         log_latest_photo_path(final_path,"thermal")
     else:
