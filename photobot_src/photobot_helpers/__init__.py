@@ -288,7 +288,7 @@ def capture_thermal_image():
     photo_command="FLIRA65-Capture"
     log.info("starting thermal photo capture")
 
-    if popen_timeout(photo_command,10):
+    if popen_timeout(photo_command,8):
         log.info("completed thermal photo capture")
         send_ping("thermal","Captured Thermal Image")
         latest_image_path = os.os.path.abspath(os.readlink(target + "/latest.png"))
