@@ -4,7 +4,7 @@ import argparse
 from configparser import ConfigParser
 import os
 import sys
-import time
+import time as timer
 import json
 from gps3 import agps3
 
@@ -70,13 +70,13 @@ def main():
     log.info(settings['enable_ais_receiver'])
     if settings['enable_ais_receiver'] == '0':
         send_ping("ais", "AIS disabled", "Off")
-        time.sleep(100000)
+        timer.sleep(100000)
         sys.exit()
 
     send_ping('ais',"AIS process started",'OK')
 
     # wait for five seconds to let gpsd settle down
-    time.sleep(5)
+    timer.sleep(5)
 
     # connect to the gpsd server
     # TODO: do the right thing if gpsd not on or can't connect 
@@ -96,7 +96,7 @@ def main():
                 pass
     else:
 
-        time.sleep(.001)
+        timer.sleep(.001)
 
 
 
