@@ -282,6 +282,7 @@ def capture_thermal_image():
     if settings['enable_thermal_camera'] == '0':
         log.info("Thermal Camera is disabled. Exiting")
         send_ping("thermal", "Thermal disabled", "Off")
+        return;
 
     target = get_capture_target_dir()
     os.chdir(target)

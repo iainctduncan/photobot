@@ -1,6 +1,11 @@
 Misc AIS hacking note:
 https://publiclab.org/notes/ajawitz/06-11-2015/raspberry-pi-as-marine-traffic-radar
 http://blog.videgro.net/2015/12/raspberry-pi-automatic-identification-system-ais-receiver/
+http://www.catb.org/gpsd/troubleshooting.html
+
+Required hack 2019
+Nev had to use the -F optoin and provide a socket file in the GPSD start command to get it going.
+IE: gpsd -N -n -F /var/run/gpsd.sock /dev/ttyACM0
 
 NMEA decoding library:
 http://nmea.sourceforge.net/
