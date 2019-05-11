@@ -223,7 +223,7 @@ def get_mb_free_by_path(path):
         mb_free = int(full_result.splitlines()[1])
     except:
         mb_free=-1
-        
+
     return mb_free
 
 def log_latest_photo_path(path,type='usb'):
