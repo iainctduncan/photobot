@@ -47,8 +47,16 @@ def get_settings_dict():
         '--settings',
         help='Path to settings INI file for Lorex photobot',
         required=True)
+
+    argparser.add_argument(
+        '--send_high_res_sample',
+        help='Set this option to take a single photo and upload a full-res sample',
+        required=False)
+
+
     options = argparser.parse_args()
     settings_file = options.settings
+    high_res_mode = options.send_high_res_sample
 
     config = ConfigParser()
     config.read(settings_file)
@@ -61,8 +69,14 @@ def get_settings_dict():
     settings['ptz_upload_interval'] = 3600
     settings['thermal_upload_interval'] = 3600
 
-    settings['usb_sample_width'] = 640
-    settings['ptz_sample_width'] = 640
+    if high_res_mode:
+        settings['usb_sample_width'] = 0
+        settings['high_res_sample_mode'] = True
+    else:
+        settings['usb_sample_width'] = 800
+
+    settings['usb_sample_width'] = 800
+    settings['ptz_sample_width'] = 800
     settings['thermal_sample_width'] = 0
 
     settings['alive_ping_interval'] = 500

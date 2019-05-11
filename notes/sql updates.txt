@@ -1,0 +1,6 @@
+/*running the following should speed things up:*/
+
+create index install_sub on ping(installation_id,subsystem);
+create index subsystem_index on ping(subsystem);
+alter table ping change subsystem subsystem varchar(20);
+create index pingtime on ping (datetime);

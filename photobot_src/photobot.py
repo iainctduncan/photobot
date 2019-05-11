@@ -9,6 +9,7 @@ import argparse
 from configparser import ConfigParser
 
 from photobot_helpers import *
+from photobot_helpers.sample_uploader import *
 
 
 # settings that must be present in the ini file
@@ -101,6 +102,10 @@ if __name__=="__main__":
                     size = os.path.getsize(ext_filepath)
                     if size > 0:
                         log_latest_photo_path(ext_filepath)
+                        if settings['high_res_sample_mode']:
+                            uploader = Sample_Uploader()
+                            uploader.settings = settings
+                            uploader.upload_by_type('usb')
                     else:
                         power_cycle()
                         error_and_quit("Captured Photo Image " + ext_filepath + " has zero filesize", 'usb')

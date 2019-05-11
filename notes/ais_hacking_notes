@@ -20,8 +20,6 @@ TODO:
   aisnet+ adapter from a java app, that can run on linux. But we don't have the +
 
 
-
-
 GPSD:
 - linux daemon and tools for receiving data from GPS and AIS machines
   - need to find out if it can work with digital yacht aisnet
