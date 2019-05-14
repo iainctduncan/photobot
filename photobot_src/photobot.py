@@ -107,12 +107,13 @@ if __name__=="__main__":
                             uploader = Sample_Uploader()
                             uploader.settings = settings
                             uploader.upload_by_type('usb')
+                            sys.exit()
                     else:
                         power_cycle()
                         error_and_quit("Captured Photo Image " + ext_filepath + " has zero filesize", 'usb')
                 except Exception as err:
                     power_cycle()
-                    error_and_quit("Captured Photo Image " + ext_filepath + " does not exist " + err, 'usb')
+                    error_and_quit("Captured Photo Image " + ext_filepath + " does not exist ", 'usb')
 
             except subprocess.CalledProcessError as exc:
                 power_cycle()
