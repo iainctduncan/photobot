@@ -100,6 +100,7 @@ if __name__=="__main__":
                 log.info("captured photo: %s" % ext_filepath)
                 try:
                     size = os.path.getsize(ext_filepath)
+                    log.info("file size is %s",size)
                     if size > 0:
                         log_latest_photo_path(ext_filepath)
                         if settings['high_res_sample_mode']:
@@ -109,9 +110,9 @@ if __name__=="__main__":
                     else:
                         power_cycle()
                         error_and_quit("Captured Photo Image " + ext_filepath + " has zero filesize", 'usb')
-                except:
+                except Exception as err:
                     power_cycle()
-                    error_and_quit("Captured Photo Image " + ext_filepath + " does not exist", 'usb')
+                    error_and_quit("Captured Photo Image " + ext_filepath + " does not exist " + err, 'usb')
 
             except subprocess.CalledProcessError as exc:
                 power_cycle()
