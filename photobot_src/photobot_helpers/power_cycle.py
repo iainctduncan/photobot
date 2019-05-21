@@ -2,6 +2,7 @@ import RPi.GPIO as GPIO
 import time
 
 def power_cycle(seconds=5,pin=21):
+
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(pin, GPIO.OUT)
     GPIO.output(pin, GPIO.HIGH)

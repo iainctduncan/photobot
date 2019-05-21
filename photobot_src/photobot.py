@@ -109,13 +109,16 @@ if __name__=="__main__":
                             uploader.upload_by_type('usb')
                             sys.exit()
                     else:
+                        log.info('powering camera off and on')
                         power_cycle()
                         error_and_quit("Captured Photo Image " + ext_filepath + " has zero filesize", 'usb')
                 except Exception as err:
+                    log.info('powering camera off and on')
                     power_cycle()
                     error_and_quit("Captured Photo Image " + ext_filepath + " does not exist ", 'usb')
 
             except subprocess.CalledProcessError as exc:
+                log.info('powering camera off and on')
                 power_cycle()
                 error_and_quit("ERROR capturing photo: '%s'" % exc.output,'usb')
 
