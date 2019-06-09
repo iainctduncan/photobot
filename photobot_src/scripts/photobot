@@ -11,7 +11,7 @@ case $1 in
     usbrun)
         /var/photobot/env2/bin/python /var/photobot/src/photobot.py --settings /var/photobot/config/photobot.ini --send_high_res_sample 1
         ;;
-    usbrun)
+    ptzrun)
         /var/photobot/env2/bin/python /var/photobot/src/photobot_lorex.py --settings /var/photobot/config/photobot.ini --send_high_res_sample 1
         ;;
     sample)
