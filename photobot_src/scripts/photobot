@@ -1,0 +1,35 @@
+#!/bin/bash
+case $1 in
+    configure)
+        echo "config"
+        ;;
+    update)
+        echo "Updating Source"
+        cd /var/photobot/repo
+        git pull
+        ;;
+    usbrun)
+        /var/photobot/env2/bin/python /var/photobot/src/photobot.py --settings /var/photobot/config/photobot.ini --send_high_res_sample 1
+        ;;
+    usbrun)
+        /var/photobot/env2/bin/python /var/photobot/src/photobot_lorex.py --settings /var/photobot/config/photobot.ini --send_high_res_sample 1
+        ;;
+    sample)
+        /var/photobot/env2/bin/python /var/photobot/src/photobot.py --settings /var/photobot/config/photobot.ini --send_high_res_sample 1
+        ;;
+    *)
+        echo "
+        Command not found. Available commands are:
+
+        sample - Take a sample image with the USB camera and upload it to the monitoring panel
+        update - Update the source code to the latest version from the git repository
+        configure - Run configuration script - WARNING WILL OVERWRITE CURRENT SETTINGS
+        edit - Edit photobot.ini file using nano text editor
+        usbrun - run a normal photo run with the usb camera
+        ptzrun - run a normal run with the PTZ camera
+        ais - run the AIS process and show output
+        powercycle - test the power cycle (toggle relay state for 5 seconds)
+
+        "
+        ;;
+esac
