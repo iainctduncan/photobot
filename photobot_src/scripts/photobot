@@ -1,10 +1,10 @@
 #!/bin/bash
 case $1 in
     configure)
-        python /var/photobot/src/photobot_config.py
+        python /var/photobot/src/scripts/photobot_config.py
         ;;
     install)
-        python /var/photobot/src/photobot_installer.py
+        python /var/photobot/src/scripts/photobot_installer.py
         ;;
     update)
         echo "Updating Source"
