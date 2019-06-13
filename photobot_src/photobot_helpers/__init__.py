@@ -298,7 +298,7 @@ def capture_thermal_image():
     log = get_logger()
     settings = get_settings_dict()
 
-    if settings['enable_thermal_camera'] == '0':
+    if str(settings['enable_thermal_camera']) =='0':
         log.info("Thermal Camera is disabled. Exiting")
         send_ping("thermal", "Thermal disabled", "Off")
         return;

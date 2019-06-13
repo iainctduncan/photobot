@@ -253,6 +253,12 @@ class PhotobotInstaller(InstallHelper):
         self.do("systemctl stop gpsd.socket")
         self.do("systemctl disable gpsd.socket")
 
+    def install_photobot_command(self):
+        print("Installing photobot command script")
+        self.do("chmod +x /var/photobot/src/scripts/photobot")
+        self.do("/bin/cp -f /var/photobot/src/scripts/photobot /usr/bin")
+
+
     def chown_files(self):
         print("Setting ownership for all photobot files and /mnt/usbstorage to pi:pi")
         self.do("chown -R pi:pi /var/photobot")
@@ -291,6 +297,9 @@ class PhotobotInstaller(InstallHelper):
 
         if self.confirm("Create python environments?"):
             self.setup_python_envs()
+
+        if self.confirm("Install Command Script?"):
+            self.install_photobot_command()
 
         if self.confirm("Install Lanscan Script?"):
             self.setup_lanscan_script()
