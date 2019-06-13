@@ -297,7 +297,7 @@ class PhotobotInstaller(InstallHelper):
 
         if self.confirm("Create python environments?"):
             self.setup_python_envs()
-a
+
         if self.confirm("Install Command Script?"):
             self.install_photobot_command()
 
