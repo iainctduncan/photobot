@@ -1,7 +1,10 @@
 #!/bin/bash
 case $1 in
     configure)
-        echo "config"
+        python /var/photobot/src/photobot_config.py
+        ;;
+    install)
+        python /var/photobot/src/photobot_installer.py
         ;;
     update)
         echo "Updating Source"
@@ -24,6 +27,7 @@ case $1 in
         sample - Take a sample image with the USB camera and upload it to the monitoring panel
         update - Update the source code to the latest version from the git repository
         configure - Run configuration script - WARNING WILL OVERWRITE CURRENT SETTINGS
+        install - Re-Run installation script. Usefull for setting up new systems etc.
         edit - Edit photobot.ini file using nano text editor
         usbrun - run a normal photo run with the usb camera
         ptzrun - run a normal run with the PTZ camera
