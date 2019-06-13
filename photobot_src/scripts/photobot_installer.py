@@ -255,8 +255,8 @@ class PhotobotInstaller(InstallHelper):
 
     def install_photobot_command(self):
         print("Installing photobot command script")
-        self.do("chmod +x /var/photobot/src/scripts/photobot")
         self.do("/bin/cp -f /var/photobot/src/scripts/photobot /usr/bin")
+        self.do("chmod +x /usr/bin/photobot")
 
 
     def chown_files(self):
@@ -297,7 +297,7 @@ class PhotobotInstaller(InstallHelper):
 
         if self.confirm("Create python environments?"):
             self.setup_python_envs()
-
+a
         if self.confirm("Install Command Script?"):
             self.install_photobot_command()
 
