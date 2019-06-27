@@ -47,6 +47,8 @@ To run a PTZ capture session use the command:
 
 ## Thermal Camera
 We have successfully captured thermal images using a Flir A65 thermal camera. The installer script installs and compiles a custom C program for capturing thermal images.
+Thermal captures happen at regular intervals defined in the configuration file and are saved to the standard captures dir. Sample thermal captures are uploaded to the monitor panel aswell.
+
 
 
 ## AIS Receiver
