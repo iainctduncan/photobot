@@ -1,7 +1,7 @@
 # System Overview
 This outlines the basic overview of how the 'Photobot' software and hardware works. 
 
-###R epository Structure
+### Repository Structure
 This software repository is split into two main folders:
 photobot_src - which contains all the code which runs on the Pi
 and
