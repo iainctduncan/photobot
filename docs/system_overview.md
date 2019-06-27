@@ -1,13 +1,13 @@
-#System Overview
+# System Overview
 This outlines the basic overview of how the 'Photobot' software and hardware works. 
 
-###Repository Structure
+###R epository Structure
 This software repository is split into two main folders:
 photobot_src - which contains all the code which runs on the Pi
 and
 monitor - which contains all the software that runs on a remote server that the photobots check in with.
 
-##Photobot Control Script
+## Photobot Control Script
 To make controling the functions of a photobot easy, we have created a simple commandline interface to run the most common commands you will need for building and testing photobots.
 Once you have finished [installing the photobot software](installation_manual.md) you should be able to SSH in to your bot and run the command:
 `photobot` 
@@ -57,7 +57,7 @@ A set of coordinates in the configuration file determine if the information is l
 To test AIS functionality, and see the raw data it is receiving run:
 `photobot ais`
 
-##Power Control Relay
+## Power Control Relay
 To deal with the need to power cycle frozen cameras we use a power control relay that allows the software to turn the camera off and on again.
 We use [this relay](https://www.amazon.ca/Iot-Relay-Enclosed-High-power-Raspberry/dp/B00WV7GMA2/ref=sr_1_fkmr1_1?keywords=pi+power+control+relay+power+bar&qid=1561664063&s=gateway&sr=8-1-fkmr1) connected with [wires like this](https://www.amazon.ca/Premium-Breadboard-Jumper-100-Pack-Hellotronics/dp/B07H7YMGS4/ref=sr_1_5?crid=1K8GXJCS2N8JI&keywords=jumper+wire&qid=1561664227&s=industrial&sprefix=jumper+%2Cindustrial%2C201&sr=1-5)
 Note, that you may want to use longer wires depending on where you can place the Pi and the relay in your case. 
@@ -76,7 +76,7 @@ To test if your replay is working, plug a lamp, or other electrical device into 
 `photobot powercycle`
 This should cause the device to turn on for 5 seconds and then turn off.
 
-#Configuration
+# Configuration
 All configuration values are stored in an ini file at /var/photobot/config/photobot.ini -  There is an interactive configuration script available to write data into that file.
 ssh into the pi and run:
 `photobot configure`
