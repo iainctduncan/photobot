@@ -27,7 +27,7 @@ case $1 in
         /var/photobot/env3/bin/python /var/photobot/src/ais_receiver.py --settings /var/photobot/config/photobot.ini
         ;;
     thermal)
-        FLIRA65-Capture
+        /var/photobot/env2/bin/python /var/photobot/src/thermal_sample.py --settings /var/photobot/config/photobot.ini
         ;;
     *)
         echo "
@@ -43,7 +43,7 @@ case $1 in
         ptzrun - run a normal run with the PTZ camera
         ais - run the AIS process and show output
         powercycle - test the power cycle (toggle relay state for 5 seconds)
-        thermal - take a thermal photo.
+        thermal - take a thermal photo and upload sample
 
         "
         ;;
