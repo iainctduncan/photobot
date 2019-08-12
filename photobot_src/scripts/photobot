@@ -1,7 +1,7 @@
 #!/bin/bash
 case $1 in
     configure)
-        python /var/photobot/src/scripts/photobot_config.py
+        python /var/photobot/src/scripts/photobot_config.py --settings /var/photobot/config/photobot.ini
         ;;
     install)
         python /var/photobot/src/scripts/photobot_installer.py
@@ -26,9 +26,13 @@ case $1 in
     ais)
         /var/photobot/env3/bin/python /var/photobot/src/ais_receiver.py --settings /var/photobot/config/photobot.ini
         ;;
+    thermal)
+        FLIRA65-Capture
+        ;;
     *)
         echo "
-        Command not found. Available commands are:
+        -------Photobot Command Script--------
+        Available commands are:
 
         sample - Take a sample image with the USB camera and upload it to the monitoring panel
         update - Update the source code to the latest version from the git repository
@@ -39,6 +43,7 @@ case $1 in
         ptzrun - run a normal run with the PTZ camera
         ais - run the AIS process and show output
         powercycle - test the power cycle (toggle relay state for 5 seconds)
+        thermal - take a thermal photo.
 
         "
         ;;

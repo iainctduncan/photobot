@@ -6,8 +6,34 @@ import sys
 import os
 import logging
 import argparse
+import argparse
+from configparser import ConfigParser
 from string import Template
+
 import uuid
+
+def get_existing_settings_dict():
+    # register the process identifier utility for multiprocess logging
+    argparser = argparse.ArgumentParser()
+    argparser.add_argument(
+        '--settings',
+        help='Path to settings INI file for Lorex photobot',
+        required=True)
+
+    argparser.add_argument(
+        '--send_high_res_sample',
+        help='Set this option to take a single photo and upload a full-res sample',
+        required=False)
+
+
+    options = argparser.parse_args()
+    settings_file = options.settings
+    high_res_mode = options.send_high_res_sample
+
+    config = ConfigParser()
+    config.read(settings_file)
+    settings = dict(config.items('app:main'))
+    return settings
 
 def get_pi_cpu_serial():
   # Extract serial from cpuinfo file
@@ -103,7 +129,8 @@ class PhotobotConfigurator(InstallHelper):
                 "maximum_longitude"
             ],
             "enable_thermal_camera": [
-                "thermal_delay_between_photos"
+                "thermal_delay_between_photos",
+                "thermal_sync_to_usb"
             ]
 
         }
@@ -111,6 +138,7 @@ class PhotobotConfigurator(InstallHelper):
             "installation_id",
             "photobot_name",
             "capture_dir",
+            "sunset_extension_minutes",
             "enable_usb_camera",
             "enable_ptz_camera",
             "enable_thermal_camera",
@@ -122,6 +150,7 @@ class PhotobotConfigurator(InstallHelper):
             "installation_id": "",
             "photobot_name": "",
             "capture_dir": "/var/captures",
+            "sunset_extension_minutes": 60,
 
             "enable_usb_camera": {
                 "photos_per_round": 3,
@@ -142,14 +171,15 @@ class PhotobotConfigurator(InstallHelper):
                 "ptz_delay_between_photos": 3,
             },
             "enable_thermal_camera": {
-                "thermal_delay_between_photos":60
+                "thermal_delay_between_photos": 60,
+                "thermal_sync_to_usb": 1
             },
             "enable_ais_receiver": {
                 "db_url": "sqlite:////mnt/usbstorage/ais/ais_receiver.db",
-                "minimum_latitude": 48.8,
-                "minimum_longitude": -123.37,
-                "maximum_latitude": 48.9,
-                "maximum_longitude": -123.25
+                "minimum_latitude": 48,
+                "minimum_longitude": -124,
+                "maximum_latitude": 49,
+                "maximum_longitude": -122
             }
 
         }
@@ -171,6 +201,7 @@ class PhotobotConfigurator(InstallHelper):
         filein = open(self.config_template_path)
         # read it
         src = Template(filein.read())
+        #for values_dict
         result = src.substitute(values_dict)
         print (result)
         self.mkdir(self.config_dir)
@@ -180,9 +211,17 @@ class PhotobotConfigurator(InstallHelper):
         config_out.write(result)
 
     def ask_for_configurations(self):
+        settings = get_existing_settings_dict()
         print ("Choose Configuration Values. Just hit enter to use the default (if provided) ")
         for question in self.question_order:
-            default = self.defaults[question]
+            current_config = settings.get(question,None)
+            current_default = self.defaults[question]
+
+            if current_config and type(current_default) is not dict:
+                default = current_config
+            else:
+                default = current_default
+
             self.ask_for_configuration(question,default)
 
     def ask_for_configuration(self,key,default):
@@ -190,12 +229,20 @@ class PhotobotConfigurator(InstallHelper):
 
         if type(default) is dict:
             response_val = raw_input(key + " y/n : ")
+            settings = get_existing_settings_dict()
 
             if response_val == 'y':
                 self.final_values[key] = 1
                 sub_order = self.subquestion_order[key]
                 for sub_question in sub_order:
-                    sub_default =self.defaults[key][sub_question]
+
+                    current_config = settings.get(sub_question, None)
+
+                    if current_config:
+                        sub_default = current_config
+                    else:
+                        sub_default = self.defaults[key][sub_question]
+
                     self.ask_for_configuration(sub_question,sub_default)
                 return
 
@@ -230,6 +277,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--dry-run', action="store_true", help="print commands but don't run them")
     parser.add_argument('--wpa-file', help="alternate networking file to patch")
+    parser.add_argument('--settings', help="settings file name")
     args = parser.parse_args()
 
     installer = PhotobotConfigurator(args)
