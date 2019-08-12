@@ -31,7 +31,9 @@ def image_samples_by_install(request):
 
         sample = ImageSample(image)
 
-        if install_id in image:
+        install_string = install_id + '_'
+
+        if install_string in image:
             samples.append(sample)
             image_count = image_count + 1
             if image_count > image_limit:

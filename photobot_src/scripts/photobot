@@ -1,7 +1,7 @@
 #!/bin/bash
 case $1 in
     configure)
-        python /var/photobot/src/scripts/photobot_config.py --settings /var/photobot/config/photobot.ini
+        /var/photobot/env2/bin/python /var/photobot/src/scripts/photobot_config.py --settings /var/photobot/config/photobot.ini
         ;;
     install)
         python /var/photobot/src/scripts/photobot_installer.py
