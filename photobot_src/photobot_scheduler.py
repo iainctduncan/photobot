@@ -48,7 +48,8 @@ def main_loop():
     while scheduler.is_running():
 
         if scheduler.is_time_for("thermal_capture", settings['thermal_delay_between_photos']):
-            capture_thermal_image()
+            if is_dark() or not settings.get('thermal_sync_to_usb',None):
+                capture_thermal_image()
 
         if scheduler.is_time_for("usb_upload",settings['usb_upload_interval']):
             uploader.upload_by_type('usb')
