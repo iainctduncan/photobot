@@ -36,7 +36,7 @@ case $1 in
 
         sample - Take a sample image with the USB camera and upload it to the monitoring panel
         update - Update the source code to the latest version from the git repository
-        configure - Run configuration script - WARNING WILL OVERWRITE CURRENT SETTINGS
+        configure - Run configuration script.
         install - Re-Run installation script. Useful for setting up new components, updating software etc.
         edit - Edit photobot.ini file using nano text editor
         usbrun - run a normal photo run with the usb camera
