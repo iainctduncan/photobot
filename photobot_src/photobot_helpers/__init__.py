@@ -8,10 +8,12 @@ import sys
 import os
 import string
 from datetime import datetime as date_time
+from datetime import timedelta
 import time as timer
 import pytz
 
 from .sunset import *
+
 from .power_cycle import power_cycle
 import subprocess
 from subprocess import Popen, PIPE
@@ -289,17 +291,19 @@ def is_dark():
 
     sunset_extension_minutes = int(settings.get('sunset_extension_minutes',0))
 
-    sunset_extension_seconds = 3600 * sunset_extension_minutes
+    #sunset_extension_seconds = 3600 * sunset_extension_minutes
 
     print (s.sunset(now))
 
     if(now.time().hour >12):
         sunset = s.sunset(now)
-        if now.time() > (sunset + sunset_extension_seconds):
+        sunset_adjusted = sunset + timedelta(minutes=sunset_extension_minutes)
+        if now.time() > (sunset_adjusted):
             return True
     else:
         sunrise = s.sunrise(now)
-        if (now.time() + sunset_extension_seconds) < sunrise:
+        sunrise_adjusted = sunrise - timedelta(minutes=sunset_extension_minutes)
+        if now.time()  < sunrise_adjusted:
             return True
 
 
