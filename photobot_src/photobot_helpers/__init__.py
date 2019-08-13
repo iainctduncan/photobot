@@ -291,19 +291,17 @@ def is_dark():
 
     sunset_extension_minutes = int(settings.get('sunset_extension_minutes',0))
 
-    #sunset_extension_seconds = 3600 * sunset_extension_minutes
+    sunset_extension_seconds = 3600 * sunset_extension_minutes
 
     print (s.sunset(now))
 
     if(now.time().hour >12):
         sunset = s.sunset(now)
-        sunset_adjusted = (sunset + timedelta(minutes=sunset_extension_minutes)).time()
-        if now.time() > (sunset_adjusted):
+        if now.time() > (sunset.time() + sunset_extension_seconds):
             return True
     else:
         sunrise = s.sunrise(now)
-        sunrise_adjusted = (sunrise - timedelta(minutes=sunset_extension_minutes)).time()
-        if now.time() < sunrise_adjusted:
+        if (now.time() + sunset_extension_seconds) < sunrise.time():
             return True
 
 
