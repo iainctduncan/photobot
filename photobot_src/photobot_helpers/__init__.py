@@ -316,7 +316,7 @@ def capture_thermal_image():
         os.rename(latest_image_path,final_path)
         rotation_degrees = str(settings.get('thermal_rotation_degrees',180))
         if rotation_degrees:
-            os.system("mogrify -rotate" + rotation_degrees + " " + final_path)
+            os.system("mogrify -rotate " + rotation_degrees + " " + final_path)
         log_latest_photo_path(final_path,"thermal")
     else:
         send_ping("thermal", "ERROR capturing photo (process hung)","ERROR")
