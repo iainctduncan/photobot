@@ -271,6 +271,7 @@ class PhotobotInstaller(InstallHelper):
     def setup_photo_sample_uploads(self):
         print("This will set up SSH-keys to allow connection to the samples account on the monitor sever. You will need to type the password once now to authorize future connections.")
         self.do("apt-get install imagemagick")
+        self.do("ssh-keygen -f '/root/.ssh/known_hosts' -R photobots.info")
         self.do("sudo -H -u root bash -c 'ssh-keygen'")
         self.do("sudo -H -u root bash -c 'ssh-copy-id samples@photobots.info'")
     # main install process
