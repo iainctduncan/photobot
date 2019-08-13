@@ -297,13 +297,13 @@ def is_dark():
 
     if(now.time().hour >12):
         sunset = s.sunset(now)
-        sunset_adjusted = sunset + timedelta(minutes=sunset_extension_minutes)
+        sunset_adjusted = (sunset + timedelta(minutes=sunset_extension_minutes)).time()
         if now.time() > (sunset_adjusted):
             return True
     else:
         sunrise = s.sunrise(now)
-        sunrise_adjusted = sunrise - timedelta(minutes=sunset_extension_minutes)
-        if now.time()  < sunrise_adjusted:
+        sunrise_adjusted = (sunrise - timedelta(minutes=sunset_extension_minutes)).time()
+        if now.time() < sunrise_adjusted:
             return True
 
 
