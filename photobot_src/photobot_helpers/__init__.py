@@ -283,25 +283,38 @@ def get_ptz_ip():
     for line in full_result:
         print(line)
 
+def add_seconds_to_time(tm, secs):
+    fulldate = datetime(100, 1, 1, tm.hour, tm.minute, tm.second)
+    fulldate = fulldate + timedelta(seconds=secs)
+    return fulldate.time()
+
 def is_dark():
     settings = get_settings_dict()
     s = sun(float(settings['minimum_latitude']), float(settings['minimum_longitude']))
 
     now = date_time.now(pytz.timezone(settings['timezone']))
 
-    sunset_extension_minutes = int(settings.get('sunset_extension_minutes',0))
+    sunset_extension_minutes = int(settings.get('sunset_extension_minutes',40))
 
-    sunset_extension_seconds = 3600 * sunset_extension_minutes
+    sunset_extension_seconds = 60 * sunset_extension_minutes
+    ##print(sunset_extension_seconds)
 
-    print (s.sunset(now))
+    #print (s.sunset(now))
 
     if(now.time().hour >12):
+
         sunset = s.sunset(now)
-        if now.time() > sunset:
+        sunset_adjusted = add_seconds_to_time(sunset,sunset_extension_seconds)
+
+        #sunset_timestamp = timer.mktime(sunset)
+        #print (sunset_timestamp)
+        if now.time() > sunset_adjusted:
             return True
     else:
         sunrise = s.sunrise(now)
-        if now.time() < sunrise:
+        sunrise_adjusted = add_seconds_to_time(sunrise, (-1 * sunset_extension_seconds))
+
+        if now.time() < sunrise_adjusted:
             return True
 
 
