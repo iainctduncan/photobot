@@ -294,7 +294,7 @@ def is_dark():
 
     now = date_time.now(pytz.timezone(settings['timezone']))
 
-    sunset_extension_minutes = int(settings.get('sunset_extension_minutes',40))
+    sunset_extension_minutes = int(settings.get('sunset_extension_minutes',45))
 
     sunset_extension_seconds = 60 * sunset_extension_minutes
     ##print(sunset_extension_seconds)
