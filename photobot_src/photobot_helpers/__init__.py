@@ -270,15 +270,19 @@ def is_dark():
 
     now = date_time.now(pytz.timezone(settings['timezone']))
 
+    sunset_extension_minutes = settings.get('sunset_extension_minutes',0)
+
+    sunset_extension_seconds = 3600 * sunset_extension_minutes
+
     print (s.sunset(now))
 
     if(now.time().hour >12):
         sunset = s.sunset(now)
-        if now.time() > sunset:
+        if now.time() > (sunset + sunset_extension_seconds):
             return True
     else:
         sunrise = s.sunrise(now)
-        if now.time() < sunrise:
+        if (now.time() + sunset_extension_seconds) < sunrise:
             return True
 
 

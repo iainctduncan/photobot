@@ -130,7 +130,9 @@ class PhotobotConfigurator(InstallHelper):
             ],
             "enable_thermal_camera": [
                 "thermal_delay_between_photos",
-                "thermal_sync_to_usb"
+                "thermal_sync_to_usb",
+                "thermal_rotation_degrees",
+
             ]
 
         }
@@ -172,7 +174,8 @@ class PhotobotConfigurator(InstallHelper):
             },
             "enable_thermal_camera": {
                 "thermal_delay_between_photos": 60,
-                "thermal_sync_to_usb": 1
+                "thermal_sync_to_usb": 1,
+                "thermal_rotation_degrees": 180
             },
             "enable_ais_receiver": {
                 "db_url": "sqlite:////mnt/usbstorage/ais/ais_receiver.db",
