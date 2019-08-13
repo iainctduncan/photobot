@@ -167,7 +167,8 @@ def get_usb_storage_path():
     return "/mnt/usbstorage"
 
 def get_usb_drive_dev_address():
-    return "/dev/sda1"
+    settings = get_settings_dict()
+    return settings.get("drive_dev_address","/dev/sda1")
 
 def mount_drive(drive_path,dev_address='/dev/sda1'):
 
@@ -194,9 +195,24 @@ def notify_drive_full(drive_path):
 
     error_and_quit("Drive: " + drive_path + " is full ","disk")
 
+def notify_drive_readonly(drive_path):
+
+    error_and_quit("Drive: " + drive_path + " is read only ","disk")
+
 def notify_drive_unmountable(drive_path):
 
     error_and_quit("Drive: " + drive_path + " could not be mounted","disk")
+def test_if_writeable(path):
+    filepath = path + "/writetest.txt"
+
+    try:
+        filehandle = open(filepath, 'w')
+
+    except IOError:
+        notify_drive_readonly(path)
+        return False
+
+    return True
 
 def get_capture_target_dir():
     drive_path = get_usb_storage_path()
@@ -205,6 +221,7 @@ def get_capture_target_dir():
         free_space = get_mb_free_by_path(drive_path)
         #print("free space is: "+str(free_space) + "MB")
         if free_space > 100:
+            test_if_writeable(drive_path)
             return drive_path + "/captures"
         else:
             clean_tmp_files()
@@ -270,7 +287,7 @@ def is_dark():
 
     now = date_time.now(pytz.timezone(settings['timezone']))
 
-    sunset_extension_minutes = settings.get('sunset_extension_minutes',0)
+    sunset_extension_minutes = int(settings.get('sunset_extension_minutes',0))
 
     sunset_extension_seconds = 3600 * sunset_extension_minutes
 

@@ -140,6 +140,7 @@ class PhotobotConfigurator(InstallHelper):
             "installation_id",
             "photobot_name",
             "capture_dir",
+            "drive_dev_address",
             "sunset_extension_minutes",
             "enable_usb_camera",
             "enable_ptz_camera",
@@ -153,6 +154,7 @@ class PhotobotConfigurator(InstallHelper):
             "photobot_name": "",
             "capture_dir": "/var/captures",
             "sunset_extension_minutes": 60,
+            "drive_dev_address": "/dev/sda1",
 
             "enable_usb_camera": {
                 "photos_per_round": 3,
