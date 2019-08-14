@@ -12,3 +12,4 @@ def includeme(config):
     config.add_route('pings_by_subsystem', '/log/{install}/{subsystem}')
     config.add_route('image_samples', '/samples')
     config.add_route('image_samples_by_install', '/samps/{install_id}')
+    config.add_route('cleanup', '/cleanup')

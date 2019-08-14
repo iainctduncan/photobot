@@ -1,6 +1,6 @@
 from pyramid.response import Response
 from pyramid.view import view_config
-
+import transaction
 from sqlalchemy.exc import DBAPIError
 
 from ..models import Installation, Ping, Notification
@@ -26,6 +26,10 @@ def installations_view(request):
             installation.last_ping_time = last_ping.datetime
         else:
             installation.last_ping_time = "N/A"
+            #with transaction.manager as tx:
+            #    request.dbsession.execute("delete from installation where id = " + str(installation.id))
+            #    tx.commit()
+            #request.dbsession.commit()
 
         for subsystem in subsystems:
 
