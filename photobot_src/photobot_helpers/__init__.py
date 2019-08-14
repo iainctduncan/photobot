@@ -172,7 +172,10 @@ def get_usb_drive_dev_address():
     settings = get_settings_dict()
     return settings.get("drive_dev_address","/dev/sda1")
 
-def mount_drive(drive_path,dev_address='/dev/sda1'):
+def mount_drive(drive_path):
+
+
+    dev_address = get_usb_drive_dev_address()
 
     if drive_is_mounted(drive_path):
         return True
