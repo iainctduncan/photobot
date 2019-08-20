@@ -353,9 +353,7 @@ def capture_thermal_image():
         latest_image_path = os.path.abspath(os.readlink(target + "/latest.png"))
         final_path = target + "/" + get_photo_filename(settings['installation_id'],'thermal','png')
 
-        size = os.path.getsize(latest_image_path)
-
-        if size>0 :
+        if os.path.exists(latest_image_path):
             os.rename(latest_image_path,final_path)
             rotation_degrees = str(settings.get('thermal_rotation_degrees', 180))
             log_latest_photo_path(final_path, "thermal")
