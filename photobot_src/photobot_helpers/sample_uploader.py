@@ -40,4 +40,3 @@ class Sample_Uploader(object):
 
         send_ping(type,"Sample Photo Uploaded: " +filename,"OK")
         log_latest_photo_path(path,type)
-

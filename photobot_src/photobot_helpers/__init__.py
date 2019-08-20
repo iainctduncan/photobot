@@ -359,10 +359,16 @@ def capture_thermal_image():
             rotation_degrees = str(settings.get('thermal_rotation_degrees', 180))
             log_latest_photo_path(final_path, "thermal")
             send_ping("thermal", "Captured Thermal Image")
+
             if rotation_degrees:
-                os.system("mogrify -rotate " + rotation_degrees + " " + final_path)
+
+                #rotation degrees could also be 'flip' for vertical flip or 'flop' for horizontal flip
+                if str.isdigit(rotation_degrees):
+                    os.system("mogrify -rotate " + rotation_degrees + " " + final_path)
+                else:
+                    os.system("mogrify -" + rotation_degrees + " " + final_path)
         else:
-            send_ping("thermal", "Thermal Image " + latest_image_path +" did not exist","ERROR")
+            send_ping("thermal", "Error Capturing Photo - Could not connect to camera","ERROR")
 
 
 
