@@ -348,15 +348,17 @@ def capture_thermal_image():
     log.info("starting thermal photo capture")
 
     if popen_timeout(photo_command,4):
-        log.info("completed thermal photo capture")
-        send_ping("thermal","Captured Thermal Image")
+
+
         latest_image_path = os.path.abspath(os.readlink(target + "/latest.png"))
         final_path = target + "/" + get_photo_filename(settings['installation_id'],'thermal','png')
 
         if os.path.exists(latest_image_path):
+            log.info("completed thermal photo capture")
             os.rename(latest_image_path,final_path)
             rotation_degrees = str(settings.get('thermal_rotation_degrees', 180))
             log_latest_photo_path(final_path, "thermal")
+            send_ping("thermal", "Captured Thermal Image")
             if rotation_degrees:
                 os.system("mogrify -rotate " + rotation_degrees + " " + final_path)
         else:
