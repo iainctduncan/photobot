@@ -352,11 +352,20 @@ def capture_thermal_image():
         send_ping("thermal","Captured Thermal Image")
         latest_image_path = os.path.abspath(os.readlink(target + "/latest.png"))
         final_path = target + "/" + get_photo_filename(settings['installation_id'],'thermal','png')
-        os.rename(latest_image_path,final_path)
-        rotation_degrees = str(settings.get('thermal_rotation_degrees',180))
-        if rotation_degrees:
-            os.system("mogrify -rotate " + rotation_degrees + " " + final_path)
-        log_latest_photo_path(final_path,"thermal")
+
+        size = os.path.getsize(latest_image_path)
+
+        if size>0 :
+            os.rename(latest_image_path,final_path)
+            rotation_degrees = str(settings.get('thermal_rotation_degrees', 180))
+            log_latest_photo_path(final_path, "thermal")
+            if rotation_degrees:
+                os.system("mogrify -rotate " + rotation_degrees + " " + final_path)
+        else:
+            send_ping("thermal", "Thermal Image " + latest_image_path +" did not exist","ERROR")
+
+
+
     else:
         send_ping("thermal", "ERROR capturing photo (process hung)","ERROR")
         log.info("thermal capture failed (process hung)")
