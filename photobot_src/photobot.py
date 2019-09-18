@@ -98,7 +98,7 @@ if __name__=="__main__":
             try: 
                 output = subprocess.check_output(photo_command, stderr=subprocess.STDOUT, shell=True, universal_newlines=True)
                 log.info("captured photo: %s" % ext_filepath)
-                if settings.get('thermal_sync_to_usb',None):
+                if settings.get('enable_thermal_camera', None) and settings.get('thermal_sync_to_usb', None):
                     capture_thermal_image()
                 try:
                     size = os.path.getsize(ext_filepath)
