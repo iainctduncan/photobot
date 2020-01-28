@@ -10,3 +10,4 @@ scapy
 lanscan
 RPi.GPIO
 pytz
+onvif_zeep

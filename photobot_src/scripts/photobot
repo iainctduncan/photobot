@@ -1,7 +1,7 @@
 #!/bin/bash
 case $1 in
     configure)
-        /var/photobot/env2/bin/python /var/photobot/src/scripts/photobot_config.py --settings /var/photobot/config/photobot.ini
+        /var/photobot/env3/bin/python /var/photobot/src/scripts/photobot_config.py --settings /var/photobot/config/photobot.ini
         ;;
     install)
         python /var/photobot/src/scripts/photobot_installer.py
@@ -12,22 +12,22 @@ case $1 in
         git pull
         ;;
     usbrun)
-        /var/photobot/env2/bin/python /var/photobot/src/photobot.py --settings /var/photobot/config/photobot.ini
+        /var/photobot/env3/bin/python /var/photobot/src/photobot.py --settings /var/photobot/config/photobot.ini
         ;;
     ptzrun)
-        /var/photobot/env2/bin/python /var/photobot/src/photobot_lorex.py --settings /var/photobot/config/photobot.ini
+        /var/photobot/env3/bin/python /var/photobot/src/photobot_lorex.py --settings /var/photobot/config/photobot.ini
         ;;
     sample)
-        /var/photobot/env2/bin/python /var/photobot/src/photobot.py --settings /var/photobot/config/photobot.ini --send_high_res_sample 1
+        /var/photobot/env3/bin/python /var/photobot/src/photobot.py --settings /var/photobot/config/photobot.ini --send_high_res_sample 1
         ;;
     powercycle)
-        /var/photobot/env2/bin/python /var/photobot/src/powercycle.py --settings /var/photobot/config/photobot.ini
+        /var/photobot/env3/bin/python /var/photobot/src/powercycle.py --settings /var/photobot/config/photobot.ini
         ;;
     ais)
         /var/photobot/env3/bin/python /var/photobot/src/ais_receiver.py --settings /var/photobot/config/photobot.ini
         ;;
     thermal)
-        /var/photobot/env2/bin/python /var/photobot/src/thermal_sample.py --settings /var/photobot/config/photobot.ini
+        /var/photobot/env3/bin/python /var/photobot/src/thermal_sample.py --settings /var/photobot/config/photobot.ini
         ;;
     *)
         echo "
