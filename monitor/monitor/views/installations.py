@@ -44,8 +44,3 @@ def installations_view(request):
         installs.append( dict(installation=installation, ping_dict=ping_dict))
 
     return dict(installs=installs)
-
-
-
-
-
