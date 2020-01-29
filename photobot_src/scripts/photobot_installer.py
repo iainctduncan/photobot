@@ -199,11 +199,11 @@ class PhotobotInstaller(InstallHelper):
         if not self.enable_gphoto:
             gphoto_comment = "\n# uncomment to enable USB (GPHOTO) camera \n#"
         patch = (
-            "\n@reboot root /var/photobot/env2/bin/python /var/photobot/src/photobot_reboot.py --settings /var/photobot/config/photobot.ini "
+            "\n@reboot root /var/photobot/env3/bin/python /var/photobot/src/photobot_reboot.py --settings /var/photobot/config/photobot.ini "
 
-            "" +gphoto_comment+"* * * * * root /var/photobot/env2/bin/python /var/photobot/src/photobot.py --settings /var/photobot/config/photobot.ini"
+            "" +gphoto_comment+"* * * * * root /var/photobot/env3/bin/python /var/photobot/src/photobot.py --settings /var/photobot/config/photobot.ini"
 
-            "" +lorex_comment+"* * * * * root /var/photobot/env2/bin/python /var/photobot/src/photobot_lorex.py --settings /var/photobot/config/photobot.ini\n\n")
+            "" +lorex_comment+"* * * * * root /var/photobot/env3/bin/python /var/photobot/src/photobot_lorex.py --settings /var/photobot/config/photobot.ini\n\n")
         if self.confirm("patching %s with patch: '%s'\n?" % (self.cron_file, patch) ):
             if not self.args.dry_run:
                 with open(self.cron_file, "a") as cron_file:
@@ -219,8 +219,8 @@ class PhotobotInstaller(InstallHelper):
 
     def setup_python_envs(self):
         print("Creating python 2 and 3 virtualenvs, and installing dependencies")
-        self.do("virtualenv -p python2 /var/photobot/env2")
-        self.do("/var/photobot/env2/bin/pip install -r /var/photobot/src/requirements2.txt")
+        ##self.do("virtualenv -p python2 /var/photobot/env2")
+        ##self.do("/var/photobot/env2/bin/pip install -r /var/photobot/src/requirements2.txt")
         self.do("virtualenv -p python3 /var/photobot/env3")
         self.do("sudo /var/photobot/env3/bin/pip install -r /var/photobot/src/requirements3.txt")
 
