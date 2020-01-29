@@ -218,7 +218,7 @@ class PhotobotInstaller(InstallHelper):
         self.do("supervisorctl update")
 
     def setup_python_envs(self):
-        print("Creating python 2 and 3 virtualenvs, and installing dependencies")
+        print("Creating python 3 virtualenvs, and installing dependencies")
         ##self.do("virtualenv -p python2 /var/photobot/env2")
         ##self.do("/var/photobot/env2/bin/pip install -r /var/photobot/src/requirements2.txt")
         self.do("virtualenv -p python3 /var/photobot/env3")
