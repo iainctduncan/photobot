@@ -1,10 +1,10 @@
-import zeep
-from onvif import ONVIFCamera, ONVIFService
+# following lines were used for trying to work on python 3, which proved unsuccessful
+#import zeep
+#from onvif import ONVIFCamera, ONVIFService
+#def zeep_pythonvalue(self, xmlvalue):
+#    return xmlvalue
 
-def zeep_pythonvalue(self, xmlvalue):
-    return xmlvalue
-
-zeep.xsd.simple.AnySimpleType.pythonvalue = zeep_pythonvalue
+#zeep.xsd.simple.AnySimpleType.pythonvalue = zeep_pythonvalue
 
 import requests
 from requests.auth import HTTPDigestAuth
@@ -14,6 +14,7 @@ from datetime import datetime
 import logging
 log = logging.getLogger(__name__)
 import pdb
+from onvif import ONVIFCamera
 
 class LorexCam(object):
 
