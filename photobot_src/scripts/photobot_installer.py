@@ -225,7 +225,7 @@ class PhotobotInstaller(InstallHelper):
         self.do("sudo /var/photobot/env3/bin/pip install -r /var/photobot/src/requirements3.txt")
 
     def run_configuration_script(self):
-        self.do("sudo var/photobot/env3/bin/python /var/photobot/src/scripts/photobot_config.py --settings /var/photobot/config/photobot.ini")
+        self.do("sudo /var/photobot/env3/bin/python /var/photobot/src/scripts/photobot_config.py --settings /var/photobot/config/photobot.ini")
 
     def setup_thermal(self):
         self.do("apt-get update")
