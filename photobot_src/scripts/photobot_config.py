@@ -30,9 +30,14 @@ def get_existing_settings_dict():
     settings_file = options.settings
     high_res_mode = options.send_high_res_sample
 
-    config = ConfigParser()
-    config.read(settings_file)
-    settings = dict(config.items('app:main'))
+
+    if(os.path.isfile(settings_file)):
+        config = ConfigParser()
+        config.read(settings_file)
+        settings = dict(config.items('app:main'))
+    else:
+        settings = dict()
+
     return settings
 
 def get_pi_cpu_serial():
@@ -241,6 +246,7 @@ class PhotobotConfigurator(InstallHelper):
                 sub_order = self.subquestion_order[key]
                 for sub_question in sub_order:
 
+                    #if(len(settings)):
                     current_config = settings.get(sub_question, None)
 
                     if current_config:
