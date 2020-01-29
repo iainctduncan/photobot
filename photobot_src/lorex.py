@@ -1,4 +1,11 @@
-from onvif import ONVIFCamera
+import zeep
+from onvif import ONVIFCamera, ONVIFService
+
+def zeep_pythonvalue(self, xmlvalue):
+    return xmlvalue
+
+zeep.xsd.simple.AnySimpleType.pythonvalue = zeep_pythonvalue
+
 import requests
 from requests.auth import HTTPDigestAuth
 import shutil
