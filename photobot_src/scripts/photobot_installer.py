@@ -109,6 +109,8 @@ class PhotobotInstaller(InstallHelper):
         self.do("apt-get install -y tcpdump")
         self.do("apt-get install -y nmap")
         self.do("apt-get install -y python-dev")
+        # needed to make the onvif_zeep library work
+        self.do("apt-get install -y libxslt-dev")
 
         #if self.confirm("test gphoto2 to see camera? (plug in camera)"):
         #    self.do("gphoto2 --list-config")
@@ -345,7 +347,7 @@ class PhotobotInstaller(InstallHelper):
 
         print("\nSetup Complete. You will need to run the configruation script\n")
         print("To set/adjust configuration Run:")
-        print("sudo python /var/photobot/src/scripts/photobot_config.py")
+        print("photobot configure")
 
 
 if __name__=="__main__":
