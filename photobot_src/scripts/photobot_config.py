@@ -82,10 +82,11 @@ class InstallHelper(object):
         "ask user for confirmation to do task, returns result as boolean"
         while True:
             if allow_no:
-                res = raw_input("%s y/n/x >> " % question)
+                res = input(question + "\n y/n/x >> ")
             else:
-                res = raw_input("%s y/x >> " % question)
+                rres = input(question + "\n y/x >> ")
 
+            #print(res)
             if res.lower() == 'x':
                 print("\nEXITING")
                 self.exit()
@@ -238,7 +239,7 @@ class PhotobotConfigurator(InstallHelper):
 
 
         if type(default) is dict:
-            response_val = raw_input(key + " y/n : ")
+            response_val = input(key + " y/n : ")
             settings = get_existing_settings_dict()
 
             if response_val == 'y':
@@ -271,7 +272,7 @@ class PhotobotConfigurator(InstallHelper):
         else:
             default = str(default)
 
-        response_val = raw_input(key + " [" + default + "]: ")
+        response_val = input(key + " [" + default + "]: ")
 
         if response_val == '':
             response_val = default
