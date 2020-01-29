@@ -68,7 +68,7 @@ if __name__=="__main__":
             kill_command = "kill -9 %s" % last_pid
             output = subprocess.check_output(kill_command, stderr=subprocess.STDOUT, shell=True, universal_newlines=True) 
             log.info("killed previous process: %i" % last_pid)
-    except Exception, e:
+    except Exception as e:
         # previous process did not hang, do nothing
         pass 
 
