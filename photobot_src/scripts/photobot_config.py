@@ -117,14 +117,16 @@ class PhotobotConfigurator(InstallHelper):
                 "ptz_password",
                 "wsdl_dir",
                 "ptz_photos_per_round",
-                "ptz_number_of_rounds",
-                "ptz_delay_between_rounds",
-                "ptz_delay_between_photos"
+                #"ptz_number_of_rounds",
+                #"ptz_delay_between_rounds",
+                "ptz_delay_between_photos",
+                "ptz_seconds_between_starts"
             ],
             "enable_usb_camera": [
                 "photos_per_round",
-                "number_of_rounds",
-                "delay_between_rounds",
+                #"number_of_rounds",
+                #"delay_between_rounds",
+                "usb_seconds_between_starts",
                 "delay_between_photos"
             ],
             "enable_ais_receiver": [
@@ -163,9 +165,10 @@ class PhotobotConfigurator(InstallHelper):
             "drive_dev_address": "/dev/sda1",
 
             "enable_usb_camera": {
+                "usb_seconds_between_starts": 60,
                 "photos_per_round": 3,
-                "number_of_rounds": 1,
-                "delay_between_rounds": 5,
+                #"number_of_rounds": 1,
+                #"delay_between_rounds": 5,
                 "delay_between_photos": 3,
             },
 
@@ -175,10 +178,12 @@ class PhotobotConfigurator(InstallHelper):
                 "ptz_user": "admin",
                 "ptz_password": "admin",
                 "wsdl_dir": "/var/photobot/env2/wsdl",
+                "ptz_seconds_between_starts": 60,
                 "ptz_photos_per_round": 3,
-                "ptz_number_of_rounds": 1,
-                "ptz_delay_between_rounds": 5,
+                #"ptz_number_of_rounds": 1,
+                #"ptz_delay_between_rounds": 5,
                 "ptz_delay_between_photos": 3,
+
             },
             "enable_thermal_camera": {
                 "thermal_delay_between_photos": 60,

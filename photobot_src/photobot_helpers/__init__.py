@@ -90,10 +90,20 @@ def get_settings_dict():
     if 'thermal_delay_between_photos' not in settings:
         settings['thermal_delay_between_photos'] = 60
 
+    if 'usb_seconds_between_starts' not in settings:
+        settings['usb_seconds_between_starts'] = 60
+
+    if 'ptz_seconds_between_starts' not in settings:
+        settings['ptz_seconds_between_starts'] = 60
+
     if 'enable_thermal_camera' not in settings:
         settings['enable_thermal_camera'] = 0
 
-
+    # Set old default values to prevent breaking. Shouldn't really be used.
+    settings["ptz_number_of_rounds"] = 1
+    settings["ptz_delay_between_rounds"] = 5
+    settings["number_of_rounds"] = 1
+    settings["delay_between_rounds"] = 5
 
     return settings
 
