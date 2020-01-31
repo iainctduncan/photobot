@@ -49,10 +49,10 @@ def main_loop():
     while scheduler.is_running():
 
         if scheduler.is_time_for("usb_run",settings['usb_seconds_between_starts']):
-            subprocess.Popen(["/var/photobot/env3/bin/python", "/var/photobot/src/photobot.py", "--settings /var/photobot/config/photobot.ini"])
+            subprocess.Popen(["/var/photobot/env3/bin/python", "/var/photobot/src/photobot.py --settings /var/photobot/config/photobot.ini"])
 
         if scheduler.is_time_for("ptz_run",settings['ptz_seconds_between_starts']):
-            subprocess.Popen(["/var/photobot/env2/bin/python", "/var/photobot/src/photobot_lorex.py", "--settings /var/photobot/config/photobot.ini"])
+            subprocess.Popen(["/var/photobot/env2/bin/python", "/var/photobot/src/photobot_lorex.py --settings /var/photobot/config/photobot.ini"])
 
         if scheduler.is_time_for("thermal_capture", settings['thermal_delay_between_photos']):
             if is_dark() or not settings.get('thermal_sync_to_usb',None):
