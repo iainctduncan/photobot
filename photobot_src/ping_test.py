@@ -3,7 +3,6 @@ import json
 import socket
 from configparser import ConfigParser
 import argparse
-import subprocess
 
 def send_ping():
 
@@ -31,5 +30,4 @@ def send_ping():
     r = requests.put('http://127.0.0.1:6543/receiver', data_json)
 
 if __name__ == "__main__":
-    subprocess.Popen(["/var/photobot/env3/bin/python", "/var/photobot/src/photobot.py",
-                      "--settings /var/photobot/config/photobot.ini"])
+    send_ping()
