@@ -193,19 +193,9 @@ class PhotobotInstaller(InstallHelper):
 
 
     def setup_cron(self):
-        lorex_comment="\n"
-        gphoto_comment="\n"
 
-        if not self.enable_lorex:
-            lorex_comment="\n# uncomment to enable PTZ network camera \n#"
-        if not self.enable_gphoto:
-            gphoto_comment = "\n# uncomment to enable USB (GPHOTO) camera \n#"
         patch = (
-            "\n@reboot root /var/photobot/env3/bin/python /var/photobot/src/photobot_reboot.py --settings /var/photobot/config/photobot.ini "
-
-            "" +gphoto_comment+"* * * * * root /var/photobot/env3/bin/python /var/photobot/src/photobot.py --settings /var/photobot/config/photobot.ini"
-
-            "" +lorex_comment+"* * * * * root /var/photobot/env3/bin/python /var/photobot/src/photobot_lorex.py --settings /var/photobot/config/photobot.ini\n\n")
+            "\n@reboot root /var/photobot/env3/bin/python /var/photobot/src/photobot_reboot.py --settings /var/photobot/config/photobot.ini \n\n")
         if self.confirm("patching %s with patch: '%s'\n?" % (self.cron_file, patch) ):
             if not self.args.dry_run:
                 with open(self.cron_file, "a") as cron_file:
@@ -322,7 +312,7 @@ class PhotobotInstaller(InstallHelper):
             if self.confirm("Take test photo? (Attach and power on camera before continuing) "):
                 self.take_test_photo()
         
-        if self.confirm("Setup cronjobs for reboot and capture every minute?"):
+        if self.confirm("Setup cronjobs for reboot notifications"):
             self.setup_cron()
 
         if self.confirm("Create symlink for ais_receiver supervisord conf file?"):

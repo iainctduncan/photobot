@@ -243,6 +243,10 @@ class PhotobotConfigurator(InstallHelper):
     def ask_for_configuration(self,key,default):
 
 
+        if key=='drive_dev_address':
+            print("Showing drives:")
+            os.system("lsblk")
+
         if type(default) is dict:
             response_val = input(key + " y/n : ")
             settings = get_existing_settings_dict()
