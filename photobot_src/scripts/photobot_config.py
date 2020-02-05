@@ -212,7 +212,7 @@ class PhotobotConfigurator(InstallHelper):
             self.exit()
         self.ask_for_configurations()
         self.put_values_in_config(self.final_values)
-
+vim
     def put_values_in_config(self,values_dict):
         filein = open(self.config_template_path)
         # read it
