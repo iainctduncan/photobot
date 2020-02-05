@@ -23,6 +23,6 @@ if __name__=="__main__":
 
     # unmount to ensure gvfs isn't hogging the USB slr cam
     # doesn't seem to do anything. gvfs-mount not installed
-    os.system("gvfs-mount -s gphoto2")
+    #os.system("gvfs-mount -s gphoto2")
 
     mount_drive(get_usb_storage_path())
