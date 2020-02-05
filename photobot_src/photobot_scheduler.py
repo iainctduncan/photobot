@@ -14,7 +14,7 @@ from photobot_helpers.sample_uploader import *
 class Process_Scheduler(object):
 
     def __init__(self):
-        self.process_run_log = {'usb_upload': 0, 'alive_ping': 0, 'ptz_upload':0,'thermal_upload':0, 'disk_check':0, 'thermal_capture':0 , 'usb_run':0,'ptz_run':0  }
+        self.process_run_log = {'usb_upload': 0, 'alive_ping': 0, 'ptz_upload': 0,'thermal_upload': 0, 'disk_check': 0, 'thermal_capture': 0, 'usb_run': 0,'ptz_run': 0}
 
     def is_running(self):
         return True
