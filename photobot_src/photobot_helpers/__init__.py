@@ -230,9 +230,10 @@ def test_if_writeable(path):
         filehandle = open(filepath, 'w')
 
     except IOError:
-        notify_drive_readonly(path)
-        restart_result = os.system('sudo shutdown -r now')
-        send_ping("PI","Rebooting:"+ restart_result,"ERROR")
+        os.system('reboot')
+        error_and_quit("Drive is Readonly - Rebooting", "DISK")
+        #notify_drive_readonly(path)
+
         return False
 
     return True
