@@ -231,8 +231,8 @@ def test_if_writeable(path):
 
     except IOError:
         os.system('reboot')
-        error_and_quit("Drive is Readonly - Rebooting", "DISK")
-        #notify_drive_readonly(path)
+        #error_and_quit("Drive is Readonly - Rebooting", "DISK")
+        notify_drive_readonly(path)
 
         return False
 
