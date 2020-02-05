@@ -209,6 +209,7 @@ class PhotobotConfigurator(InstallHelper):
         filein = open(self.config_template_path)
         # read it
         src = Template(filein.read())
+        print(values_dict)
         #for values_dict
         result = src.substitute(values_dict)
         print (result)
