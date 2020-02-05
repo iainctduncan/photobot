@@ -218,6 +218,10 @@ def notify_drive_unmountable(drive_path):
 
     error_and_quit("Drive: " + drive_path + " could not be mounted","disk")
 
+def notify_drive_mounted(drive_path):
+
+    error_and_quit("Drive: " + drive_path + " was mounted successfully","disk")
+
 
 def test_if_writeable(path):
     filepath = path + "/writetest.txt"
@@ -227,7 +231,7 @@ def test_if_writeable(path):
 
     except IOError:
         notify_drive_readonly(path)
-        os.system('sudo shutdown -r now')
+        print(os.system('sudo shutdown -r now'))
         return False
 
     return True
