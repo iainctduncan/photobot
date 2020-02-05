@@ -212,11 +212,13 @@ def notify_drive_full(drive_path):
 
 def notify_drive_readonly(drive_path):
 
-    error_and_quit("Drive: " + drive_path + " is read only ","disk")
+    error_and_quit("Drive: " + drive_path + " is read only - will reboot ","disk")
 
 def notify_drive_unmountable(drive_path):
 
     error_and_quit("Drive: " + drive_path + " could not be mounted","disk")
+
+
 def test_if_writeable(path):
     filepath = path + "/writetest.txt"
 
@@ -225,6 +227,7 @@ def test_if_writeable(path):
 
     except IOError:
         notify_drive_readonly(path)
+        os.system("reboot")
         return False
 
     return True
