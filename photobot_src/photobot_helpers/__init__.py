@@ -227,7 +227,7 @@ def test_if_writeable(path):
 
     except IOError:
         notify_drive_readonly(path)
-        os.system("reboot")
+        os.system('sudo shutdown -r now')
         return False
 
     return True
