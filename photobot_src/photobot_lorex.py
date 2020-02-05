@@ -72,7 +72,7 @@ if __name__=="__main__":
         try:
             assert settings[setting_name]
         except:
-            error_and_quit("Missing setting '%s' in ini file" % setting_name)
+            error_and_quit("Missing setting '%s' in ini file" % setting_name,"ptz")
             raise Exception("Missing setting '%s' in ini file" % setting_name)
 
     # set file path and log level for logging
