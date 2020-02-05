@@ -25,4 +25,4 @@ if __name__=="__main__":
     # doesn't seem to do anything. gvfs-mount not installed
     os.system("gvfs-mount -s gphoto2")
 
-    mount_drive(get_usb_storage_path(),get_usb_drive_dev_address())
+    mount_drive(get_usb_storage_path())
