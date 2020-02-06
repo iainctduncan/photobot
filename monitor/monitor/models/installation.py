@@ -15,7 +15,7 @@ from .meta import Base
 
 import pdb
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from .ping import Ping
 
 # TODO: get from settings
@@ -45,10 +45,12 @@ class Installation(Base):
         for k,v in kwargs.items():
             setattr(self, k, v)
 
-
+    # 2020-01-29 filter only ask for pings in the last week
     def get_last_ping_by_subsystem(self, session, subsystem=None):
         query = session.query(Ping).filter(Ping.installation_id == self.id)
         query = query.filter_by(subsystem=subsystem) if subsystem else query
+        # adding the below
+        query = query.filter(Ping.datetime >= datetime.today() - timedelta(days=7))
         query = query.order_by(desc(Ping.datetime)).limit(1)
         return query.first()
 
