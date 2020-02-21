@@ -14,8 +14,9 @@ def installations_view(request):
 
     # the installations shows the latest ping from all active installations
     installations = request.dbsession.query(Installation).all()
-
     subsystems = ['pi', 'usb', 'ptz','ais', 'disk', 'thermal']
+    #subsystems = ['pi']
+
     # list of two field tuples of (installation, ping_dict)
     installs = []
     for installation in installations:
