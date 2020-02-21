@@ -81,9 +81,7 @@ All configuration values are stored in an ini file at /var/photobot/config/photo
 ssh into the pi and run:
 `photobot configure`
 
-Note that currently the configuration script does not read the saved values so you are starting fresh each time. 
-If we continue to use the configuration script it would be nice to rewrite it to read values from the file. 
-Or in the future the settings could be controlled via the monitoring panel too.
+The script reads the existing ini file (if it exists) and offers you the existing choice as the default for each value. 
 
 You can also manually edit the ini file, but note that your changes will get overwritten if someone runs the config script.
 The easiest workflow is probably to run the configuration script during initial configuration and then edit it. 
@@ -93,9 +91,13 @@ Currently there are a few settings that are only set here because we haven't had
 
 # Scheduling
 
-Currently there are 3 ways that processes are scheduled. In the future they will likely be consolidated to eliminate the crontab version.
-## Crontab Execution (legacy)
-The USB and PTZ capture processes are called via Root's crontab. They run every minute. 
+The scheduling of all tasks has been centralized to run out of the scheduling script.
+
+## Built In Scheduler Process
+The built in scheduler process is a long running python script, which is also run by supervisor. The process name in supervisor is photobot_scheduler and it is configured in the same file as the AIS process above.
+In the future it may be clearer to move this configuration to its own file.
+The scheduler script is simply a timer that runs events every X seconds based on values in the configuration script.
+Currently the scheduler handles: overall system status pings, sample photo uploads, PTZ runs, USB runs,  thermal captures and disk health + space checks.
 
 ## Long-running process via Supervisord
 The AIS module is designed to run continuously, so it is handled via the supervisord utility, which ensures the process is always running.
@@ -104,12 +106,6 @@ to check the status of supervisor processes run:
 `supervisorctl`
 This will show you the status of the processes.
 
-## Built In Scheduler Process
-The built in scheduler process is a long running python script, which is also run by supervisor. The process name in supervisor is photobot_scheduler and it is configured in the same file as the AIS process above.
-In the future it may be clearer to move this configuration to its own file.
-The scheduler script is simply a timer that runs events every X seconds based on values in the configuration script.
-Currently the scheduler handles: overall system status pings, sample photo uploads, thermal captures and disk health + space checks.
-In the future it would probably make sense to move the USB and PTZ photo captures to be controlled by this script too, because it would allow those processes to run on a custom interval defined in the configuration file, instead of just once per minute as defined in crontab. 
 
 ## Day / Night detection
 The photobot software is designed to automatically calculate the sunrise and sunset, using code we [found here](https://michelanders.blogspot.com/2010/12/calulating-sunrise-and-sunset-in-python.html). The USB camera and PTZ camera processes automatically abort if they detect it is dark out. 
