@@ -33,7 +33,7 @@ case $1 in
         loclx tunnel --config /var/photobot/config/tunnels.yml
         ;;
     netsearch)
-        /var/photobot/env3/bin/python /var/photobot/src/set_device_hostnames.py
+        /var/photobot/env3/bin/python /var/photobot/src/set_device_hostnames.py --settings /var/photobot/config/photobot.ini
         ;;
     *)
         echo "

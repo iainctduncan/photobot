@@ -7,8 +7,9 @@ sqlalchemy
 gps3
 configparser
 scapy
-lanscan
-RPi.GPIO
+#lanscan
+#RPi.GPIO
 pytz
 onvif_zeep
 ruamel.yaml
+hostsman

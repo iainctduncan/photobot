@@ -39,14 +39,7 @@ if __name__ == '__main__':
     #mac_address = '00:24:1D:AA:A0:1E'
     #ip_range = '192.168.1.1-255'
 
-    yaml = YAML()
-
-    with open("/var/photobot/config/photobot.yml", 'r') as stream:
-        try:
-            config_array = yaml.load(stream)
-
-        except yaml.YAMLError as exc:
-            print(exc)
+    config_array = get_yaml_config_dict()
 
     #print(config_array)
 

@@ -35,9 +35,9 @@ class InstallHelper(object):
         "ask user for confirmation to do task, returns result as boolean"
         while True:
             if allow_no:
-                res = raw_input("%s y/n/x >> " % question)
+                res = input("%s y/n/x >> " % question)
             else:
-                res = raw_input("%s y/x >> " % question)
+                res = input("%s y/x >> " % question)
 
             if res.lower() == 'x':
                 print("\nEXITING")

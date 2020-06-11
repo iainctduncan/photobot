@@ -2,7 +2,7 @@ import requests
 import json
 import socket
 import logging
-from ConfigParser import ConfigParser
+from configparser import ConfigParser
 import argparse
 import sys
 import os
@@ -17,6 +17,8 @@ from .sunset import *
 from .power_cycle import power_cycle
 import subprocess
 from subprocess import Popen, PIPE
+from ruamel.yaml import YAML
+
 
 def merge_two_dicts(x, y):
     z = x.copy()   # start with x's keys and values
@@ -106,6 +108,25 @@ def get_settings_dict():
     settings["delay_between_rounds"] = 5
 
     return settings
+def get_yaml_config_dict():
+    yaml = YAML()
+
+    settings = get_settings_dict()
+
+    yaml_config_file = settings.get('yaml_config_file')
+
+    if not yaml_config_file:
+        print("no YAML config file path")
+        exit()
+
+    with open(yaml_config_file, 'r') as stream:
+        try:
+            config_dict = yaml.load(stream)
+
+        except yaml.YAMLError as exc:
+            print(exc)
+
+    return config_dict
 
 def get_logger():
     try:
@@ -309,6 +330,11 @@ def add_seconds_to_time(tm, secs):
     fulldate = datetime(100, 1, 1, tm.hour, tm.minute, tm.second)
     fulldate = fulldate + timedelta(seconds=secs)
     return fulldate.time()
+
+def rescan_network_for_devices():
+    os.system("photobot netsearch")
+    send_ping("pi","Rescanned Network for Devices")
+
 
 def is_dark():
     settings = get_settings_dict()
