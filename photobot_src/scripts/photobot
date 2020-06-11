@@ -29,6 +29,9 @@ case $1 in
     thermal)
         /var/photobot/env3/bin/python /var/photobot/src/thermal_sample.py --settings /var/photobot/config/photobot.ini
         ;;
+    tunnels)
+        loclx tunnel --config /var/photobot/config/tunnels.yml
+        ;;
     *)
         echo "
         -------Photobot Command Script--------
@@ -44,6 +47,7 @@ case $1 in
         ais - run the AIS process and show output
         powercycle - test the power cycle (toggle relay state for 5 seconds)
         thermal - take a thermal photo and upload sample
+        tunnels - start the tunnels process
 
         "
         ;;

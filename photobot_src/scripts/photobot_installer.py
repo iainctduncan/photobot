@@ -209,6 +209,19 @@ class PhotobotInstaller(InstallHelper):
         self.do("supervisorctl reread")
         self.do("supervisorctl update")
 
+    def setup_tunneler(self):
+        print("Creating symlink at /etc/supervisord/conf.d/ais_receiver.conf")
+
+        self.do("wget https://localxpose.io/cli/loclx-linux-arm.zip")
+        self.do("unzip loclx-linux-arm.zip")
+        self.do("chmod +x loclx")
+        self.do("mv loclx /usr/bin")
+        self.do("localx account login")
+        self.do("ln -s /var/photobot/src/supervisord_conf/tunnels.conf /etc/supervisor/conf.d/tunnels.conf")
+        self.do("supervisorctl reread")
+        self.do("supervisorctl update")
+        self.do("supervisorctl start tunneler")
+
     def setup_python_envs(self):
         print("Creating python 3 virtualenvs, and installing dependencies")
         self.do("virtualenv -p python2 /var/photobot/env2")
@@ -296,6 +309,9 @@ class PhotobotInstaller(InstallHelper):
 
         if self.confirm("Install Lanscan Script?"):
             self.setup_lanscan_script()
+
+        if self.confirm("Install Port Tunneler"):
+            self.setup_tunneler()
 
         if self.confirm("Create directories for captures?"):
             self.setup_directories()
