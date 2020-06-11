@@ -32,6 +32,9 @@ case $1 in
     tunnels)
         loclx tunnel --config /var/photobot/config/tunnels.yml
         ;;
+    netsearch)
+        /var/photobot/env3/bin/python /var/photobot/src/set_device_hostnames.py
+        ;;
     *)
         echo "
         -------Photobot Command Script--------
@@ -47,7 +50,8 @@ case $1 in
         ais - run the AIS process and show output
         powercycle - test the power cycle (toggle relay state for 5 seconds)
         thermal - take a thermal photo and upload sample
-        tunnels - start the tunnels process
+        tunnels - start the ssh tunneling process to make devices available outside the local network
+        netsearch - search the network for devices by MAC address and assign hostnames
 
         "
         ;;

@@ -216,6 +216,7 @@ class PhotobotInstaller(InstallHelper):
         self.do("unzip loclx-linux-arm.zip")
         self.do("chmod +x loclx")
         self.do("mv loclx /usr/bin")
+        print("log into our account at localxpose.io and paste in the account access token if we want/need it")
         self.do("loclx account login")
         self.do("ln -s /var/photobot/src/supervisord_conf/tunnels.conf /etc/supervisor/conf.d/tunnels.conf")
         self.do("supervisorctl reread")

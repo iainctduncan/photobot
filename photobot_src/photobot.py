@@ -37,7 +37,7 @@ if __name__=="__main__":
     settings = get_settings_dict()
 
     if settings['enable_usb_camera'] == '0':
-        log.info("USB Camera is disabled. Exiting")
+        log.info("USB    Camera is disabled. Exiting")
         send_ping("usb", "USB disabled", "Off")
         sys.exit()
 

@@ -92,6 +92,7 @@ if __name__=="__main__":
             wsdl_dir = settings['wsdl_dir'],
         )
     except:
+       os.system("photobot netsearch")
        error_and_quit("Could not connect to PTZ camera at " + settings['ptz_host'],'ptz')
 
     # execute X rounds of Y pictures according to settings

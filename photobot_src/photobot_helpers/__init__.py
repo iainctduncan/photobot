@@ -2,7 +2,7 @@ import requests
 import json
 import socket
 import logging
-from configparser import ConfigParser
+from ConfigParser import ConfigParser
 import argparse
 import sys
 import os
