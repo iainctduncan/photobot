@@ -216,7 +216,7 @@ class PhotobotInstaller(InstallHelper):
         self.do("unzip loclx-linux-arm.zip")
         self.do("chmod +x loclx")
         self.do("mv loclx /usr/bin")
-        self.do("localx account login")
+        self.do("loclx account login")
         self.do("ln -s /var/photobot/src/supervisord_conf/tunnels.conf /etc/supervisor/conf.d/tunnels.conf")
         self.do("supervisorctl reread")
         self.do("supervisorctl update")
