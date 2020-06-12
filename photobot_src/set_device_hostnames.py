@@ -72,6 +72,6 @@ if __name__ == '__main__':
 
         device_ip = ips[host_name]
         #print(host_name + device_ip)
-        os.system("hostsman -r "+host_name)
-        os.system("hostsman -i "+host_name+":"+device_ip)
+        os.system("/var/photobot/env3/bin/hostsman -r "+host_name)
+        os.system("/var/photobot/env3/bin/hostsman -i "+host_name+":"+device_ip)
 
