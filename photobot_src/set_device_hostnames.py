@@ -13,6 +13,7 @@ from ruamel.yaml import YAML
 
 from photobot_helpers import *
 from photobot_helpers.network_lookup import *
+from photobot_helpers.power_cycle import *
 """
 Determine a host's IP address given its MAC address and an IP address
 range to scan for it.
@@ -43,13 +44,18 @@ if __name__ == '__main__':
 
     #print(config_array)
 
+
+    power_cycle()
+    exit()
+
     devices =config_array.get('devices')
     ip_range = config_array.get('network_ip_range')
     #print(devices)
     macs ={}
-    for device in devices:
+    for device_name in devices.keys():
+        device = devices.get(device_name)
         mac = device.get('mac_address')
-        name = device.get('name')
+        name = device_name
         if mac !=None:
             macs[name]=mac
 
