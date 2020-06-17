@@ -44,10 +44,6 @@ if __name__ == '__main__':
 
     #print(config_array)
 
-
-    power_cycle()
-    exit()
-
     devices =config_array.get('devices')
     ip_range = config_array.get('network_ip_range')
     #print(devices)
