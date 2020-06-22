@@ -97,11 +97,18 @@ To ensure we can always find devices and configuration stays simple we have deve
 ### Tunneling
 To ensure we can access the web based control panels for the various cameras and devices we use a service called localxpose
 The executable for that system is installed as part of the installation process, by the installation script.
+Note that when running that phase of the installation script you will want to provide an access token from your account at localxpose.ioo
 The configuration file for the tunnels is stored in /var/photobot/config/tunnels.yml
 an example of the configuration file is in this folder at example_tunnels.yml
-The localxpose process is run using supervisord so it will always rester
+The localxpose process is run using supervisord so it will always restart if it gets interrupted
+
+You can stop / start restart the tunnels with 
+`supervisorctl stop tunneler`
+`supervisorctl start tunneler`
+`supervisorctl restart tunneler`
 
 details on configuring localxpose can be found at https://docs.localxpose.io
+
 
 
 # Configuration
