@@ -1,0 +1,24 @@
+webbar:
+  type: http
+  subdomain: webbar.testpi.photobots
+  to: webbar:8088
+
+ptznew:
+  type: http
+  to: ptznew:8082
+  subdomain: ptznew.testpi.photobots
+
+lorex:
+  type: http
+  to: lorex:80
+  subdomain: lorex.testpi.photobots
+
+ptzudp:
+  type: udp
+  to: ptznew:8054
+  subdomain: udp.ptznew.testpi.photobots
+
+ssh:
+  type: tls
+  subdomain: ssh.testpi.photobots
+  to: 127.0.0.1:22
