@@ -1,0 +1,17 @@
+devices:
+        lorex:
+                mac_address: "00:40:7f:b8:a4:f8"
+
+        usb:
+                webbar_outlet: '2'
+        ptznew:
+                mac_address: "7C:A7:B0:64:4A:14"
+
+        webbar:
+                mac_address: "7C:E1:FF:02:C5:38"
+                api_creds:
+                        username: 'admin'
+                        password: '1photobot'
+                        port: '8088'
+
+network_ip_range: "192.168.31.1-255"

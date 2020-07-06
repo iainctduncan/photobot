@@ -57,6 +57,7 @@ if __name__ == '__main__':
 
     ips = {}
     xml = scan_for_hosts(ip_range)
+    #print(xml)
     for device_name in macs:
         mac_address = macs[device_name]
         ip_address = find_ip_address_for_mac_address(xml, mac_address)

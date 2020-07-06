@@ -57,7 +57,7 @@ A set of coordinates in the configuration file determine if the information is l
 To test AIS functionality, and see the raw data it is receiving run:
 `photobot ais`
 
-## Power Control Relay
+## Power Control Relay (legacy)
 To deal with the need to power cycle frozen cameras we use a power control relay that allows the software to turn the camera off and on again.
 We use [this relay](https://www.amazon.ca/Iot-Relay-Enclosed-High-power-Raspberry/dp/B00WV7GMA2/ref=sr_1_fkmr1_1?keywords=pi+power+control+relay+power+bar&qid=1561664063&s=gateway&sr=8-1-fkmr1) connected with [wires like this](https://www.amazon.ca/Premium-Breadboard-Jumper-100-Pack-Hellotronics/dp/B07H7YMGS4/ref=sr_1_5?crid=1K8GXJCS2N8JI&keywords=jumper+wire&qid=1561664227&s=industrial&sprefix=jumper+%2Cindustrial%2C201&sr=1-5)
 Note, that you may want to use longer wires depending on where you can place the Pi and the relay in your case. 
@@ -76,18 +76,71 @@ To test if your replay is working, plug a lamp, or other electrical device into 
 `photobot powercycle`
 This should cause the device to turn on for 5 seconds and then turn off.
 
+## Web Power Bar
+In newer builds, instead of the GPIO controlled power relay we use a web bar with an http api that we can use to cycle the camera, or infact the pi itself. 
+We used a "digital loggers Web Power Switch Pro"
+
+The web bar cycling is enabled if the photobot.yml contains an entry for a device named 'usb' with 'webbar_outlet' as a sub-item. The value of that configuration parameter will determine which outlet is cycled if the camera freezes.
+See the example_photobot.yml file for configuration example.
+
+# Network Configuration
+Often we need to run these systems behind networks where we can't set up static ips or port forwarding to accomodate this we've built a
+2 part system that tracks devices on the network and opens tcp/ip tunnels to make them available. Here's how it works:
+
+### Hostname mapping
+To ensure we can always find devices and configuration stays simple we have developed the following scheme. 
+ - The photobots.yml configuration file lists all devices we might want to connect to and provides their MAC address.
+ - the 'photobot netsearch' command runs through that list and for each device with a MAC address it and adds a record in the /etc/hosts file that maps the device name to its ip
+ - all of the configuration scripts or other runs are able to just reference a device by its device / host name
+ - if we can't connect to a device, we re-run the 'photobot netsearch' command to reassign the hostnames
+ 
+### Tunneling
+To ensure we can access the web based control panels for the various cameras and devices we use a service called localxpose
+The executable for that system is installed as part of the installation process, by the installation script.
+Note that when running that phase of the installation script you will want to provide an access token from your account at localxpose.ioo
+The configuration file for the tunnels is stored in /var/photobot/config/tunnels.yml
+an example of the configuration file is in this folder at example_tunnels.yml
+The localxpose process is run using supervisord so it will always restart if it gets interrupted
+
+You can stop / start restart the tunnels with 
+`supervisorctl stop tunneler`
+`supervisorctl start tunneler`
+`supervisorctl restart tunneler`
+
+details on configuring localxpose can be found at https://docs.localxpose.io
+
+
+
 # Configuration
-All configuration values are stored in an ini file at /var/photobot/config/photobot.ini -  There is an interactive configuration script available to write data into that file.
+All configuration values are stored in two configurations files. They are meant to be independent and work together. Legacy bots might only use the .ini file, 
+wheras more modern configurations will use both. 
+
+### Main photobot.ini
+The first, is a .ini file an ini file at /var/photobot/config/photobot.ini 
+This file contains all the basic details of the bot as well as legacy configurations for PTZ and DSLR Cameras
+ 
+There is an interactive configuration script available to write data into that file.
 ssh into the pi and run:
 `photobot configure`
 
 The script reads the existing ini file (if it exists) and offers you the existing choice as the default for each value. 
+You can also manually edit the ini file.
 
-You can also manually edit the ini file, but note that your changes will get overwritten if someone runs the config script.
-The easiest workflow is probably to run the configuration script during initial configuration and then edit it. 
-
-The settings from the file are always accessed via the get_settings_dict() function. That function contains logic to apply default values if they don't exist in the config file, and logic to override settings based on command line flags.
+The settings from this file are always accessed via the get_settings_dict() function. That function contains logic to apply default values if they don't exist in the config file, and logic to override settings based on command line flags.
 Currently there are a few settings that are only set here because we haven't had need to customize them yet.
+
+### photobot.yml
+This file is a newer configuration scheme developed for setting up a more flexible device configuration with an arbitrary number of devices.
+
+There is an example of the config file in this folder at example_photobot.yml
+
+In this file, there is a devices list, which contains a list of all devices in the system. The key for each device is the 'name' of this device 
+This 'name' will become a hostname for the device when you run the 'photobot netsearch' command, and it will also become a subdomain used to reference the device through the tunnel.  
+Finally, this name will also serve as the key for retrieving device settings about that device.
+
+If location of the photobot.yml file is added to the photobot.ini file, then the newer style configuration will also be loaded. 
+you can access the  settings from the photobot.yml like this:
+`config_array = get_yaml_config_dict()`
 
 # Scheduling
 
@@ -110,3 +163,4 @@ This will show you the status of the processes.
 ## Day / Night detection
 The photobot software is designed to automatically calculate the sunrise and sunset, using code we [found here](https://michelanders.blogspot.com/2010/12/calulating-sunrise-and-sunset-in-python.html). The USB camera and PTZ camera processes automatically abort if they detect it is dark out. 
 If you need to know if it is dark out in future code, you can always use the simple is_dark() function which checks if we are between sunrise and sunset.
+
