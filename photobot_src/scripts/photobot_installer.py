@@ -7,6 +7,8 @@ import os
 import logging
 import argparse
 
+# NOTE: input/raw_input changed from python 2.7 to python3. This version uses raw_input to work on 2.7
+
 class InstallHelper(object):
     def do(self, command, kw=None):
         "print and execute a shell command, exiting on failure"
@@ -35,9 +37,11 @@ class InstallHelper(object):
         "ask user for confirmation to do task, returns result as boolean"
         while True:
             if allow_no:
-                res = input("%s y/n/x >> " % question)
+                #res = input("%s y/n/x >> " % question)
+                res = raw_input("%s y/n/x >> " % question)
             else:
-                res = input("%s y/x >> " % question)
+                #res = input("%s y/x >> " % question)
+                res = raw_input("%s y/x >> " % question)
 
             if res.lower() == 'x':
                 print("\nEXITING")
