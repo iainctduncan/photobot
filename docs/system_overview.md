@@ -164,3 +164,8 @@ This will show you the status of the processes.
 The photobot software is designed to automatically calculate the sunrise and sunset, using code we [found here](https://michelanders.blogspot.com/2010/12/calulating-sunrise-and-sunset-in-python.html). The USB camera and PTZ camera processes automatically abort if they detect it is dark out. 
 If you need to know if it is dark out in future code, you can always use the simple is_dark() function which checks if we are between sunrise and sunset.
 
+The sunset calculation depends on the timezone and the latitude and longitude. Currently the linux system remains in the UTC (GMT) timezone  and the timezone for sunset calculations is designed to be read out of the settings system. Currently it simply defaults to US/Pacific timezone. To change that the settings will just have to contain a value for 'timezone'
+For the lat and lon, we use the minimum_lat and minimum_lon from the bounding box in AIS configuration. 
+
+In the configuration of the bot you can also set a "sunset extension" which is a time in minutes to extend photo taking hours by. 
+The default is 45 minutes. So the cameras will take photos for 45 mins before official sunrise and 45 mins after official sunset.
