@@ -169,7 +169,7 @@ class PhotobotConfigurator(InstallHelper):
             },
 
             "enable_ptz_camera": {
-                "ptz_host": "auto",
+                "ptz_host": "lorex",
                 "ptz_port": "80",
                 "ptz_user": "admin",
                 "ptz_password": "admin",
