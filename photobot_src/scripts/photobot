@@ -7,9 +7,13 @@ case $1 in
         python /var/photobot/src/scripts/photobot_installer.py
         ;;
     update)
-        echo "Updating Source"
+        echo "Updating Sources, Checking python dependencies and updating command script"
         cd /var/photobot/repo
         git pull
+        /var/photobot/env2/bin/pip install -r /var/photobot/src/requirements2.txt
+        /var/photobot/env3/bin/pip install -r /var/photobot/src/requirements3.txt
+        /bin/cp -f /var/photobot/src/scripts/photobot /usr/bin
+        chmod +x /usr/bin/photobot
         ;;
     usbrun)
         /var/photobot/env3/bin/python /var/photobot/src/photobot.py --settings /var/photobot/config/photobot.ini
