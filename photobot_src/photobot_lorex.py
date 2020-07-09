@@ -20,6 +20,7 @@ import argparse
 from configparser import ConfigParser
 
 from photobot_helpers import *
+from photobot_helpers.sample_uploader import *
 
 # settings that must be present in the ini file
 required_settings = [
@@ -104,6 +105,12 @@ if __name__=="__main__":
             # save capture from camera
             lorex_cam.save_image(get_capture_target_dir()+"/"+filename)
             log_latest_photo_path(get_capture_target_dir()+"/"+filename,'ptz')
+
+            if settings['high_res_sample_mode']:
+                uploader = Sample_Uploader()
+                uploader.settings = settings
+                uploader.upload_by_type('ptz')
+                sys.exit()
             # move the file from pi to usb drive
             #move_command = "mv %s %s" % (local_filepath, ext_filepath)
             #try:
