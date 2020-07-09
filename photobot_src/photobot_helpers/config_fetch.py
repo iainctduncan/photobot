@@ -35,6 +35,7 @@ def get_settings_dict():
 
     if high_res_mode:
         settings['usb_sample_width'] = 0
+        settings['ptz_sample_width'] = 0
         settings['high_res_sample_mode'] = True
     else:
         settings['usb_sample_width'] = 800
