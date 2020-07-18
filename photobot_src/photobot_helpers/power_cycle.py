@@ -10,13 +10,14 @@ from .config_fetch import *
 
 def power_cycle():
 
-    yaml_config = get_yaml_config_dict()
+    settings = get_settings_dict()
 
-    webbar_outlet = yaml_config.get('devices').get('usb').get('webbar_outlet')
-    creds = yaml_config.get('devices').get('webbar').get('api_creds')
+    #print(settings)
+    webbar_outlet = settings.get('devices').get('usb').get('webbar_outlet')
+    creds = settings.get('devices').get('webbar').get('api_creds')
 
-    print(webbar_outlet);
-    print(creds);
+    #print(webbar_outlet);
+    #print(creds);
 
     if webbar_outlet:
         power_cycle_via_webbar(webbar_outlet,creds)

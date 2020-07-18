@@ -26,6 +26,12 @@ def get_settings_dict():
     config.read(settings_file)
     settings = dict(config.items('app:main'))
 
+    # if we have a yaml config add it to this array
+    yaml_config_path = settings.get('yaml_config_file')
+    if yaml_config_path:
+        settings.update(read_yaml_config(yaml_config_path))
+
+
     settings['samples_user_host'] = 'samples@photobots.info'
     settings['samples_dest_path'] = '~'
 
@@ -69,10 +75,12 @@ def get_settings_dict():
     settings["number_of_rounds"] = 1
     settings["delay_between_rounds"] = 5
 
+
+
     return settings
 
 def get_yaml_config_dict():
-    yaml = YAML()
+
 
     settings = get_settings_dict()
 
@@ -82,6 +90,10 @@ def get_yaml_config_dict():
         print("no YAML config file path")
         exit()
 
+    return read_yaml_config(yaml_config_file)
+
+def read_yaml_config(yaml_config_file):
+    yaml = YAML()
     with open(yaml_config_file, 'r') as stream:
         try:
             config_dict = yaml.load(stream)
