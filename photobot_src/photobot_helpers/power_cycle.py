@@ -13,13 +13,14 @@ def power_cycle():
     settings = get_settings_dict()
 
     #print(settings)
-    webbar_outlet = settings.get('devices').get('usb').get('webbar_outlet')
-    creds = settings.get('devices').get('webbar').get('api_creds')
+    webbar_outlet = settings.get('devices',{}).get('usb',{}).get('webbar_outlet')
+
 
     #print(webbar_outlet);
     #print(creds);
 
     if webbar_outlet:
+        creds = settings.get('devices').get('webbar').get('api_creds')
         power_cycle_via_webbar(webbar_outlet,creds)
     else:
         power_cycle_gpio(5,21)
