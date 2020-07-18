@@ -139,8 +139,10 @@ This 'name' will become a hostname for the device when you run the 'photobot net
 Finally, this name will also serve as the key for retrieving device settings about that device.
 
 If location of the photobot.yml file is added to the photobot.ini file, then the newer style configuration will also be loaded. 
-you can access the  settings from the photobot.yml like this:
+you can access just the  settings from the photobot.yml like this:
 `config_array = get_yaml_config_dict()`
+
+The YAML settings are also be merged in the master settings array returned by get_settings_dict()
 
 # Scheduling
 
