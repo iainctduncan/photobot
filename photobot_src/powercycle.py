@@ -24,4 +24,4 @@ from photobot_helpers import *
 ################################################################################
 # beginning of main execution
 if __name__=="__main__":
-    power_cycle(5)
+    power_cycle()
