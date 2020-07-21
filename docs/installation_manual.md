@@ -56,6 +56,7 @@ If you know how to burn the image, skip the next step and resume from "Enable SS
   the following to copy that image onto your sd card
   
   `$ sudo dd bs=1m if=2017-01-11-raspbian-jessie-lite.img of=/dev/rdisk2`
+     >>> this is confusing for windows users - usually we would see /dev/sdb or /dev/sdc etc. if we see a number then it has a partition and we don't want to be partiition specific here so if you see /dev/sdb1 just use /dev/sdb when specifying target (i.e., of=/dev/sdb).
 - note that in the above command, you must replace the name of the image file with your image
   and **/dev/rdisk2** with **/dev/rdisk{X}** where X is your disk number. 
   Note that it is **/dev/rdiskX**, not **/dev/diskX** in this command
