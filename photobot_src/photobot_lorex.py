@@ -93,8 +93,12 @@ if __name__=="__main__":
             wsdl_dir = settings['wsdl_dir'],
         )
     except:
-       rescan_network_for_devices()
-       error_and_quit("Could not connect to PTZ camera at " + settings['ptz_host'],'ptz')
+        ptz_mac = settings.get('devices',{}).get('lorex',{}).get('mac_address')
+
+        if ptz_mac:
+            rescan_network_for_devices()
+
+        error_and_quit("Could not connect to PTZ camera at " + settings['ptz_host'],'ptz')
 
     # execute X rounds of Y pictures according to settings
     for i in range(0, int(settings['ptz_number_of_rounds'])):
