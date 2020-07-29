@@ -248,9 +248,41 @@ def add_seconds_to_time(tm, secs):
     return fulldate.time()
 
 def rescan_network_for_devices():
-    os.system("photobot netsearch")
-    send_ping("pi","Rescanned Network for Devices")
 
+    now = int(timer.time())
+    #print(now)
+
+    settings = get_settings_dict()
+
+    latest_netsearch = int(get_lastest_netsearch_time())
+
+    diff = now - latest_netsearch
+
+    minimum_seconds_between_scans = settings['netscan_minimum_interval']
+
+    #print(minimum_seconds_between_scans)
+
+    if diff>minimum_seconds_between_scans:
+        os.system("photobot netsearch")
+        log_latest_netsearch_time(now)
+        send_ping("pi","Rescanned Network for Devices")
+    else:
+        minimum_minutes_between_scans = str(minimum_seconds_between_scans/60)
+        print("skipping netsearch, since it was done within last " + minimum_minutes_between_scans + " mins")
+
+
+def log_latest_netsearch_time(time):
+    with open("/var/photobot/logs/latest_netsearch.log", "w") as f:
+        f.write( str(time) )
+
+def get_lastest_netsearch_time():
+    try:
+        with open("/var/photobot/logs/latest_netsearch.log", "r") as f:
+            path = str(f.read())
+            return path.rstrip()
+
+    except:
+        return False
 
 def is_dark():
     settings = get_settings_dict()

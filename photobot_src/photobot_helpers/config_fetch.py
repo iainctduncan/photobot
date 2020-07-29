@@ -54,6 +54,7 @@ def get_settings_dict():
 
     settings['alive_ping_interval'] = 500
     settings['disk_check_interval'] = 3600
+    settings['netscan_minimum_interval'] = 900
 
     settings['timezone'] = 'US/Pacific'
 
