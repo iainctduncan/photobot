@@ -279,7 +279,7 @@ class PhotobotInstaller(InstallHelper):
         self.do("cp /var/photobot/src/scripts/lanscan /usr/local/bin")
         self.do("chmod +x /usr/local/bin/lanscan")
     def setup_photo_sample_uploads(self):
-        print("This will set up SSH-keys to allow connection to the samples account on the monitor sever. You will need to type the password once now to authorize future connections.")
+        print("This will set up SSH-keys to allow connection to the samples account on the monitor sever. You will need to type the password once now to authorize future connections. When, prompted, hit enter for no passprase")
         self.do("apt-get install imagemagick")
         self.do("ssh-keygen -f '/root/.ssh/known_hosts' -R photobots.info")
         self.do("sudo -H -u root bash -c 'ssh-keygen'")
