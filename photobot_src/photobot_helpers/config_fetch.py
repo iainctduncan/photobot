@@ -4,6 +4,7 @@ import argparse
 import sys
 import os
 
+
 def get_settings_dict():
     # register the process identifier utility for multiprocess logging
     argparser = argparse.ArgumentParser()
@@ -28,7 +29,7 @@ def get_settings_dict():
 
     # if we have a yaml config add it to this array
     yaml_config_path = settings.get('yaml_config_file')
-    if yaml_config_path:
+    if yaml_config_path and os.path.isfile(yaml_config_path):
         settings.update(read_yaml_config(yaml_config_path))
 
 
