@@ -48,7 +48,7 @@ case $1 in
         Available commands are:
 
         sample - Take a sample image with the USB camera and upload it to the monitoring panel
-        ptzsample - Take a sample image with the USB camera and upload it to the monitoring panel
+        ptzsample - Take a sample image with the PTZ camera and upload it to the monitoring panel
         update - Update the source code to the latest version from the git repository
         configure - Run configuration script.
         install - Re-Run installation script. Useful for setting up new components, updating software etc.
