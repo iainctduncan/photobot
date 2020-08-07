@@ -225,6 +225,7 @@ class PhotobotInstaller(InstallHelper):
         self.do("ln -s /var/photobot/src/supervisord_conf/tunnels.conf /etc/supervisor/conf.d/tunnels.conf")
         self.do("supervisorctl reread")
         self.do("supervisorctl update")
+        self.do("photobot netsearch")
         self.do("supervisorctl start tunneler")
 
     def setup_python_envs(self):
