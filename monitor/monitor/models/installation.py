@@ -32,6 +32,7 @@ class Installation(Base):
     ip_address = Column(Text)
     active = Column(Boolean)
     notes = Column(Text)
+    display = Column(Boolean)   # do I show up on the dashboard?
 
     pings = relationship("Ping", order_by=desc("ping.datetime"),lazy='dynamic', backref="installation")
     #pings = relationship("Ping", order_by=desc("ping.datetime"), backref="installation")

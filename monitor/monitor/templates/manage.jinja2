@@ -1,0 +1,47 @@
+{% extends "layout.jinja2" %}
+
+{% block content %}
+<!-- a dead simple page to toggle displays or delete bot -->
+
+<div class="content notifications">
+  <h2>Manage the Photobots</h2>
+    <p>Use this page to manage which bots show up on the dashboard or delete bots</p>
+
+  <table class="installations">
+    <tr>
+      <th>UID</th>
+      <th>Name</th>
+      <th>IP</th>
+      <th>Displayed</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  {% for installation in installations %}
+    <tr>
+      <td><span><a href="/log/{{installation.uid}}">{{installation.uid}}</a></span></td>
+      <td><span >{{installation.name}}</span></td>
+      <td><span >{{installation.ip_address}}</span></td>
+      <td><span >{{installation.display}}</span></td>
+      <td><strong><a id="show-link" href="/manage?uid={{installation.uid}}&op=show">Show</a></strong></td>
+      <td><strong><a id="hide-link" href="/manage?uid={{installation.uid}}&op=hide">Hide</a></strong></td>
+      <td><strong><a id="delete-link" href="/manage?uid={{installation.uid}}&op=delete">Delete</a></strong></td>
+    </tr>
+  {% endfor %}
+  </table>
+
+</div>
+
+<script>
+$(document).ready(function(){
+   console.log("running");
+
+   $('#hide-link').click(function(){
+        return confirm("Are you sure you want to toggle the display setting for this bot?");
+    }); 
+   $('#delete-link').click(function(){
+        return confirm("Are you sure you want to delete this bot? \nIt will be permanently removed from the database!");
+    }); 
+});
+</script>
+{% endblock content %}
