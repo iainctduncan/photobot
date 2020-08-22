@@ -42,6 +42,12 @@ case $1 in
     netsearch)
         /var/photobot/env3/bin/python /var/photobot/src/set_device_hostnames.py --settings /var/photobot/config/photobot.ini
         ;;
+    run)
+        /var/photobot/env2/bin/python /var/photobot/src/camrun.py --settings /var/photobot/config/photobot.ini --camera $2
+        ;;
+    samplecam)
+        /var/photobot/env2/bin/python /var/photobot/src/camrun.py --settings /var/photobot/config/photobot.ini --camera $2 --send_high_res_sample 1
+        ;;
     *)
         echo "
         -------Photobot Command Script--------

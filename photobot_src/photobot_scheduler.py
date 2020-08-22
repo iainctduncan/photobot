@@ -46,7 +46,34 @@ def main_loop():
 
     uploader.settings = settings
 
+    cam_settings = settings.get('devices')
+
+    devices_to_run = dict()
+    if cam_settings:
+
+        for device_name in cam_settings:
+            #print(device_name + "has settings: ")
+            device_settings = cam_settings[device_name]
+            scheduler.process_run_log["photo_run_"+device_name]=0
+            if device_settings.get('seconds_between_starts'):
+                devices_to_run[device_name]=device_settings.get('seconds_between_starts')
+
+            #print(cam_settings)
+    #print (devices_to_run)
+
+    #sys.exit()
+
     while scheduler.is_running():
+
+        for device_to_run_name in devices_to_run:
+            run_name = "photo_run_" + device_to_run_name
+
+            device_to_run_seconds = devices_to_run[device_to_run_name]
+
+
+            if scheduler.is_time_for(run_name, device_to_run_seconds):
+                print(str(device_to_run_seconds) + "launch run for" + device_to_run_name)
+                subprocess.Popen(["photobot", "run",device_to_run_name])
 
         if scheduler.is_time_for("usb_run",settings['usb_seconds_between_starts']):
             subprocess.Popen(["/var/photobot/env3/bin/python", "/var/photobot/src/photobot.py", "--settings", "/var/photobot/config/photobot.ini"])

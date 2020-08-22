@@ -18,10 +18,16 @@ def get_settings_dict():
         help='Set this option to take a single photo and upload a full-res sample',
         required=False)
 
+    argparser.add_argument(
+        '--camera',
+        help='Set this option to specify the camera to run',
+        required=False)
+
 
     options = argparser.parse_args()
     settings_file = options.settings
     high_res_mode = options.send_high_res_sample
+    camera = options.camera
 
     config = ConfigParser()
     config.read(settings_file)
@@ -33,6 +39,8 @@ def get_settings_dict():
         settings.update(read_yaml_config(yaml_config_path))
 
 
+    if camera:
+        settings['camera'] = camera
     settings['samples_user_host'] = 'samples@photobots.info'
     settings['samples_dest_path'] = '~'
 

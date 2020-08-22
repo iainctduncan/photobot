@@ -76,7 +76,9 @@ def send_ping(subsystem='PI',msg='Ping',status='OK',custom_params={}):
     phone_home_url = get_phone_home_url() #settings['phone_home_url']
     data_json = json.dumps(data)
 
+
     print("sending ping to " + phone_home_url)
+    print(msg)
 
     try:
         r = requests.put(phone_home_url, data_json)
@@ -98,6 +100,7 @@ def get_photo_filename(installation_id,prefix='capture',extension='jpg'):
     return filename
 
 def drive_is_mounted(path):
+    return True
     mounted_result = os.system("grep -qs '"+path+" ' /proc/mounts")
     print(mounted_result)
 

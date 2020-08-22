@@ -15,7 +15,7 @@ import time as timer
 import os
 import sys
 import logging
-from lorex import LorexCam
+from photobot_helpers.lorex import LorexCam
 import argparse
 from configparser import ConfigParser
 
@@ -62,11 +62,10 @@ if __name__=="__main__":
         send_ping("ptz","PTZ disabled","Off")
         sys.exit()
 
-    if is_dark():
-        send_ping("ptz","No photo taken because it is dark", "SLEEP")
-        sys.exit()
+    #if is_dark():
+    #    send_ping("ptz","No photo taken because it is dark", "SLEEP")
+    #    sys.exit()
 
-    #
 
     # exit if settings file missing items
     for setting_name in required_settings:

@@ -4,11 +4,11 @@ from photobot_helpers import *
 
 
 class Sample_Uploader(object):
-    def upload_by_type(self,type='usb'):
+    def upload_by_type(self,type='usb',width=None):
 
-        sample_width_var = type + '_sample_width'
-
-        width = self.settings[sample_width_var]
+        if width is None:
+            sample_width_var = type + '_sample_width'
+            width = self.settings[sample_width_var]
 
         orig_path = get_lastest_photo_path(type)
         self.send_image(orig_path,type,width)
@@ -18,7 +18,6 @@ class Sample_Uploader(object):
         last_sent_path = get_lastest_photo_sent_path(type)
 
         width = str(width)
-
 
         if last_sent_path == path:
             print("already sent")
