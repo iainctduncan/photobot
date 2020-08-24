@@ -100,7 +100,7 @@ def get_photo_filename(installation_id,prefix='capture',extension='jpg'):
     return filename
 
 def drive_is_mounted(path):
-    return True
+
     mounted_result = os.system("grep -qs '"+path+" ' /proc/mounts")
     print(mounted_result)
 
@@ -111,8 +111,6 @@ def drive_is_mounted(path):
 
     #print("path" + path + " is mounted? "+str(is_mounted))
     return is_mounted
-
-
 
 
 def get_usb_storage_path():
