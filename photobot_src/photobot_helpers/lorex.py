@@ -16,7 +16,6 @@ log = logging.getLogger(__name__)
 import pdb
 from onvif import ONVIFCamera
 #from . import photobot_cameras
-from . import camera_base
 
 ptz_delay_between_photos = 3
 ptz_photos_per_round = 3
@@ -28,9 +27,13 @@ class Photobot_Camera(object):
     @classmethod
     def get_default_values(cls):
         defaults = dict()
+
+        defaults['port'] = 80
+        defaults['enable'] = 1
         defaults['delay_between_photos']=3
         defaults['photos_per_round']=3
         defaults['seconds_between_starts'] = 60
+        defaults['run_at_night'] = 0
         #defaults['number_of_rounds'] = 1
         #defaults['delay_between_rounds'] = 5
         defaults['user'] = 'admin'

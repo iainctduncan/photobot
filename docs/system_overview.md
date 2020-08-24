@@ -171,3 +171,57 @@ For the lat and lon, we use the minimum_lat and minimum_lon from the bounding bo
 
 In the configuration of the bot you can also set a "sunset extension" which is a time in minutes to extend photo taking hours by. 
 The default is 45 minutes. So the cameras will take photos for 45 mins before official sunrise and 45 mins after official sunset.
+
+## Configuring Multiple Cameras with the YAML Config
+The newer YAML based configuration system allows you to define as many cameras as you like. The cameras can be of any different type 
+and can run on any schedule.
+
+The name of the device defined in the yaml file is the cameras name. To manually trigger a run or a sample from the camera you can use the photobot script with:
+
+photobot run CAMERA_NAME (to do a full run for that camera) or
+photobot samplecam CAMERA_NAME (to take a sample)
+
+The actual script that is run for taking a photo in the new system is "camrun.py" in the main photobot_src folder. It is essentially a stripped
+down version of the photobot_lorex.py file modernized to run on any camera. It uses the Photobot_Camera_Run class which contains the outer logic for the actual run.
+
+Any device added to the devices list in the photobot.yml file that has a *seconds_between_start* value, and the required configuration values from below will automatically run that often.
+
+Each camera can have a different python class defined for handling the various operations required to take a photo from that camera.
+
+### Configuration Options
+Below are the available configuration options for a camera, with their default, or whether it is requited in brackets after
++ enable (1) - Enable this camera, set to 0 to disable
++ seconds_between_start (required) - number of seconds between the start of each photo run. Traditionally this was 60
++ photos_per_round (3) - Number of photos to take in each round
++ delay_between_photos(3) - Seconds between each photo
++ run_at_night (0) - Whether to take photos after sunset (for example for cameras with night vision)
++ wsdl_dir - (/var/photobot/env2/wsdl) - Where to find the WSDL files for ONVIF devices
++ user - (admin) - username to log into an IP based camera via ONVIF
++ password - (required) password to log into an IP based camera via ONVIF
++ host (defaults to the device name) - ip/hostname for the camera
++ mac_address (no default but not required) - The Unique MAC address/ID of the device, used to find the device on the network
++ camera_class (required) - The name of the Python class that represents the particular camera. More details on that below.
+
+### Custom Classes Per Camera
+
+Each camera in the devices array will have a camera_class defined. This class will be used for handling the actual taking of pictures. 
+The classes are all descendent from the Photobot_Camera class and use inheritance in the following structure
+
++ IP_Cam
+  + CamHi_PTZ (the newer CamHi PTZ)
+  + ANPViz_Bullet (The ANPViz Bullet Cam)
+  + LorexCam (The older lorex PTZ)
+
++ PiHQ_Camera (in development)
++ GPhoto_Camera (in development, could be used for SLRs etc)
+
+The child classes can override some methods to make the process work for the particular camera. 
+The following methods are important
+
++ auth_mode(): - Returns either "digest" or "basic" depending on what auth mode the camera uses
++ _get_snapshot_uri() - gets the url for reading a snapshot. By default this is requested via ONVIF from the camera, 
+but can be overwritten to directly return the url of the camera in question if we know it. In the case of the CamHi PTZ, 
+the ONVIF method for requesting this url doesn't work, but we know the url we need so we can just use it directly.
++ customize_defaults(cls,defaults_array) - this allows you to modify the default values for a camera of this class. 
+This is a class method, and you are passed the existing defaults array to modify and return
+
