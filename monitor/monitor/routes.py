@@ -7,6 +7,7 @@ def includeme(config):
     config.add_route('receiver', '/ping')
     config.add_route('notifications', '/notifications')
     config.add_route('installations', '/installations')
+    config.add_route('manage', '/manage')
     config.add_route('pings', '/pings')
     config.add_route('pings_by_install', '/log/{install}')
     config.add_route('pings_by_subsystem', '/log/{install}/{subsystem}')

@@ -13,7 +13,7 @@ log = logging.getLogger(__name__)
 def installations_view(request):
 
     # the installations shows the latest ping from all active installations
-    installations = request.dbsession.query(Installation).all()
+    installations = request.dbsession.query(Installation).filter_by(display=True).all()
     subsystems = ['pi', 'usb', 'ptz','ais', 'disk', 'thermal']
     #subsystems = ['pi']
 
