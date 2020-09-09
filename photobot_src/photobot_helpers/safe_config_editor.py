@@ -118,7 +118,7 @@ class SafeConfigEditor(object):
                 res = input("%s y/x >> " % question)
 
             if res.lower() == 'x':
-                print("\nEXITING")
+                #print("\nEXITING")
                 self.exit()
             if res.lower() in ('y','yes'):
                 return True
