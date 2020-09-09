@@ -1,17 +1,35 @@
-devices:
-        lorex:
-                mac_address: "00:40:7f:b8:a4:f8"
+# -----------------------------------------
+# Main Photobot YAML File
+# -----------------------------------------
+# Uncomment lines to add to configuration.
 
-        usb:
-                webbar_outlet: '2'
-        ptznew:
-                mac_address: "7C:A7:B0:64:4A:14"
+#network_ip_range: "192.168.50.1-255" # IP Range for devices in your network. Will depend on what IP ranges the router defines
+#devices:
+#  ptzcamhi:
+#    mac_address: "00:59:A2:CE:ED:7C" #replace with MAC address of actual device
+#    port: 8080 # port to connect to for ONVIF access
+#    user: admin # username for onvif access
+#    password: admin #pass for onvif access
+#    enable: 1 # toggle if we run this device
+#    run_at_night: 1 # toggle if we take pictures after sunset
+#    seconds_between_starts: 40 #seconds between starts, won't run unless this values is set
+#    camera_class: CamHi_PTZ # Python class to handle this camera
+#
+#  usb:
+#    webbar_outlet: '2' # which outlet on the webbar to cycle to power on and off SLR camera
+#
+#  ptzbullet:
+#    mac_address: "00:08:00:06:06:2d"
+#    user: admin
+#    port: 8083
+#    password: 1photobot
+#    enable: 1
+#    run_at_night: 1
+#    seconds_between_starts: 40
+#    camera_class: ANPViz_Bullet
 
-        webbar:
-                mac_address: "7C:E1:FF:02:C5:38"
-                api_creds:
-                        username: 'admin'
-                        password: '1photobot'
-                        port: '8088'
-
-network_ip_range: "192.168.31.1-255"
+#  webbar:
+#    api_creds:
+#      username: 'admin'
+#      password: '1photobot'
+#      port: '8088'

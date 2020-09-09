@@ -1,24 +1,30 @@
-webbar:
-  type: http
-  subdomain: webbar.testpi.photobots
-  to: webbar:8088
+#------------------------------
+# Localxpose configuration
+#------------------------------
+# Uncomment lines to enable devices
+# replace 'testpi' with the name of this photobot (the same one defined in the .ini config, that is used to identify this to the monitor panel)
+#-------------------------------
+#webbar:
+#  type: http
+#  subdomain: webbar.testpi.photobots
+#  to: webbar:8089
 
-ptznew:
-  type: http
-  to: ptznew:8082
-  subdomain: ptznew.testpi.photobots
+#ptznew:
+#  type: http
+#  to: ptznew:8082
+#  subdomain: ptznew.testpi.photobots
 
-lorex:
-  type: http
-  to: lorex:80
-  subdomain: lorex.testpi.photobots
+#lorex:
+#  type: http
+#  to: lorex:80
+#  subdomain: lorex.testpi.photobots
 
-ptzudp:
-  type: udp
-  to: ptznew:8054
-  subdomain: udp.ptznew.testpi.photobots
+#ptzudp:
+#  type: udp
+#  to: ptznew:8054
+#  subdomain: udp.ptznew.testpi.photobots
 
-ssh:
-  type: tls
-  subdomain: ssh.testpi.photobots
-  to: 127.0.0.1:22
+#ssh:
+#  type: tls
+#  subdomain: ssh.testpi.photobots
+#  to: 127.0.0.1:22
