@@ -188,7 +188,7 @@ Any device added to the devices list in the photobot.yml file that has a *second
 
 Each camera can have a different python class defined for handling the various operations required to take a photo from that camera.
 
-### Using configuration script
+### Using the YAML Configuration Script
 Because editing YAML files can cause YAML syntax errors that would break the system we have a script to ensure safe editing.
 The script will: 
 + make a backup of the original file. These backups are timestamped and remain in /var/photobot/config/backups forever.
