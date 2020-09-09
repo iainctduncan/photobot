@@ -1,4 +1,5 @@
 from ruamel.yaml import YAML
+#from ruamel.yaml import YAML.YAMLError
 from configparser import ConfigParser
 import argparse
 import sys
@@ -23,11 +24,17 @@ def get_settings_dict():
         help='Set this option to specify the camera to run',
         required=False)
 
+    argparser.add_argument(
+        '--which_config',
+        help='specify which config file to edit, could be yaml (main yaml config) or tunnels (tunnel config)',
+        required=False)
+
 
     options = argparser.parse_args()
     settings_file = options.settings
     high_res_mode = options.send_high_res_sample
     camera = options.camera
+    which_config = options.which_config
 
     config = ConfigParser()
     config.read(settings_file)
@@ -41,6 +48,9 @@ def get_settings_dict():
 
     if camera:
         settings['camera'] = camera
+
+    if which_config:
+        settings['which_config'] = which_config
     settings['samples_user_host'] = 'samples@photobots.info'
     settings['samples_dest_path'] = '~'
 
@@ -108,7 +118,8 @@ def read_yaml_config(yaml_config_file):
         try:
             config_dict = yaml.load(stream)
 
-        except yaml.YAMLError as exc:
-            print(exc)
+        except:
+            print("could not parse YAML file:  " + yaml_config_file)
+            config_dict = dict()
 
     return config_dict

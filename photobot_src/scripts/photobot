@@ -48,6 +48,9 @@ case $1 in
     samplecam)
         /var/photobot/env2/bin/python /var/photobot/src/camrun.py --settings /var/photobot/config/photobot.ini --camera $2 --send_high_res_sample 1
         ;;
+    edit-config)
+        /var/photobot/env3/bin/python /var/photobot/src/edit_yaml_config.py --settings /var/photobot/config/photobot.ini --which_config $2c
+        ;;
     *)
         echo "
         -------Photobot Command Script--------
@@ -66,6 +69,7 @@ case $1 in
         thermal - take a thermal photo and upload sample
         tunnels - start the ssh tunneling process to make devices available outside the local network
         netsearch - search the network for devices by MAC address and assign hostnames
+        configyaml - Edit the modern style YAML config file with backups and syntax checks
 
         "
         ;;
