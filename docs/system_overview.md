@@ -188,6 +188,23 @@ Any device added to the devices list in the photobot.yml file that has a *second
 
 Each camera can have a different python class defined for handling the various operations required to take a photo from that camera.
 
+### Using configuration script
+Because editing YAML files can cause YAML syntax errors that would break the system we have a script to ensure safe editing.
+The script will: 
++ make a backup of the original file. These backups are timestamped and remain in /var/photobot/config/backups forever.
++ make another copy for editing, and if the syntax is valid it gives you the option to replace the live config.
++ The first time you run the script, if you don't have a configuration file it will copy in the default example file.
+
+If you get stuck and abort the process, all of your temporary files will still exist in the /var/photobot/config/editing folder
+
+To run the configuration command for the main photobot.yml file use:
+`photobot edit-config yaml`
+
+To run for the tunnels config use: `photobot edit-config tunnels`
+
+
+The script works for both the main photobot.yml file, as well as the tunnels.yml file that controls the localxpose tunnels
+
 ### Configuration Options
 Below are the available configuration options for a camera, with their default, or whether it is requited in brackets after
 + enable (1) - Enable this camera, set to 0 to disable
