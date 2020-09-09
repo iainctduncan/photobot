@@ -11,7 +11,7 @@ class SafeConfigEditor(object):
         now = datetime.now()
         self.date_time_string = now.strftime("%Y-%m-%d-%H-%M-%S-")
 
-        print(self.config_file_path)
+        #print(self.config_file_path)
 
     def run_safe_edit(self):
         self.ensure_file_exists()
@@ -33,7 +33,7 @@ class SafeConfigEditor(object):
 
         if(self.has_valid_yaml(self.temp_edit_path())):
             self.bold_status("Configuration looks good!")
-            if self.confirm("replace live config"):
+            if self.confirm("Replace live config?"):
                 self.copy(self.temp_edit_path(),self.config_file_path,True)
             else:
                 self.bold_status("OK, aborting. Original file is unmodified and temporary version with your changes is at:\n" + self.temp_edit_path())
@@ -104,9 +104,7 @@ class SafeConfigEditor(object):
     def mkdir(self,dir):
 
         exists = os.path.isdir(dir)
-        if exists:
-            print (dir + " exists already") # Store configuration file values
-        else:
+        if not exists:
             self.do("mkdir " + dir)
 
     def confirm(self, question, allow_no=True):
