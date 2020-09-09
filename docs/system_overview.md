@@ -195,15 +195,15 @@ The script will:
 + make another copy for editing, and if the syntax is valid it gives you the option to replace the live config.
 + The first time you run the script, if you don't have a configuration file it will copy in the default example file.
 
-If you get stuck and abort the process, all of your temporary files will still exist in the /var/photobot/config/editing folder
+If you get stuck and abort the process, all of your temporary files will still exist in the /var/photobot/config/editing folder so you can manually fix and replace later if needed.
+
+The script works for both the main photobot.yml file, as well as the tunnels.yml file that controls the localxpose tunnels
 
 To run the configuration command for the main photobot.yml file use:
 `photobot edit-config yaml`
 
 To run for the tunnels config use: `photobot edit-config tunnels`
 
-
-The script works for both the main photobot.yml file, as well as the tunnels.yml file that controls the localxpose tunnels
 
 ### Configuration Options
 Below are the available configuration options for a camera, with their default, or whether it is requited in brackets after
