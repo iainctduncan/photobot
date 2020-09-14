@@ -31,6 +31,18 @@ class CamHi_PTZ(IPCam):
         defaults['delay_between_photos']=5
         return defaults
 
+class Pi_HQ_Camera(Photobot_Camera):
+
+    def __init__(self, **settings):
+        self.settings = settings
+
+    def save_image(self, filename):
+        print("Saving Image")
+        os.system("raspistill -ss 2500 -o " + filename)
+
+
+
+
 class Photobot_Camera_Run(object):
 
     def __init__(self,device_name,*settings):
@@ -116,27 +128,7 @@ class Photobot_Camera_Run(object):
         log.info("EXECUTING RUN at %s" % datetime.now())
 
 
-        # instantiate our lorex camera
-        # these settings could come from env variables. How will we get the network address??
-        try:
-            CameraClass = self.camera_class()
-
-            lorex_cam = CameraClass(
-                host=self.host(),
-                port=self.setting('port'),
-                user=self.setting('user'),
-                password=self.setting('password'),
-                wsdl_dir=self.setting('wsdl_dir'),
-            )
-        except Exception:
-            exc_type, exc_value, exc_tb = sys.exc_info()
-            traceback.print_exception(exc_type, exc_value, exc_tb)
-            ptz_mac = settings.get('devices', {}).get(self.device_name, {}).get('mac_address')
-
-            if ptz_mac:
-                rescan_network_for_devices()
-
-            error_and_quit("Could not connect to "+self.device_name+" camera at " + self.host(), self.device_name)
+        cam = self.instantiate_camera()
 
         # execute X rounds of Y pictures according to settings
 
@@ -144,7 +136,7 @@ class Photobot_Camera_Run(object):
             filename = get_photo_filename(settings['installation_id'], self.device_name + '_capture')
 
             # save capture from camera
-            lorex_cam.save_image(get_capture_target_dir() + "/" + filename)
+            cam.save_image(get_capture_target_dir() + "/" + filename)
             log_latest_photo_path(get_capture_target_dir() + "/" + filename, self.device_name)
 
             if settings['high_res_sample_mode']:
@@ -158,3 +150,49 @@ class Photobot_Camera_Run(object):
             # photo home
 
         send_ping(self.device_name, "Completed " + self.device_name + " Run", "OK")
+
+    def instantiate_camera(self):
+
+        if self.setting("port"):
+            return self.instatiate_ip_camera()
+        else:
+            return self.instatiate_attached_camera()
+
+    def instatiate_attached_camera(self):
+        # instantiate our lorex camera
+        # these settings could come from env variables. How will we get the network address??
+        try:
+            CameraClass = self.camera_class()
+
+            cam = CameraClass(self.settings)
+
+        except Exception:
+            error_and_quit("Could not instantiate local camera " + self.device_name )
+
+        return cam
+
+    def instatiate_ip_camera(self):
+        # instantiate our ipcamera
+
+        try:
+            CameraClass = self.camera_class()
+
+            cam = CameraClass(
+                host=self.host(),
+                port=self.setting('port'),
+                user=self.setting('user'),
+                password=self.setting('password'),
+                wsdl_dir=self.setting('wsdl_dir'),
+            )
+
+        except Exception:
+            exc_type, exc_value, exc_tb = sys.exc_info()
+            traceback.print_exception(exc_type, exc_value, exc_tb)
+            mac_address = self.setting('mac_address') #settings.get('devices', {}).get(self.device_name, {}).get('mac_address')
+
+            if mac_address:
+                rescan_network_for_devices()
+
+            error_and_quit("Could not connect to " + self.device_name+" camera at " + self.host(), self.device_name)
+
+        return cam

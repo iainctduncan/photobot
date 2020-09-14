@@ -58,6 +58,7 @@ case $1 in
 
         sample - Take a sample image with the USB camera and upload it to the monitoring panel
         ptzsample - Take a sample image with the PTZ camera and upload it to the monitoring panel
+        samplecam - Take a sample from an arbitrary camera usage samplecam [CAMERA NAME]
         update - Update the source code to the latest version from the git repository
         configure - Run configuration script.
         install - Re-Run installation script. Useful for setting up new components, updating software etc.
@@ -69,7 +70,8 @@ case $1 in
         thermal - take a thermal photo and upload sample
         tunnels - start the ssh tunneling process to make devices available outside the local network
         netsearch - search the network for devices by MAC address and assign hostnames
-        configyaml - Edit the modern style YAML config file with backups and syntax checks
+        edit-config - Edit the modern style YAML config file with backups and syntax checks
+        edit-config - Edit the modern style YAML config file with backups and syntax checks
 
         "
         ;;

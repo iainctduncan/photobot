@@ -4,6 +4,7 @@
 # Uncomment lines to add to configuration.
 
 #network_ip_range: "192.168.50.1-255" # IP Range for devices in your network. Will depend on what IP ranges the router defines
+# skip_mount_check: 0 # set to 1 for development devices, where you don't have an external hard drive to mount
 #devices:
 #  ptzcamhi:
 #    mac_address: "00:59:A2:CE:ED:7C" #replace with MAC address of actual device

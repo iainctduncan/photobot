@@ -101,6 +101,11 @@ def get_photo_filename(installation_id,prefix='capture',extension='jpg'):
 
 def drive_is_mounted(path):
 
+    settings = get_settings_dict()
+
+    if settings.get('skip_mount_check'):
+        return True
+
     mounted_result = os.system("grep -qs '"+path+" ' /proc/mounts")
     print(mounted_result)
 
