@@ -38,18 +38,27 @@ class Pi_HQ_Camera(Photobot_Camera):
 
         print(self.settings)
 
+    @classmethod
+    def customize_defaults(cls, defaults):
+        defaults['jpeg_quality'] = 95
+        return defaults
+
     def save_image(self, filename):
         print("Taking Pi HQ image...")
 
         args =''
 
-        rotation = self.settings.get('rotation_degrees')
+        rotation = self.setting('rotation_degrees')
         if rotation:
             args = args + " --rotation " + str(rotation)
 
-        shutter_speed = self.settings.get('shutter_speed')
+        shutter_speed = self.setting('shutter_speed')
         if shutter_speed:
             args = args + " --shutter " + str(shutter_speed)
+
+        jpeg_quality = self.setting('jpeg_quality')
+        if jpeg_quality:
+            args = args + " --quality " + str(jpeg_quality)
 
         print("raspistill " + args + " -o " + filename)
         os.system("raspistill " + args + " -o " + filename)

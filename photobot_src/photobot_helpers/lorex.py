@@ -55,6 +55,11 @@ class Photobot_Camera(object):
 
         return default_val
 
+    def setting(self,setting_name):
+
+        default_value = self.get_default_value(setting_name)
+        return str(self.settings.get(setting_name,default_value))
+
 class IPCam(Photobot_Camera):
 
     def identify(self):
