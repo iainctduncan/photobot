@@ -49,7 +49,7 @@ case $1 in
         /var/photobot/env2/bin/python /var/photobot/src/camrun.py --settings /var/photobot/config/photobot.ini --camera $2 --send_high_res_sample 1
         ;;
     edit-config)
-        /var/photobot/env3/bin/python /var/photobot/src/edit_yaml_config.py --settings /var/photobot/config/photobot.ini --which_config $2c
+        /var/photobot/env3/bin/python /var/photobot/src/edit_yaml_config.py --settings /var/photobot/config/photobot.ini --which_config $2
         ;;
     *)
         echo "
