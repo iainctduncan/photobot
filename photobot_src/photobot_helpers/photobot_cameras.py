@@ -33,14 +33,26 @@ class CamHi_PTZ(IPCam):
 
 class Pi_HQ_Camera(Photobot_Camera):
 
-    def __init__(self, **settings):
+    def __init__(self, settings):
         self.settings = settings
 
+        print(self.settings)
+
     def save_image(self, filename):
-        print("Saving Image")
-        os.system("raspistill -ss 2500 -o " + filename)
+        print("Taking Pi HQ image...")
 
+        args =''
 
+        rotation = self.settings.get('rotation_degrees')
+        if rotation:
+            args = args + " -rotation " + str(rotation)
+
+        shutter_speed = self.settings.get('shutter_speed')
+        if shutter_speed:
+            args = args + " -ss " + str(shutter_speed)
+
+        print("raspistill " + args + " -o " + filename)
+        os.system("raspistill " + args + " -o " + filename)
 
 
 class Photobot_Camera_Run(object):
@@ -153,21 +165,26 @@ class Photobot_Camera_Run(object):
 
     def instantiate_camera(self):
 
-        if self.setting("port"):
+        if self.setting("mac_address"):
+            #print("using ip cam")
             return self.instatiate_ip_camera()
         else:
+            #print("using attached cam")
             return self.instatiate_attached_camera()
 
     def instatiate_attached_camera(self):
-        # instantiate our lorex camera
+        # instantiate our attached cameras
         # these settings could come from env variables. How will we get the network address??
+
         try:
+
             CameraClass = self.camera_class()
 
             cam = CameraClass(self.settings)
+            #print(cam)
 
         except Exception:
-            error_and_quit("Could not instantiate local camera " + self.device_name )
+            error_and_quit("Could not instantiate attached camera " + self.device_name,self.device_name)
 
         return cam
 
