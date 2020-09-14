@@ -27,11 +27,11 @@ if __name__=="__main__":
 
     if which_config == 'yaml':
         config_file = settings['yaml_config_file']
-        example_file = '/var/photobot/docs/example_photobot.yml'
+        example_file = '/var/photobot/repo/docs/example_photobot.yml'
 
     elif which_config== 'tunnels':
         config_file = "/var/photobot/config/tunnels.yml"
-        example_file = '/var/photobot/docs/example_tunnels.yml'
+        example_file = '/var/photobot/repo/docs/example_tunnels.yml'
     else:
         print("Please enter a valid config file to edit. Options are: \n yaml - Main yaml config \n tunnels - Localxpose tunnels config")
         sys.exit()
