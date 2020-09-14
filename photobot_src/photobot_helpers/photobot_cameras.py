@@ -40,7 +40,7 @@ class Pi_HQ_Camera(Photobot_Camera):
 
     @classmethod
     def customize_defaults(cls, defaults):
-        defaults['jpeg_quality'] = 95
+        defaults['jpeg_quality'] = 25
         return defaults
 
     def save_image(self, filename):
