@@ -45,11 +45,11 @@ class Pi_HQ_Camera(Photobot_Camera):
 
         rotation = self.settings.get('rotation_degrees')
         if rotation:
-            args = args + " -rotation " + str(rotation)
+            args = args + " --rotation " + str(rotation)
 
         shutter_speed = self.settings.get('shutter_speed')
         if shutter_speed:
-            args = args + " -ss " + str(shutter_speed)
+            args = args + " --shutter " + str(shutter_speed)
 
         print("raspistill " + args + " -o " + filename)
         os.system("raspistill " + args + " -o " + filename)
