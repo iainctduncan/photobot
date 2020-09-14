@@ -66,7 +66,7 @@ class SafeConfigEditor(object):
         return self.config_root_path() + "editing/"+self.timestamped_filename()
 
     def backup_existing_config(self):
-        self.mkdir(self.config_file_path +"backups")
+        self.mkdir(self.config_root_path() +"backups")
         self.do("cp " + self.config_file_path + " " + self.config_root_path() + "backups/" + self.timestamped_filename())
 
     def timestamped_filename(self):
