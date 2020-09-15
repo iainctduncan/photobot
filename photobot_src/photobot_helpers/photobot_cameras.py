@@ -127,7 +127,7 @@ class Photobot_Camera_Run(object):
 
         if self.setting('enable') == '0':
             log.info(self.device_name + " is disabled. Exiting")
-            send_ping(self.device_name, self.device_name + " disabled", "Off")
+            send_disabled_ping(self.device_name)
             sys.exit()
 
         if is_dark() and not self.setting('run_at_night'):

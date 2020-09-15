@@ -11,13 +11,13 @@ class Sample_Uploader(object):
             sample_width_var = type + '_sample_width'
             width = self.settings[sample_width_var]
 
-        orig_path = get_lastest_photo_path(type)
+        orig_path = get_latest_photo_path(type)
         #print ("orig path was " + orig_path)
         self.send_image(orig_path,type,width)
 
     def send_image(self,path,type,width):
 
-        last_sent_path = get_lastest_photo_sent_path(type)
+        last_sent_path = get_latest_photo_sent_path(type)
 
 
         #print( "last_sent_path was: " + last_sent_path)

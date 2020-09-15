@@ -52,6 +52,26 @@ def get_logger():
         print("can't setup log")
         return False
 
+def send_disabled_ping(subsystem='PI'):
+    msg = subsystem + "disabled "
+
+    latest_ping = get_latest_disabled_ping(subsystem)
+
+    #print("latest ping is " + str(latest_ping))
+    now_timestamp = int(timer.time())
+
+    seconds_in_day = 86400
+    #print("now ts is " + str(now_timestamp))
+    next_ping_time = latest_ping + seconds_in_day
+    #print("next ping is " + str(next_ping_time))
+
+
+    if( latest_ping and  next_ping_time < now_timestamp):
+        print("no need to ping")
+        return
+
+    log_latest_disabled_ping(subsystem)
+    send_ping(subsystem,msg,"Off")
 
 def send_ping(subsystem='PI',msg='Ping',status='OK',custom_params={}):
 
@@ -215,7 +235,7 @@ def log_latest_photo_path(path,type='usb'):
     with open("/var/photobot/logs/latest_photo_"+type+".log", "w") as f:
         f.write( str(path) )
 
-def get_lastest_photo_path(type='usb'):
+def get_latest_photo_path(type='usb'):
     try:
         with open("/var/photobot/logs/latest_photo_"+type+".log", "r") as f:
             path = str(f.read())
@@ -228,14 +248,28 @@ def log_latest_photo_sent_path(path,type='usb'):
     with open("/var/photobot/logs/latest_photo_sent_"+type+".log", "w") as f:
         f.write( str(path) )
 
-def get_lastest_photo_sent_path(type='usb'):
+def get_latest_photo_sent_path(type='usb'):
     try:
         with open("/var/photobot/logs/latest_photo_sent_"+type+".log", "r") as f:
             path = str(f.read())
             return path.rstrip()
-
     except:
         return False
+
+def log_latest_disabled_ping(type='usb'):
+    stamp = int(timer.time())
+    with open("/var/photobot/logs/latest_disabled_ping_"+type+".log", "w") as f:
+        f.write( str(stamp) )
+
+def get_latest_disabled_ping(type='usb'):
+    try:
+        with open("/var/photobot/logs/latest_disabled_ping_"+type+".log", "r") as f:
+            path = str(f.read())
+            return int(path.rstrip())
+
+    except:
+        return 0
+
 
 def ensure_dir(dir):
 
@@ -338,7 +372,7 @@ def capture_thermal_image():
 
     if str(settings['enable_thermal_camera']) =='0':
         log.info("Thermal Camera is disabled. Exiting")
-        send_ping("thermal", "Thermal disabled", "Off")
+        send_disabled_ping("thermal")
         return;
 
     target = get_capture_target_dir()

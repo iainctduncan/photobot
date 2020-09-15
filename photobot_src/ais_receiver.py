@@ -69,7 +69,7 @@ def main():
     log.info("ais_receiver main() starting")
     log.info(settings['enable_ais_receiver'])
     if settings['enable_ais_receiver'] == '0':
-        send_ping("ais", "AIS disabled", "Off")
+        send_disabled_ping("ais")
         timer.sleep(100000)
         sys.exit()
 
