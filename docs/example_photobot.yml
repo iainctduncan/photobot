@@ -5,6 +5,8 @@
 
 #network_ip_range: "192.168.50.1-255" # IP Range for devices in your network. Will depend on what IP ranges the router defines
 # skip_mount_check: 0 # set to 1 for development devices, where you don't have an external hard drive to mount
+#sample_upload_interval: 3600 # number of seconds between sample uploads. Can be overwritten per device by setting seconds_between_sample_uploads on the particular device
+#sample_width_default: 800 # width in pixels of sample uploads, can be overwritten per device by adding 'sample_width' on that device
 #devices:
 #  picam:
 #    shutter_speed: 2500
@@ -35,6 +37,8 @@
 #    enable: 1
 #    run_at_night: 1
 #    seconds_between_starts: 40
+#    sample_width: 801
+#    seconds_between_sample_uploads: 3601
 #    camera_class: ANPViz_Bullet
 
 #  webbar:

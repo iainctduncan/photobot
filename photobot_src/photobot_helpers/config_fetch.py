@@ -54,17 +54,23 @@ def get_settings_dict():
     settings['samples_user_host'] = 'samples@photobots.info'
     settings['samples_dest_path'] = '~'
 
-    settings['usb_upload_interval'] = 3600
-    settings['ptz_upload_interval'] = 3600
-    settings['thermal_upload_interval'] = 3600
+    if not settings.get('sample_upload_interval'):
+        settings['sample_upload_interval'] = 3600
+
+    if not settings.get('sample_width_default'):
+        settings['sample_width_default'] = 800
+
+    settings['usb_upload_interval'] = settings['sample_upload_interval']
+    settings['ptz_upload_interval'] = settings['sample_upload_interval']
+    settings['thermal_upload_interval'] = settings['sample_upload_interval']
 
     if high_res_mode:
         settings['usb_sample_width'] = 0
         settings['ptz_sample_width'] = 0
         settings['high_res_sample_mode'] = True
     else:
-        settings['usb_sample_width'] = 800
-        settings['ptz_sample_width'] = 800
+        settings['usb_sample_width'] = settings['sample_width_default']
+        settings['ptz_sample_width'] = settings['sample_width_default']
         settings['high_res_sample_mode'] = False
 
     #settings['usb_sample_width'] = 800
