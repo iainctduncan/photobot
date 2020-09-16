@@ -223,6 +223,8 @@ class PhotobotInstaller(InstallHelper):
         print("log into our account at localxpose.io and paste in the account access token if we want/need it")
         self.do("loclx account login")
         self.do("ln -s /var/photobot/src/supervisord_conf/tunnels.conf /etc/supervisor/conf.d/tunnels.conf")
+        self.do("photobot edit-config yaml")
+        self.do("photobot edit-config tunnels")
         self.do("supervisorctl reread")
         self.do("supervisorctl update")
         self.do("photobot netsearch")
