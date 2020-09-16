@@ -53,17 +53,17 @@ def get_logger():
         return False
 
 def send_disabled_ping(subsystem='PI'):
-    msg = subsystem + "disabled "
+    msg = subsystem + " disabled "
 
     latest_ping = get_latest_disabled_ping(subsystem)
 
-    #print("latest ping is " + str(latest_ping))
+    print("latest ping is " + str(latest_ping))
     now_timestamp = int(timer.time())
 
     seconds_in_day = 86400
-    #print("now ts is " + str(now_timestamp))
+    print("now ts is " + str(now_timestamp))
     next_ping_time = latest_ping + seconds_in_day
-    #print("next ping is " + str(next_ping_time))
+    print("next ping is " + str(next_ping_time))
 
 
     if( latest_ping and  next_ping_time < now_timestamp):
