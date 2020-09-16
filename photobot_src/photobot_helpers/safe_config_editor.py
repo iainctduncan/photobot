@@ -29,7 +29,7 @@ class SafeConfigEditor(object):
         if not os.path.isfile(self.temp_edit_path()):
             self.copy(self.config_file_path,self.temp_edit_path())
 
-        self.do("nano " + self.temp_edit_path())
+        self.do("nano -T 2 -E " + self.temp_edit_path())
 
         if(self.has_valid_yaml(self.temp_edit_path())):
             self.bold_status("Configuration looks good!")
