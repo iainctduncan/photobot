@@ -205,7 +205,14 @@ To run the configuration command for the main photobot.yml file use:
 To run for the tunnels config use: `photobot edit-config tunnels`
 
 
-### Configuration Options
+### Configuration Options - Global
+Below are the available global configuration options
++ network_ip_range (required) - network range to search for devices by MAC address
++ sample_upload_interval (3600) - Seconds between sample uploads. This is the default for all cameras, but can be overwritten
++ sample_width_default (800)- width in pixels for sample image uploads, will apply to all cameras unless they have custom values per camersa
++ skip_mount_check (0) - Set this to 1 in a development environment where the /mnt/usbstorage folder isn't an external drive, to prevent it trying to ensure the drive is mounted.
+
+### Configuration Options - Per Camera
 Below are the available configuration options for a camera, with their default, or whether it is requited in brackets after
 + enable (1) - Enable this camera, set to 0 to disable
 + seconds_between_start (required) - number of seconds between the start of each photo run. Traditionally this was 60
@@ -218,6 +225,8 @@ Below are the available configuration options for a camera, with their default, 
 + host (defaults to the device name) - ip/hostname for the camera
 + mac_address (no default but not required) - The Unique MAC address/ID of the device, used to find the device on the network
 + camera_class (required) - The name of the Python class that represents the particular camera. More details on that below.
++ sample_width  (default 800)- width in pixels of the sample images uploaded to the monitoring panel
++ seconds_between_sample_uploads (default to value of top level sample_upload_interval variable) seconds between sample uploads for this camera
 
 ### Custom Classes Per Camera
 
