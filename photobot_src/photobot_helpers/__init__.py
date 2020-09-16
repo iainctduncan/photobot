@@ -57,18 +57,19 @@ def send_disabled_ping(subsystem='PI'):
 
     latest_ping = get_latest_disabled_ping(subsystem)
 
-    print("latest ping is " + str(latest_ping))
-    now_timestamp = int(timer.time())
+    if latest_ping:
+        #print("latest ping is " + str(latest_ping))
+        now_timestamp = int(timer.time())
 
-    seconds_in_day = 86400
-    print("now ts is " + str(now_timestamp))
-    next_ping_time = latest_ping + seconds_in_day
-    print("next ping is " + str(next_ping_time))
+        seconds_in_day = 86400
+        #print("now ts is " + str(now_timestamp))
+        next_ping_time = latest_ping + seconds_in_day
+        #print("next ping is " + str(next_ping_time))
 
 
-    if( latest_ping and  next_ping_time < now_timestamp):
-        print("no need to ping")
-        return
+        if next_ping_time > now_timestamp:
+            print("no need to ping")
+            return
 
     log_latest_disabled_ping(subsystem)
     send_ping(subsystem,msg,"Off")
