@@ -62,9 +62,9 @@ if __name__=="__main__":
         send_disabled_ping("ptz")
         sys.exit()
 
-    #if is_dark():
-    #    send_ping("ptz","No photo taken because it is dark", "SLEEP")
-    #    sys.exit()
+    if is_dark():
+        send_ping("ptz","No photo taken because it is dark", "SLEEP")
+        sys.exit()
 
 
     # exit if settings file missing items
