@@ -28,7 +28,7 @@
          {% for system in item['ping_dict'] %}
              <div class="FieldPair">
                 <span class="FieldDef">{{system}}</span> :
-                 <span class="FieldValue {{item['ping_dict'][system]}}"><a href="/log/{{item['installation'].uid}}/{{item['ping_dict'][system]}}">{{item['ping_dict'][system]}}</a></span>
+                 <a href="/log/{{item['installation'].uid}}/{{item['ping_dict'][system]}}"><span class="FieldValue {{item['ping_dict'][system]}}">{{item['ping_dict'][system]}}</span></a>
              </div>
          {% endfor %}
 
