@@ -24,8 +24,8 @@ def merge_two_dicts(x, y):
     z.update(y)    # modifies z with y's keys and values & returns None
     return z
 def get_phone_home_url():
-    return "http://127.0.0.1:6543/ping"
-    #return "http://photobots.info:8001/ping"
+    #return "http://127.0.0.1:6543/ping"
+    return "http://photobots.info:8001/ping"
 
 def setup_logging(log_filepath, log_level=logging.INFO):
     "setup the python logging structure"
