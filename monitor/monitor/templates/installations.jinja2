@@ -5,38 +5,36 @@
   <h2>Photobot Installations</h2>
     <p>Click any status column for detailed log on that subsystem</p>
 
-  <table class="installations">
-    <tr>
-      <th>UID</th>
-      <th>Name</th>
-      <th>IP</th>
-      <th>Pi</th>
-      <th>USB</th>
-      <th>PTZ</th>
-      <th>Thermal</th>
-      <th>AIS</th>
-      <th>GB Free</th>
+  <div class="installations clearfix">
 
-      <th>Last Health Check</th>
-      <th>Samples</th>
-
-    </tr>
   {% for item in installs %}
-    <tr>
-        <td><span><a href="/log/{{item['installation'].uid}}">{{item['installation'].uid}}</a></span></td>
-      <td><span >{{item['installation'].name}}</span></td>
-      <td><span >{{item['installation'].ip_address}}</span></td>
+    <div class="Installation">
+        <h3><a href="/log/{{item['installation'].uid}}">{{item['installation'].uid}}</a></h3>
+      <div class="InstallName" >{{item['installation'].name}}</div>
+      <div class="IP" >{{item['installation'].ip_address}}</div>
+        <!--
         <td class="StatusCell"><a href="/log/{{item['installation'].uid}}/pi"><span class="{{item['ping_dict']['pi']}}">{{item['ping_dict']['pi']}}</span></a></td>
       <td class="StatusCell"><a href="/log/{{item['installation'].uid}}/usb"><span class="{{item['ping_dict']['usb']}}">{{item['ping_dict']['usb']}}</span></a></td>
       <td class="StatusCell"><a href="/log/{{item['installation'].uid}}/ptz"><span class="{{item['ping_dict']['ptz']}}">{{item['ping_dict']['ptz']}}</span></a></td>
         <td class="StatusCell"><a href="/log/{{item['installation'].uid}}/thermal"><span class="{{item['ping_dict']['thermal']}}">{{item['ping_dict']['thermal']}}</span></a></td>
         <td class="StatusCell"><a href="/log/{{item['installation'].uid}}/ais"><span class="{{item['ping_dict']['ais']}}">{{item['ping_dict']['ais']}}</span></a></td>
         <td class="NumberCell"><a href="/log/{{item['installation'].uid}}/disk"><span class="{{item['ping_dict']['disk']}}">{{item['ping_dict']['disk']}}</span></a></td>
-        <td><strong>{{item['installation'].last_ping_time}}</strong></td>
-        <td><strong><a href="/samps/{{item['installation'].uid}}">view</a></strong></td>
-    </tr>
+
+
+        -->
+         {% for system in item['ping_dict'] %}
+             <div class="FieldPair">
+                <span class="FieldDef">{{system}}</span> :
+                <span class="FieldValue {{item['ping_dict'][system]}}">{{item['ping_dict'][system]}}</span>
+             </div>
+         {% endfor %}
+            <div class="FieldPair">
+                <span class="FieldDef">Last Ping</span>: <span class="Field Value">{{item['installation'].last_ping_time}}</span>
+            </div>
+         <div class="SamplesLink"><a href="/samps/{{item['installation'].uid}}">view samples</a></div>
+    </div>
   {% endfor %}
-  </table>
+  </div>
 
 </div>
 {% endblock content %}

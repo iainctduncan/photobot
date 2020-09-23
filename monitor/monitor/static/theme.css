@@ -159,3 +159,13 @@ td, th {
 .NumberCell{
     text-align: right;
 }
+.Installation{
+  height:300px;
+  width:240px;
+  float:left;
+  border: 1px dashed #ccc;
+  padding:14px;
+}
+.InstallName{
+  font-weight:bold;
+}
