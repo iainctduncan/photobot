@@ -5,6 +5,9 @@ from sqlalchemy.exc import DBAPIError
 
 from ..models import Installation, Ping, Notification
 
+from datetime import datetime
+import time
+#from time import time as timemaker
 import logging
 log = logging.getLogger(__name__)
 
@@ -25,14 +28,43 @@ def installations_view(request):
         last_ping = installation.get_last_ping_by_subsystem(request.dbsession)
         if last_ping:
             installation.last_ping_time = last_ping.datetime
+
+            last_ping_datetime = last_ping.datetime #datetime.strptime(last_ping.datetime,'%Y-%m-%d %H:%M:%S')
+            now = datetime.now()
+            now_ts = time.mktime(now.timetuple())
+            last_ts = time.mktime(last_ping_datetime.timetuple())
+
+            diff = now_ts - last_ts
+
+            if diff < 3600:
+                installation.last_ping_class = "RecentPing"
+            elif diff < 10800:
+                installation.last_ping_class = "MediumPing"
+            else:
+                installation.last_ping_class = "OldPing"
         else:
             installation.last_ping_time = "N/A"
+            installation.last_ping_class = "MissingPing"
             #with transaction.manager as tx:
             #    request.dbsession.execute("delete from installation where id = " + str(installation.id))
             #    tx.commit()
             #request.dbsession.commit()
 
-        for subsystem in subsystems:
+        active_systems_query = "SELECT subsystem FROM ping WHERE  ping.installation_uid='" + installation.uid + "' group by subsystem "
+
+        result_proxy = request.dbsession.execute(active_systems_query)
+        #print(active_subsystems)
+
+        active_subsystems = []
+        for rowproxy in result_proxy:
+            active_subsystems.append(rowproxy[0])
+
+        #if not active_subsystems:
+        #    active_subsystems = subsystems
+
+        print(active_subsystems)
+
+        for subsystem in active_subsystems:
 
             subsystem_ping = installation.get_last_ping_by_subsystem(request.dbsession, subsystem)
 

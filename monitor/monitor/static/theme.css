@@ -169,3 +169,21 @@ td, th {
 .InstallName{
   font-weight:bold;
 }
+.RecentPing{
+  color:darkgreen;
+}
+.MissingPing{
+  color:#aaa;
+}
+.MediumPing{
+  color:orange;
+}
+.OldPing{
+  color: #660000;
+}
+
+.IP{
+  color:lightseagreen;
+  margin-top:5px;
+  margin-bottom:5px;
+}

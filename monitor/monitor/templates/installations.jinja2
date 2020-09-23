@@ -11,7 +11,11 @@
     <div class="Installation">
         <h3><a href="/log/{{item['installation'].uid}}">{{item['installation'].uid}}</a></h3>
       <div class="InstallName" >{{item['installation'].name}}</div>
+      <div class="FieldPair">
+            <span class="FieldDef">Last Ping</span>: <span class="FieldValue {{item['installation'].last_ping_class}}">{{item['installation'].last_ping_time}}</span>
+        </div>
       <div class="IP" >{{item['installation'].ip_address}}</div>
+
         <!--
         <td class="StatusCell"><a href="/log/{{item['installation'].uid}}/pi"><span class="{{item['ping_dict']['pi']}}">{{item['ping_dict']['pi']}}</span></a></td>
       <td class="StatusCell"><a href="/log/{{item['installation'].uid}}/usb"><span class="{{item['ping_dict']['usb']}}">{{item['ping_dict']['usb']}}</span></a></td>
@@ -20,17 +24,14 @@
         <td class="StatusCell"><a href="/log/{{item['installation'].uid}}/ais"><span class="{{item['ping_dict']['ais']}}">{{item['ping_dict']['ais']}}</span></a></td>
         <td class="NumberCell"><a href="/log/{{item['installation'].uid}}/disk"><span class="{{item['ping_dict']['disk']}}">{{item['ping_dict']['disk']}}</span></a></td>
 
-
         -->
          {% for system in item['ping_dict'] %}
              <div class="FieldPair">
                 <span class="FieldDef">{{system}}</span> :
-                <span class="FieldValue {{item['ping_dict'][system]}}">{{item['ping_dict'][system]}}</span>
+                 <span class="FieldValue {{item['ping_dict'][system]}}"><a href="/log/{{item['installation'].uid}}/{{item['ping_dict'][system]}}">{{item['ping_dict'][system]}}</a></span>
              </div>
          {% endfor %}
-            <div class="FieldPair">
-                <span class="FieldDef">Last Ping</span>: <span class="Field Value">{{item['installation'].last_ping_time}}</span>
-            </div>
+
          <div class="SamplesLink"><a href="/samps/{{item['installation'].uid}}">view samples</a></div>
     </div>
   {% endfor %}
