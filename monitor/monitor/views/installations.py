@@ -5,7 +5,7 @@ from sqlalchemy.exc import DBAPIError
 
 from ..models import Installation, Ping, Notification
 
-from datetime import datetime
+from datetime import datetime, timedelta
 import time
 #from time import time as timemaker
 import logging
@@ -24,6 +24,8 @@ def installations_view(request):
     installs = []
     for installation in installations:
         ping_dict = dict()
+
+        last_ping_datetime = None
 
         last_ping = installation.get_last_ping_by_subsystem(request.dbsession)
         if last_ping:
@@ -50,17 +52,23 @@ def installations_view(request):
             #    tx.commit()
             #request.dbsession.commit()
 
-        active_systems_query = "SELECT subsystem FROM ping WHERE  ping.installation_uid='" + installation.uid + "' group by subsystem "
-
-        result_proxy = request.dbsession.execute(active_systems_query)
-        #print(active_subsystems)
-
         active_subsystems = []
-        for rowproxy in result_proxy:
-            active_subsystems.append(rowproxy[0])
 
-        #if not active_subsystems:
-        #    active_subsystems = subsystems
+        if last_ping_datetime:
+            one_day_before_last_ping = last_ping_datetime - timedelta(days=1)
+            one_day_before_last_ping_for_mysql = one_day_before_last_ping.strftime('%Y-%m-%d %H:%M:%S')
+            active_systems_query = "SELECT subsystem FROM ping WHERE  ping.installation_uid='" + installation.uid + "' and ping.datetime > '" + one_day_before_last_ping_for_mysql + "' group by subsystem "
+
+            #print(active_systems_query)
+            result_proxy = request.dbsession.execute(active_systems_query)
+            #print(active_subsystems)
+
+
+            for rowproxy in result_proxy:
+                active_subsystems.append(rowproxy[0])
+
+            #if not active_subsystems:
+            #    active_subsystems = subsystems
 
         print(active_subsystems)
 
