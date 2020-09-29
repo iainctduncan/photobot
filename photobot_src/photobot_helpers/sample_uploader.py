@@ -34,7 +34,7 @@ class Sample_Uploader(object):
 
         #print("convert -geometry " + width + "x" + width + " " + path + " " + sample_path)
         if width != '0':
-            os.system("convert -geometry " + width + "x" + width + " " + path + " " + sample_path )
+            os.system("convert -strip -interlace Plane  -quality 50%  -geometry " + width + "x" + width + " " + path + " " + sample_path )
         else:
             os.system("cp " + path + " " + sample_path)
 
