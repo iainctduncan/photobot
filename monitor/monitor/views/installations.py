@@ -78,6 +78,11 @@ def installations_view(request):
 
             if subsystem_ping :
                 subsystem_status = subsystem_ping.status
+                if subsystem_status=='OK':
+                    subsystem_last_ping_ts = time.mktime(subsystem_ping.datetime.timetuple())
+                    age_in_seconds =  now_ts - subsystem_last_ping_ts
+                    if age_in_seconds > 5000:
+                        subsystem_status = "Stale"
             else:
                 subsystem_status = "?"
 
