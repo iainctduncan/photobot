@@ -11,6 +11,9 @@ import time
 import logging
 log = logging.getLogger(__name__)
 
+from .protector import *
+
+
 @view_config(route_name='installations', renderer='../templates/installations.jinja2')
 @view_config(route_name='home', renderer='../templates/installations.jinja2')
 def installations_view(request):
@@ -19,6 +22,9 @@ def installations_view(request):
     installations = request.dbsession.query(Installation).filter_by(display=True).all()
     subsystems = ['pi', 'usb', 'ptz','ais', 'disk', 'thermal']
     #subsystems = ['pi']
+
+    protect_from_direct_access(request)
+
 
     # list of two field tuples of (installation, ping_dict)
     installs = []
