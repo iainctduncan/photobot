@@ -6,5 +6,5 @@ def protect_from_direct_access(request):
     port = urlparse(request.host_url).port
     print(port)
 
-    if port != 80 and port!=443 and port!=6543:
+    if port != 80 and port!=443 and port!=8001:
         raise exc.HTTPForbidden()
