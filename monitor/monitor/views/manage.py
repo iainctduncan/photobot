@@ -10,11 +10,12 @@ from pyramid.httpexceptions import HTTPFound
 import pdb
 import logging
 log = logging.getLogger(__name__)
-
+from .protector import *
 
 # the installations shows the latest ping from all active installations
 @view_config(route_name='manage', renderer='../templates/manage.jinja2')
 def manage_view(request):
+    protect_from_direct_access(request)
 
     log.info("manage_view()")
 

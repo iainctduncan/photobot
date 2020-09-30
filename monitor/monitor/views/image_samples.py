@@ -5,6 +5,7 @@ import os
 from sqlalchemy.exc import DBAPIError
 
 from ..models import Installation, Ping
+from .protector import *
 
 import logging
 log = logging.getLogger(__name__)
@@ -19,6 +20,8 @@ class ImageSample(object):
 
 @view_config(route_name='image_samples_by_install', renderer='../templates/photosample.jinja2')
 def image_samples_by_install(request):
+    protect_from_direct_access(request)
+
     install_id = request.matchdict.get('install_id')
     path = request.registry.settings['image_samples_dir']
     images = files_by_date(path)
@@ -44,6 +47,7 @@ def image_samples_by_install(request):
 
 @view_config(route_name='image_samples', renderer='../templates/photosample.jinja2')
 def image_sample(request):
+    protect_from_direct_access(request)
 
     path = request.registry.settings['image_samples_dir']
     images = files_by_date(path)
