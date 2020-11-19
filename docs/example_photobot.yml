@@ -3,7 +3,7 @@
 # -----------------------------------------
 # Uncomment lines to add to configuration.
 
-#network_ip_range: "192.168.50.1-255" # IP Range for devices in your network. Will depend on what IP ranges the router defines
+#network_ip_range: "192.168.1.1-255" # IP Range for devices in your network. Will depend on what IP ranges the router defines
 # skip_mount_check: 0 # set to 1 for development devices, where you don't have an external hard drive to mount
 #sample_upload_interval: 3600 # number of seconds between sample uploads. Can be overwritten per device by setting seconds_between_sample_uploads on the particular device
 #sample_width_default: 800 # width in pixels of sample uploads, can be overwritten per device by adding 'sample_width' on that device
@@ -13,7 +13,7 @@
 #    rotation_degrees: 90
 #    enable: 1
 #    run_at_night: 0
-#    seconds_between_starts: 40
+#    seconds_between_starts: 60
 #    camera_class: Pi_HQ_Camera
 
 #  ptzcamhi:
@@ -23,7 +23,7 @@
 #    password: admin #pass for onvif access
 #    enable: 1 # toggle if we run this device
 #    run_at_night: 1 # toggle if we take pictures after sunset
-#    seconds_between_starts: 40 #seconds between starts, won't run unless this values is set
+#    seconds_between_starts: 60 #seconds between starts, won't run unless this values is set
 #    camera_class: CamHi_PTZ # Python class to handle this camera
 #
 #  usb:
@@ -36,7 +36,7 @@
 #    password: 1photobot
 #    enable: 1
 #    run_at_night: 1
-#    seconds_between_starts: 40
+#    seconds_between_starts: 60
 #    sample_width: 801
 #    seconds_between_sample_uploads: 3601
 #    camera_class: ANPViz_Bullet
