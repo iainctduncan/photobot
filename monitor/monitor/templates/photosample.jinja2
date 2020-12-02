@@ -7,8 +7,12 @@
 
   {% for item in samples %}
     <div class="PhotoSampleWrap">
-        <img src="/samples/{{item.filename}}"/>
+        <a  href="/samples/{{item.filename}}">
+            <img src="/samples/{{item.filename}}"/>
+        </a>
+        <div clas="SampleName">
         {{item.filename}}
+        </div>
     </div>
   {% endfor %}
   </table>
