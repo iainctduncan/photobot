@@ -13,3 +13,4 @@ pytz
 onvif_zeep
 ruamel.yaml
 hostsman
+picamera
