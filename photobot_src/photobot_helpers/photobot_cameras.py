@@ -46,8 +46,6 @@ class Photobot_Camera_Run(object):
 
     def camera_class(self):
         camera_class = self.settings["camera_class"]
-        # print(camera_class)
-
 
         if self.is_ip_cam():
             module_name = "photobot_helpers.photobot_ip_cameras"
