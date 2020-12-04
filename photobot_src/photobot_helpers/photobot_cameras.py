@@ -131,13 +131,14 @@ class Photobot_Camera_Run(object):
         send_ping(self.device_name, "Completed " + self.device_name + " Run", "OK")
 
     def is_ip_cam(self):
-        if self.setting("mac_address"):
+        if self.settings["mac_address"]:
             return True
         else:
             return False
+
     def instantiate_camera(self):
 
-        if self.setting("mac_address"):
+        if self.is_ip_cam():
             #print("using ip cam")
             return self.instatiate_ip_camera()
         else:
