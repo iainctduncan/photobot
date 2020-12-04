@@ -4,4 +4,3 @@ configparser
 RPi.GPIO
 pytz
 ruamel.yaml
-picamera
