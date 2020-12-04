@@ -46,7 +46,7 @@ class Pi_HQ_Camera(Photobot_Camera):
        # args = ' -awb cloud -t 50'
 
 
-        self.camera.capture(filename,format="jpeg",quality=self.int(setting('jpeg_quality')))
+        self.camera.capture(filename,format="jpeg",quality=int(self.setting('jpeg_quality')))
 
     def save_image_commandline(self, filename):
         print("Taking Pi HQ image...")
