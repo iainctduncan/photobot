@@ -4,32 +4,15 @@ import time as timer
 import os
 import sys
 import logging
-from lorex import *
 import argparse
 from configparser import ConfigParser
+
 import importlib
 import traceback
-
-from . import *
 from .sample_uploader import *
+from .photobot_camera import *
+from picamera import PiCamera
 
-
-class ANPViz_Bullet(IPCam):
-    def identify(self):
-        print("I am anpviz bullet")
-
-
-class CamHi_PTZ(IPCam):
-    def identify(self):
-        print("I am camhi")
-
-    def _get_snaphot_uri(self):
-        return "http://" + self._host + "/snap.jpg"
-
-    @classmethod
-    def customize_defaults(cls, defaults):
-        defaults['delay_between_photos']=5
-        return defaults
 
 class Pi_HQ_Camera(Photobot_Camera):
 
@@ -38,12 +21,34 @@ class Pi_HQ_Camera(Photobot_Camera):
 
         print(self.settings)
 
+        self.camera = PiCamera()
+
+        # camera.capture(filename)
+
+        rotation = self.setting('rotation_degrees')
+        if rotation:
+            self.camera.rotation = rotation
+
+        shutter_speed = self.setting('shutter_speed')
+        if shutter_speed:
+            self.camera.shutter_speed=shutter_speed
+
+
     @classmethod
     def customize_defaults(cls, defaults):
-        defaults['jpeg_quality'] = 95
+        defaults['jpeg_quality'] = 75
         return defaults
 
+
     def save_image(self, filename):
+        print("Taking Pi HQ image using Python Library")
+
+       # args = ' -awb cloud -t 50'
+
+
+        self.camera.capture_continuous(filename,format="jpeg",quality=self.setting('jpeg_quality'))
+
+    def save_image_commandline(self, filename):
         print("Taking Pi HQ image...")
 
         args =''

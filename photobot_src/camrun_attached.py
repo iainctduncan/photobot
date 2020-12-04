@@ -15,7 +15,7 @@ import time as timer
 import os
 import sys
 import logging
-#from photobot_helpers.ip import IPCam
+#from photobot_helpers.lorex import IPCam
 import argparse
 from configparser import ConfigParser
 
@@ -23,7 +23,8 @@ from photobot_helpers import *
 from photobot_helpers.sample_uploader import *
 
 from photobot_helpers.photobot_cameras import *
-from photobot_helpers.photobot_ip_cameras import *
+from picamera import PiCamera
+
 
 
 ################################################################################
