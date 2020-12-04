@@ -51,7 +51,7 @@ class Photobot_Camera_Run(object):
 
         if self.is_ip_cam():
             module_name = "photobot_helpers.photobot_ip_cameras"
-        elif self.camera_class=='Pi_HQ_Camera':
+        elif camera_class=='Pi_HQ_Camera':
             module_name = "photobot_helpers.pi_hq_camera"
         else:
             module_name = 'photobot_helpers.photobot_cameras'
