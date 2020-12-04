@@ -32,6 +32,15 @@ class Pi_HQ_Camera(Photobot_Camera):
         if shutter_speed:
             self.camera.shutter_speed=int(shutter_speed)
 
+        self.camera.framerate = 30
+        # Wait for the automatic gain control to settle
+        timer.sleep(2)
+        # Now fix the values
+        self.camera.shutter_speed = self.camera.exposure_speed
+        self.camera.exposure_mode = 'off'
+        g = self.camera.awb_gains
+        self.camera.awb_mode = 'off'
+        self.camera.awb_gains = g
 
     @classmethod
     def customize_defaults(cls, defaults):
