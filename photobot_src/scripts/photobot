@@ -43,10 +43,24 @@ case $1 in
         /var/photobot/env3/bin/python /var/photobot/src/set_device_hostnames.py --settings /var/photobot/config/photobot.ini
         ;;
     run)
-        /var/photobot/env2/bin/python /var/photobot/src/camrun.py --settings /var/photobot/config/photobot.ini --camera $2
+
+        if [ $2 = 'picam' ]
+        then
+              /var/photobot/env3/bin/python /var/photobot/src/camrun_attached.py --settings /var/photobot/config/photobot.ini --camera $2
+        else
+
+            /var/photobot/env2/bin/python /var/photobot/src/camrun.py --settings /var/photobot/config/photobot.ini --camera $2
+        fi
         ;;
     samplecam)
-        /var/photobot/env2/bin/python /var/photobot/src/camrun.py --settings /var/photobot/config/photobot.ini --camera $2 --send_high_res_sample 1
+           if [ $2 = 'picam' ]
+        then
+              /var/photobot/env3/bin/python /var/photobot/src/camrun_attached.py --settings /var/photobot/config/photobot.ini --camera $2 --send_high_res_sample 1
+        else
+
+            /var/photobot/env2/bin/python /var/photobot/src/camrun.py --settings /var/photobot/config/photobot.ini --camera $2 --send_high_res_sample 1
+        fi
+
         ;;
     edit-config)
         if [ -z "$2" ]
