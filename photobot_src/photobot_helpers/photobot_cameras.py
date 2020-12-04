@@ -31,7 +31,7 @@ class Pi_HQ_Camera(Photobot_Camera):
 
         shutter_speed = self.setting('shutter_speed')
         if shutter_speed:
-            self.camera.shutter_speed=shutter_speed
+            self.camera.shutter_speed=int(shutter_speed)
 
 
     @classmethod
@@ -46,7 +46,7 @@ class Pi_HQ_Camera(Photobot_Camera):
        # args = ' -awb cloud -t 50'
 
 
-        self.camera.capture_continuous(filename,format="jpeg",quality=self.setting('jpeg_quality'))
+        self.camera.capture(filename,format="jpeg",quality=self.int(setting('jpeg_quality')))
 
     def save_image_commandline(self, filename):
         print("Taking Pi HQ image...")
