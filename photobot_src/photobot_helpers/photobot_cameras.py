@@ -49,7 +49,15 @@ class Photobot_Camera_Run(object):
         camera_class = self.settings["camera_class"]
         # print(camera_class)
 
-        mod = sys.modules['photobot_helpers.photobot_cameras']
+
+        if self.is_ip_cam():
+            module_name = "photobot_helpers.photobot_ip_cameras"
+        elif self.camera_class='Pi_HQ_Camera':
+            module_name = "photobot_helpers.pi_hq_camera"
+        else:
+            module_name = 'photobot_helpers.photobot_cameras'
+
+        mod = sys.modules[module_name]
 
         CameraClass = getattr(mod, camera_class)
         return CameraClass
@@ -122,6 +130,11 @@ class Photobot_Camera_Run(object):
 
         send_ping(self.device_name, "Completed " + self.device_name + " Run", "OK")
 
+    def is_ip_cam(self):
+        if self.setting("mac_address"):
+            return True
+        else:
+            return False
     def instantiate_camera(self):
 
         if self.setting("mac_address"):
