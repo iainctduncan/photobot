@@ -1,6 +1,5 @@
 class Photobot_Camera(object):
 
-
     @classmethod
     def get_default_values(cls):
         defaults = dict()

@@ -13,7 +13,6 @@ from .sample_uploader import *
 from .photobot_camera import *
 
 
-
 class Photobot_Camera_Run(object):
 
     def __init__(self,device_name,*settings):
