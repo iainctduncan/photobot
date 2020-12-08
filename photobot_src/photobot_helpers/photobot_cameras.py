@@ -65,6 +65,12 @@ class Photobot_Camera_Run(object):
         else:
             return self.device_name
 
+    def run_at_night(self):
+        if int(self.setting('run_at_night')) == 1:
+            return True
+
+        return False
+
     def photo_run(self):
 
         # check if system has been up for a minute, if not, exit
@@ -85,7 +91,7 @@ class Photobot_Camera_Run(object):
             send_disabled_ping(self.device_name)
             sys.exit()
 
-        if is_dark() and not self.setting('run_at_night'):
+        if is_dark() and not self.run_at_night():
             send_ping(self.device_name, "No photo taken because it is dark", "SLEEP")
             sys.exit()
 

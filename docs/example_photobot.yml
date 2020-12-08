@@ -48,3 +48,11 @@
 #      username: 'admin'
 #      password: '1photobot'
 #      port: '8088'
+
+#monitor:
+#  picam:
+#    frequency: 80
+#    allowable_errors: 2
+#  ais:
+#    frequency: 4000
+#    allowable_errors: 1
