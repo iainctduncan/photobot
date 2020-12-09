@@ -99,9 +99,3 @@ class CamHi_PTZ(IPCam):
         defaults['delay_between_photos']=5
         return defaults
 
-class LorexCam(IPCam):
-    def auth_mode(self):
-        return "digest"
-
-    def identify(self):
-        print("I am LOREX ")

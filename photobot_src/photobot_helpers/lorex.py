@@ -21,3 +21,10 @@ from onvif import ONVIFCamera
 ptz_delay_between_photos = 3
 ptz_photos_per_round = 3
 ptz_seconds_between_starts = 60
+
+class LorexCam(IPCam):
+    def auth_mode(self):
+        return "digest"
+
+    def identify(self):
+        print("I am LOREX ")
