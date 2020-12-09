@@ -12,6 +12,7 @@ from configparser import ConfigParser
 import importlib
 import traceback
 from onvif import ONVIFCamera
+from requests.auth import HTTPDigestAuth,HTTPBasicAuth
 
 from . import *
 from .sample_uploader import *
