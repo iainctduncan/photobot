@@ -5,7 +5,7 @@ import os
 import sys
 import logging
 
-from lorex import *
+#from lorex import *
 
 import argparse
 from configparser import ConfigParser
