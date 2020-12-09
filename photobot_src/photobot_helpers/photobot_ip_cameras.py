@@ -13,6 +13,7 @@ import importlib
 import traceback
 from onvif import ONVIFCamera
 from requests.auth import HTTPDigestAuth,HTTPBasicAuth
+import shutil
 
 from . import *
 from .sample_uploader import *
