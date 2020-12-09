@@ -79,7 +79,7 @@ class IPCam(Photobot_Camera):
             with open(filename, 'wb') as f:
                 res.raw.decode_content = True
                 shutil.copyfileobj(res.raw, f)
-            log.info("Image saved to %s" % filename)
+            #log.info("Image saved to %s" % filename)
         else:
             print("ERROR saving file, response: %s" % res)
 
