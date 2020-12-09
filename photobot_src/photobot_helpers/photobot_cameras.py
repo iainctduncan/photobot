@@ -87,7 +87,7 @@ class Photobot_Camera_Run(object):
         log = get_logger()
 
         if self.setting('enable') == '0':
-            log.info(self.device_name + " is disabled. Exiting")
+            #log.info(self.device_name + " is disabled. Exiting")
             send_disabled_ping(self.device_name)
             sys.exit()
 
@@ -106,7 +106,7 @@ class Photobot_Camera_Run(object):
 
         # set file path and log level for logging
 
-        log.info("-----------------------------------------------------------------------------")
+        #log.info("-----------------------------------------------------------------------------")
         log.info("EXECUTING RUN at %s" % datetime.now())
 
 

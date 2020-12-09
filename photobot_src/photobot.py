@@ -37,7 +37,7 @@ if __name__=="__main__":
     settings = get_settings_dict()
 
     if settings['enable_usb_camera'] == '0':
-        log.info("USB    Camera is disabled. Exiting")
+        #log.info("USB    Camera is disabled. Exiting")
         send_disabled_ping("usb")
         sys.exit()
 
@@ -45,7 +45,7 @@ if __name__=="__main__":
         send_ping("usb", "No photo taken because it is dark", "SLEEP")
         sys.exit()
 
-    log.info("-----------------------------------------------------------------------------")
+    #log.info("-----------------------------------------------------------------------------")
     log.info("EXECUTING RUN at %s" % datetime.now())
 
 
