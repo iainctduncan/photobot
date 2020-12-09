@@ -11,6 +11,7 @@ import argparse
 from configparser import ConfigParser
 import importlib
 import traceback
+from onvif import ONVIFCamera
 
 from . import *
 from .sample_uploader import *

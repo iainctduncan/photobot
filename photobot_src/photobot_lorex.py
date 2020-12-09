@@ -81,6 +81,14 @@ if __name__=="__main__":
     log.info("-----------------------------------------------------------------------------")
     log.info("EXECUTING RUN at %s" % datetime.now() )
 
+    lorex_cam = LorexCam(
+        host=settings['ptz_host'],
+        port=settings['ptz_port'],
+        user=settings['ptz_user'],
+        password=settings['ptz_password'],
+        wsdl_dir=settings['wsdl_dir'],
+    )
+    
     # instantiate our lorex camera
     # these settings could come from env variables. How will we get the network address??
     try:
